@@ -3,8 +3,6 @@ import {Provider} from "react-redux";
 import store, {persistor, useAppSelector} from "@/redux/store";
 import {PersistGate} from "redux-persist/integration/react";
 import AppNavigator from "@/navigation";
-import {useLogger} from "@/utils";
-
 const App = () => {
     return (
         <Provider store={store}>

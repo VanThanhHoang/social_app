@@ -1,6 +1,6 @@
 // this is sample config file for navigation
+import { LoginScreen } from "@/screens";
 import React, { ReactElement } from "react";
-import SampleScreen from "@/screens";
 
 export enum AppStackNames {
   Screen1 = "Screen1",
@@ -8,8 +8,9 @@ export enum AppStackNames {
 }
 
 export type RootStackParamList = {
+
   [AppStackNames.Screen1]: undefined;
-  [AppStackNames.Screen2]: { userId: string };//this is sample if the screen has params
+  [AppStackNames.Screen2]: { userId: string };
 };
 
 interface StackProps {
@@ -21,12 +22,12 @@ interface StackProps {
 export const AppStacks: StackProps [] = [
   {
     name: AppStackNames.Screen1,
-    component: SampleScreen,
+    component: LoginScreen,
     options: {}
   },
   {
     name: AppStackNames.Screen2,
-    component: SampleScreen,
+    component: LoginScreen,
     options: {}
   }
 ];

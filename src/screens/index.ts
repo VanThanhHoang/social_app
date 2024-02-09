@@ -1,3 +1,2 @@
-import SampleScreen from "@/screens/sampleScreen";
-// cmt 2
-export default SampleScreen;
+import LoginScreen from "@/screens/sign_in";
+export  {LoginScreen};

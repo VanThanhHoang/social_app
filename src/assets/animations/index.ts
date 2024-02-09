@@ -1,3 +1,3 @@
 export const animations = {
-    loadingAnm:require('./loading.json'),
+    loading:require('./loading_anm.json'),
 };

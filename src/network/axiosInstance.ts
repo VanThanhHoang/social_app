@@ -1,9 +1,9 @@
 import axios from 'axios';
-
+import {BASE_URL} from "@env"
+console.log(BASE_URL)
 const AxiosInstance = (contentType = 'application/json') => {
   const axiosInstance = axios.create({
-    // your baseUrl here
-    baseURL: ''
+    baseURL:`${BASE_URL}/api/`,
   });
   // config request
   axiosInstance.interceptors.request.use(
