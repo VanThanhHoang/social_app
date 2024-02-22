@@ -5,12 +5,14 @@ import {PersistGate} from "redux-persist/integration/react";
 import AppNavigator from "@/navigation";
 import {useLogger} from "@/utils";
 import LoginScreen from "./screens/loginScreen/LoginScreen";
-import CreateProfileScreen from "./screens/createScreen/CreateProfileScreen";
+import CreateProfileScreen from "./screens/createProfileScreen/CreateProfileScreen";
+import EditBioScreen from "./screens/createProfileScreen/EditBioScreen";
+import PrivacyProfileScreen from "./screens/createProfileScreen/PrivacyProfileScreen";
 const App = () => {
     return (
         <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
-                <CreateProfileScreen/>
+                <PrivacyProfileScreen/>
             </PersistGate>
         </Provider>
     );

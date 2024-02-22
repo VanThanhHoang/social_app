@@ -1,8 +1,8 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import LinearGradient from 'react-native-linear-gradient'
-import IconGoogle from '../../assets/icons/icongoogle.svg'
-import IconFacebook from '../../assets/icons/iconfacebook.svg'
+import IconFacebook from '@/assets/icons/IconFacebook'
+import IconGoogle from '@/assets/icons/IconGoogle'
 
 const LoginScreen = () => {
     return (

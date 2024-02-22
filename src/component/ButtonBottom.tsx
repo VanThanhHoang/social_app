@@ -3,12 +3,13 @@ import React from 'react'
 
 interface ButtonBottomProps {
   title: string
+  onPress?: () => void
 }
 
-const ButtonBottom: React.FC<ButtonBottomProps> = ({title}) =>{
+const ButtonBottom: React.FC<ButtonBottomProps> = ({title, onPress}) =>{
   return (
     <View>
-      <TouchableOpacity style = {styles.Container}>
+      <TouchableOpacity onPress={onPress} style = {styles.Container}>
         <Text style ={styles.TitleStyle}>{title}</Text>
       </TouchableOpacity>
     </View>
