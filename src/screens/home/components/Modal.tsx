@@ -65,12 +65,12 @@ const styles = StyleSheet.create({
     height: 246,
     position: 'absolute',
     top: 196
-
   },
   centeredView: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    position: 'absolute',
   },
   modalOverlay: {
     flex: 1,

@@ -1,47 +1,48 @@
-import React, {useRef, useMemo} from 'react';
-import {View, Button, StyleSheet,Text} from 'react-native';
+import React, { useCallback, useMemo, useRef } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 import BottomSheet from '@gorhom/bottom-sheet';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-
-const BtnS = () => {
+const Btn = () => {
+  // ref
   const bottomSheetRef = useRef<BottomSheet>(null);
 
-  // Sử dụng chiều cao 250 cho snap point
-  const snapPoints = useMemo(() => [250], []);
+  // variables
+  const snapPoints = useMemo(() => ['25%', '50%'], []);
 
-  const handleOpenBottomSheet = () => {
-    bottomSheetRef.current?.expand();
-  };
+  // callbacks
+  const handleSheetChanges = useCallback((index: number) => {
+    console.log('handleSheetChanges', index);
+  }, []);
 
+  // renders
   return (
-    <GestureHandlerRootView style={{flex: 1}}>
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Button title="Open Bottom Sheet" onPress={handleOpenBottomSheet} />
-        <BottomSheet
-          ref={bottomSheetRef}
-          snapPoints={snapPoints}
-          index={-1} // Bottom sheet sẽ ẩn khi mới mở ứng dụng
-            
-        >
-          {/* Đặt nội dung của bạn trong View này với kích thước cố định */}
-          <View style={styles.contentContainer}>
-            <Text>Bottom Sheet Content</Text>
-          </View>
-        </BottomSheet>
-      </View>
+    <GestureHandlerRootView style={styles.container}>
+      <BottomSheet
+        ref={bottomSheetRef}
+        index={1}
+        snapPoints={snapPoints}
+        onChange={handleSheetChanges}
+        style={{backgroundColor: 'red'}}
+      >
+        <View style={styles.contentContainer}>
+          <Text>Awesome</Text>
+        </View>
+      </BottomSheet>
     </GestureHandlerRootView>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 24,
+    backgroundColor: 'grey',
+  },
   contentContainer: {
-    width: 390, // Chiều rộng cố định
-    height: 250, // Chiều cao cố định
+    flex: 1,
     alignItems: 'center',
-    
-    // Tùy chỉnh thêm nếu cần
   },
 });
 
-export default BtnS;
+export default Btn;

@@ -5,74 +5,17 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { icons } from '@/assets';
 import { colors } from '@/theme';
 
-const Header = () => {
-    const [check, setcheck] = useState<number>(1);
-    const bottomSheetRef = useRef<BottomSheet>(null);
-    const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false); // Thêm trạng thái để theo dõi
-
-    const snapPoints = useMemo(() => [255], []);
-
-    const toggleBottomSheet = () => {
-        if (isBottomSheetOpen) {
-            bottomSheetRef.current?.close();
-        } else {
-            bottomSheetRef.current?.expand();
-        }
-        setIsBottomSheetOpen(!isBottomSheetOpen);
-    };
-    const handleRadioSelect = (value: number) => {
-        setcheck(value); 
-        bottomSheetRef.current?.close(); 
-        setIsBottomSheetOpen(false); 
-    };
-
+interface Props {
+    onPressToggle?: () => void;
+}
+const Header:React.FC<Props> = ({onPressToggle}) => {
     return (
-        <GestureHandlerRootView style={{ height: "100%", width: "100%" }}>
-            {isBottomSheetOpen && (
-                <View style={styles.overlay} />
-            )}
+        <GestureHandlerRootView style={{flex: 1 }}>
             <View style={styles.container}>
                 <Image style={styles.logo} source={icons.logo} />
-                <TouchableOpacity onPress={toggleBottomSheet}>
+                <TouchableOpacity onPress={onPressToggle}>
                     <Image style={styles.backup} source={icons.backup} />
                 </TouchableOpacity>
-            </View>
-            <View style={{ width: 406, height: "100%", justifyContent: 'center', alignItems: 'center', position: "absolute" }}>
-                <BottomSheet
-                    ref={bottomSheetRef}
-                    snapPoints={snapPoints}
-                    index={-1}
-                    onChange={(index) => {
-                        setIsBottomSheetOpen(index !== -1);
-                    }}
-                >
-                    <View style={styles.contentContainer}>
-                        <View style={styles.pick}>
-                            <Image style={styles.img} source={icons.backup} />
-                            <Text style={styles.text}>Pick your new feed</Text>
-                        </View>
-                        <Text style={{ marginTop: 8 }}>Choose what you want us to show you</Text>
-                        <View style={{ width: 326, height: 1, borderWidth: 0.2, backgroundColor: colors.grey, marginTop: 27 }}></View>
-                        <TouchableOpacity onPress={() => handleRadioSelect(1)} style={{ flexDirection: "row", marginTop: 30 }}>
-                            <Image style={{ width: 34, height: 24 }} source={icons.planet} />
-                            <Text style={styles.textWorl}>Worldwide</Text>
-                            <TouchableOpacity style={styles.radioButton}>
-                                <View style={styles.radio}>
-                                    {check == 1 ? <View style={styles.radio1}></View> : null}
-                                </View>
-                            </TouchableOpacity>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => handleRadioSelect(2)} style={{ flexDirection: "row", marginTop: 20 }}>
-                            <Image style={{ width: 34, height: 24 }} source={icons.frame} />
-                            <Text style={styles.textWorl}>Following  </Text>
-                            <TouchableOpacity style={styles.radioButton}>
-                                <View style={styles.radio}>
-                                    {check == 2 ? <View style={styles.radio1}></View> : null}
-                                </View>
-                            </TouchableOpacity>
-                        </TouchableOpacity>
-                    </View>
-                </BottomSheet>
             </View>
         </GestureHandlerRootView>
     );
@@ -141,6 +84,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingHorizontal: 20,
         paddingTop: 20,
+
     },
     logo: {
         width: 36,
