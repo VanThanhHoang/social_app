@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, View, FlatList, ImageSourcePropType } from 'react-native'
 import React from 'react'
 import Modal1 from './components/Modal'
 import Header from './components/Header'
@@ -7,11 +7,65 @@ import { useRef, useMemo, useState } from 'react';
 import { Image, TouchableOpacity } from 'react-native';
 import BottomSheet from '@gorhom/bottom-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { icons } from '@/assets';
+import { icons, images } from '@/assets';
 import { colors } from '@/theme';
-
-
-const HomeScreen = () => {
+interface DataItem {
+  avatar: ImageSourcePropType;
+  hour: string;
+  title: string;
+  description: string;
+  tag?: string;
+  image: ImageSourcePropType;
+  star: number;
+  comment: number;
+  share: number;
+}
+const data: DataItem[] = [
+    {
+      avatar: images.logo,
+      hour: "2 day ago",
+      title: "Mercedes",
+      description: "Introducing the new G63 model",
+      tag: "Mercedes",
+      image: images.xe,
+      star: 1060,
+      comment: 100,
+      share: 50,
+    },
+    {
+      avatar: images.logoNike,
+      hour: "3h",
+      title: "Nike",
+      description: "Tell us how you style your Nike Acronym. Full techwear? Mix and match? Let us know 👀",
+      tag: "Nike",
+      image: images.avatar3,
+      star: 800,
+      comment: 400,
+      share: 40,
+    },
+    {
+      avatar: images.logo2,
+      hour: "2h",
+      title: "pewdiepie",
+      description: "Green flag to those people who updates you because they know how you over thinking while waiting for them",
+      image: images.avatar2,
+      star: 1060,
+      comment: 100,
+      share: 50,
+    },
+    {
+      avatar: images.logo3,
+      hour: "12h",
+      title: "Capypara",
+      description: "Capypara swimming is so cute 🥰🥰🥰🥰",
+      tag: "Puma #capypara #cuteduchua #animal",
+      image: images.avatar4,
+      star: 1809,
+      comment: 600,
+      share: 40,
+    },
+  ]
+const HomeScreen = () => { 
   const [check, setcheck] = useState<number>(1);
   const bottomSheetRef = useRef<BottomSheet>(null);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
@@ -31,16 +85,34 @@ const HomeScreen = () => {
   };
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <ScrollView>
-        {/* <Modal1 /> */}
-        <Header onPressToggle={toggleBottomSheet} />
-        <CardView />
-        <CardView />
-        <CardView />
-        <CardView />
 
-      </ScrollView>
+      <View>
+        <Modal1 />
+        <FlatList
+          ListHeaderComponent={<Header onPressToggle={toggleBottomSheet} />}
+          ListFooterComponent={<View style={{ height: 10 }} />}
+          data={data}
+          keyExtractor={(item, index) => index.toString()}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item }) => (
+            <CardView
+              avatar={item.avatar}
+              hour={item.hour}
+              title={item.title}
+              description={item.description}
+              tag={item.tag}
+              image={item.image}
+              star={item.star}
+              comment={item.comment}
+              share={item.share}
+            />
+          )}
+        />
+      </View>
       <View style={{ width: 406, height: "100%", flex: 1, position: 'absolute' }}>
+        {isBottomSheetOpen && (
+          <View style={styles.overlay} />
+        )}
         <BottomSheet
           ref={bottomSheetRef}
           snapPoints={snapPoints}
@@ -77,7 +149,6 @@ const HomeScreen = () => {
           </View>
         </BottomSheet>
       </View>
-
     </GestureHandlerRootView>
   )
 }
@@ -85,6 +156,15 @@ const HomeScreen = () => {
 export default HomeScreen
 
 const styles = StyleSheet.create({
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'black',
+    opacity: 0.5,
+  },
   contentContainer: {
     width: 407,
     height: 255,
