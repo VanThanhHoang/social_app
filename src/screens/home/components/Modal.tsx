@@ -45,7 +45,7 @@ const Modal1 = () => {
   )
 }
 
-export default Modal1
+export default React.memo(Modal1)
 
 const styles = StyleSheet.create({
   text2: {
