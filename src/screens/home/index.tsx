@@ -13,6 +13,7 @@ import ViewBottomSheet from './components/ViewBottomSheet'
 import Toast from 'react-native-toast-message';
 import { use } from 'i18next'
 import SkeletonLoader from './components/SkeletonLoader'
+import CustumToast from '@/components/Toast/CutomToast'
 
 
 
@@ -95,6 +96,7 @@ const HomeScreen = () => {
   const snapPoint = useMemo(() => [265], []);
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState<DataItem[]>([]);
+  const [selectedTitle, setSelectedTitle] = useState<string>("");
 
   useEffect(() => {
     setTimeout(() => {
@@ -110,7 +112,9 @@ const HomeScreen = () => {
     }
     setIsBottomSheetOpen(!isBottomSheetOpen);
   };
-  const toggleBottomSheet1 = () => {
+  const toggleBottomSheet1 = (title: string) => {
+    setSelectedTitle(title);
+    console.log(title);
     if (isBottomSheet) {
       bottomSheet.current?.close();
     } else {
@@ -123,46 +127,44 @@ const HomeScreen = () => {
     bottomSheetRef.current?.close();
     setIsBottomSheetOpen(false);
   };
-  const handleRadioSelect1 = (value: boolean) => {
-    setischeck(false);
-    bottomSheet.current?.close();
-    setIsBottomSheetOpen(false);
-    // Alert.alert("You have successfully muted this account")
-    showToast();
-  };
-  const handleMute = () => {
+  const handleMute = (title: string) => {
     setischeck(true);
     bottomSheet.current?.close();
     setIsBottomSheetOpen(false);
-    showToastMute();
+    CustumToast({ type: "success", message: "You have muted " + title });
   }
-  const showToastMute = () => {
-    Toast.show({
-      type: 'success',
-      text1: 'You Mute Mecedes’s',
-      visibilityTime: 2000,
-      autoHide: true,
-    });
+  const handleFollow = (title: string) => {
+    setischeck(true);
+    bottomSheet.current?.close();
+    setIsBottomSheetOpen(false);
+    CustumToast({ type: "success", message: "You have Follow " + title });
   }
-  const showToast = () => {
-    Toast.show({
-      type: 'success',
-      text1: `You fllowed Mecedes’s`,
-      visibilityTime: 2000,
-      autoHide: true,
-    });
+  const handleHide = (title: string) => {
+    setischeck(true);
+    bottomSheet.current?.close();
+    setIsBottomSheetOpen(false);
+    CustumToast({ type: "success", message: "You have Hide " + title });
   }
+  const handleBlock = (title: string) => {
+    setischeck(true);
+    bottomSheet.current?.close();
+    setIsBottomSheetOpen(false);
+    CustumToast({ type: "error", message: "You have Block " + title });
+  }
+
   const toastConfig = {
-    success : (props: any) => (
+    success: (props: any) => (
       <View style={styles.CustumToast}>
         <Text style={{ color: 'black', fontSize: 14, fontWeight: "400", marginStart: 10 }}>{props.text1}</Text>
       </View>
     ),
+    error: (props: any) => (
+      <View style={styles.CustumToast2}>
+        <Text style={{ color: 'black', fontSize: 14, fontWeight: "400", marginStart: 10 }}>{props.text1}</Text>
+      </View>
+    ),
+
   };
-  // const closeBottomSheet = () => {
-  //   bottomSheetRef.current?.close();
-  //   setIsBottomSheetOpen(false);
-  // };
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View>
@@ -193,7 +195,7 @@ const HomeScreen = () => {
                   star={item.star}
                   comment={item.comment}
                   share={item.share}
-                  onPress={toggleBottomSheet1}
+                  onPress={() => toggleBottomSheet1(item.title)}
                 />
               )}
             />
@@ -243,8 +245,7 @@ const HomeScreen = () => {
       </View>
       <View style={{ width: 406, height: "100%", flex: 1, position: 'absolute' }}>
         {isBottomSheet && (
-          <TouchableOpacity style={styles.overlay} onPress={toggleBottomSheet1} activeOpacity={0.1}>
-            {/* Đặt opacity của TouchableOpacity này là 0 để nó không ảnh hưởng đến giao diện của overlay */}
+          <TouchableOpacity style={styles.overlay} onPress={() => toggleBottomSheet1("")} activeOpacity={0.1}>
           </TouchableOpacity>
         )}
         <BottomSheet
@@ -255,7 +256,11 @@ const HomeScreen = () => {
             setisBottomSheet(index !== -1);
           }}
         >
-          <ViewBottomSheet onPressMute={handleMute} onPressToggle={() => handleRadioSelect1(true)} />
+          <ViewBottomSheet
+            onPressToggle={() => handleFollow(selectedTitle)}
+            onPressMute={() => handleMute(selectedTitle)}
+            onPressBlock={() => handleBlock(selectedTitle)}
+            onPressHide={() => handleHide(selectedTitle)} />
         </BottomSheet>
       </View>
       <Toast config={toastConfig} />
@@ -266,6 +271,18 @@ const HomeScreen = () => {
 export default HomeScreen
 
 const styles = StyleSheet.create({
+  CustumToast2: {
+    backgroundColor: colors.white,
+    padding: 16,
+    borderRadius: 8,
+    width: 356,
+    height: 70,
+    borderLeftColor: colors.red,
+    borderRightColor: colors.red,
+    borderLeftWidth: 4,
+    borderRightWidth: 4,
+    justifyContent: 'center',
+  },
   CustumToast: {
     backgroundColor: colors.white,
     padding: 16,

@@ -10,8 +10,11 @@ import SvgBlock from '@/assets/icons/iconSVG/Block';
 interface ViewBottomSheetProps {
     onPressToggle?: () => void;
     onPressMute?: () => void;
+    title? : string;
+    onPressHide?: () => void;
+    onPressBlock?: () => void;
 }
-const ViewBottomSheet: React.FC<ViewBottomSheetProps> = ({ onPressToggle,onPressMute }) => {
+const ViewBottomSheet: React.FC<ViewBottomSheetProps> = ({ onPressToggle,onPressMute,title, onPressBlock,onPressHide }) => {
     return (
         <View style={styles.container} >
             <TouchableOpacity style={styles.follow} onPress={onPressToggle}>
@@ -24,12 +27,12 @@ const ViewBottomSheet: React.FC<ViewBottomSheetProps> = ({ onPressToggle,onPress
                     <Text style={styles.textFollow}>Mute</Text>
                 </TouchableOpacity>
                 <View style={{ width: 326, height: 1, borderWidth: 0.1, backgroundColor: colors.grey, marginTop: 10 }} />
-                <TouchableOpacity style={styles.click} onPress={onPressToggle}>
+                <TouchableOpacity style={styles.click} onPress={onPressBlock}>
                     <SvgHide style={styles.img} />
                     <Text style={styles.textFollow}>Hide</Text>
                 </TouchableOpacity>
                 <View style={{ width: 326, height: 1, borderWidth: 0.1, backgroundColor: colors.grey, marginTop: 10 }} />
-                <TouchableOpacity style={styles.click} onPress={onPressToggle}>
+                <TouchableOpacity style={styles.click} onPress={onPressBlock}>
                     <SvgBlock style={styles.img} />
                     <Text style={styles.textFollow}>Block</Text>
                 </TouchableOpacity>
