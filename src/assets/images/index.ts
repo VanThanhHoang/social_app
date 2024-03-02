@@ -9,4 +9,6 @@ export const images = {
     logo2: require("../images/logo2.png"),
     logo3: require("../images/logo3.png"),
     logoNike: require("../images/logoNike.png"),
+    nike2: require("../images/giay2.png"),
+    nike3: require("../images/giay3.png"),
 }

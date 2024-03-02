@@ -9,8 +9,9 @@ import SvgBlock from '@/assets/icons/iconSVG/Block';
 
 interface ViewBottomSheetProps {
     onPressToggle?: () => void;
+    onPressMute?: () => void;
 }
-const ViewBottomSheet: React.FC<ViewBottomSheetProps> = ({ onPressToggle }) => {
+const ViewBottomSheet: React.FC<ViewBottomSheetProps> = ({ onPressToggle,onPressMute }) => {
     return (
         <View style={styles.container} >
             <TouchableOpacity style={styles.follow} onPress={onPressToggle}>
@@ -18,7 +19,7 @@ const ViewBottomSheet: React.FC<ViewBottomSheetProps> = ({ onPressToggle }) => {
                 <Text style={styles.textFollow}>Follow</Text>
             </TouchableOpacity>
             <View style={styles.container2}>
-                <TouchableOpacity style={styles.click} onPress={onPressToggle}>
+                <TouchableOpacity style={styles.click} onPress={onPressMute}>
                     <SvgMute style={styles.img} />
                     <Text style={styles.textFollow}>Mute</Text>
                 </TouchableOpacity>

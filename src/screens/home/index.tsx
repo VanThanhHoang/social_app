@@ -33,6 +33,17 @@ const data: DataItem[] = [
     avatar: images.logo,
     hour: "2 day ago",
     title: "Mercedes",
+    description: "Test",
+    tag: "",
+    image: "",
+    star: 1060,
+    comment: 100,
+    share: 50,
+  },
+  {
+    avatar: images.logo,
+    hour: "2 day ago",
+    title: "Mercedes",
     description: "Introducing the new G63 model",
     tag: "Mercedes",
     image: images.xe,
@@ -86,15 +97,11 @@ const HomeScreen = () => {
   const [items, setItems] = useState<DataItem[]>([]);
 
   useEffect(() => {
-    // Giả lập việc lấy dữ liệu mất 3 giây
     setTimeout(() => {
-      setItems(data); // 'data' là dữ liệu của bạn
+      setItems(data);
       setLoading(false);
     }, 3000);
   }, []);
-
-
-
   const toggleBottomSheet = () => {
     if (isBottomSheetOpen) {
       bottomSheetRef.current?.close();
@@ -123,34 +130,51 @@ const HomeScreen = () => {
     // Alert.alert("You have successfully muted this account")
     showToast();
   };
+  const handleMute = () => {
+    setischeck(true);
+    bottomSheet.current?.close();
+    setIsBottomSheetOpen(false);
+    showToastMute();
+  }
+  const showToastMute = () => {
+    Toast.show({
+      type: 'success',
+      text1: 'You Mute Mecedes’s',
+      visibilityTime: 2000,
+      autoHide: true,
+    });
+  }
   const showToast = () => {
     Toast.show({
       type: 'success',
-      text1: 'You hide Mecedes’s post',
+      text1: `You fllowed Mecedes’s`,
       visibilityTime: 2000,
       autoHide: true,
     });
   }
   const toastConfig = {
-    success: (props: any) => (
+    success : (props: any) => (
       <View style={styles.CustumToast}>
         <Text style={{ color: 'black', fontSize: 14, fontWeight: "400", marginStart: 10 }}>{props.text1}</Text>
       </View>
     ),
   };
+  // const closeBottomSheet = () => {
+  //   bottomSheetRef.current?.close();
+  //   setIsBottomSheetOpen(false);
+  // };
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-
       <View>
         <Modal1 />
         {
           loading ? (
-          <FlatList
-          ListHeaderComponent={<Header onPressToggle={toggleBottomSheet} />}
-            data={Array.from({ length: 4 })} // Tạo một array tạm thời với 4 phần tử
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={() => <SkeletonLoader />}
-          />
+            <FlatList
+              ListHeaderComponent={<Header onPressToggle={toggleBottomSheet} />}
+              data={Array.from({ length: 4 })}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={() => <SkeletonLoader />}
+            />
           ) : (
             <FlatList
               ListHeaderComponent={<Header onPressToggle={toggleBottomSheet} />}
@@ -175,13 +199,12 @@ const HomeScreen = () => {
             />
           )
         }
-
       </View>
       <View style={{ width: 406, height: "100%", flex: 1, position: 'absolute' }}>
         {isBottomSheetOpen && (
-          <View style={styles.overlay} />
+          <TouchableOpacity style={styles.overlay} onPress={toggleBottomSheet} activeOpacity={0.1}>
+          </TouchableOpacity>
         )}
-
         <BottomSheet
           ref={bottomSheetRef}
           snapPoints={snapPoints}
@@ -220,7 +243,9 @@ const HomeScreen = () => {
       </View>
       <View style={{ width: 406, height: "100%", flex: 1, position: 'absolute' }}>
         {isBottomSheet && (
-          <View style={styles.overlay} />
+          <TouchableOpacity style={styles.overlay} onPress={toggleBottomSheet1} activeOpacity={0.1}>
+            {/* Đặt opacity của TouchableOpacity này là 0 để nó không ảnh hưởng đến giao diện của overlay */}
+          </TouchableOpacity>
         )}
         <BottomSheet
           ref={bottomSheet}
@@ -230,7 +255,7 @@ const HomeScreen = () => {
             setisBottomSheet(index !== -1);
           }}
         >
-          <ViewBottomSheet onPressToggle={() => handleRadioSelect1(true)} />
+          <ViewBottomSheet onPressMute={handleMute} onPressToggle={() => handleRadioSelect1(true)} />
         </BottomSheet>
       </View>
       <Toast config={toastConfig} />

@@ -1,16 +1,14 @@
 import { Image, ImageProps, ImageSourcePropType, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { icons, images } from '@/assets'
 import { colors } from '@/theme'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faRepeat } from '@fortawesome/free-solid-svg-icons'
-import { faComment, faStar, faPaperPlane } from '@fortawesome/free-regular-svg-icons'
 import SvgSwitch from '@/assets/icons/iconSVG/Switch'
 import SvgSend from '@/assets/icons/iconSVG/Send'
 import SvgComponent from '@/assets/icons/iconSVG/Comments'
 import SvgStar from '@/assets/icons/iconSVG/Star'
 import Svg3dot from '@/assets/icons/iconSVG/3dot'
 import SvgStar2 from '@/assets/icons/iconSVG/Star2'
+import AutoHeightImage from 'react-native-auto-height-image'
 
 
 interface CardViewProps {
@@ -19,7 +17,7 @@ interface CardViewProps {
   title: string,
   description: string,
   tag?: string,
-  image: ImageSourcePropType,
+  image: ImageSourcePropType | { uri: String } | any,
   star: number,
   comment: number,
   share: number,
@@ -28,11 +26,11 @@ interface CardViewProps {
 const CardView: React.FC<CardViewProps> = ({ ...props }) => {
   const [focus, setfocus] = useState<Boolean>(false);
   const [like, setLike] = useState<Boolean>(false);
+
   const handleLike = () => {
     setLike(!like);
     console.log(like)
   }
-  const [bgColor, setBgColor] = useState('transparent');
   return (
     <View style={{ marginTop: 10 }}>
       <View style={{ width: 450, height: 1, borderWidth: 0.1, backgroundColor: "#E3E3E3" }} />
@@ -49,9 +47,16 @@ const CardView: React.FC<CardViewProps> = ({ ...props }) => {
           <Text style={{ fontSize: 12, marginStart: 10, marginTop: 3 }}>{props.hour}</Text>
         </View>
       </View>
-      <Text style={styles.title}>{props.description}</Text>
-      <Text style={styles.tag}>{props.tag ? `#${props.tag}` : ''}</Text>
-      <Image style={styles.avatar} source={props.image} />
+      {
+        props.description ? <Text style={styles.title}>{props.description}</Text> : <View style={{ height: 0 }} />
+      }
+      <Text style={styles.tag}>{props.tag ? `#${props.tag}` : <View style={{ height: 0 }} />}</Text>
+      {/* <Image style={{ width: imageWidth, height: imgHeight, borderRadius: 20,resizeMode:"cover" }} source={props.image} /> */}
+      {props.image ? (
+        <AutoHeightImage style={styles.avatar} width={370} source={props.image} />
+      ) : (
+        <View style={{ height: 0 }} />
+      )}
       <View style={styles.containerAction}>
         <TouchableOpacity onPress={handleLike}>
           {like ? <SvgStar2 /> : <SvgStar />}
@@ -68,7 +73,6 @@ const CardView: React.FC<CardViewProps> = ({ ...props }) => {
         <TouchableOpacity style={styles.space}>
           <SvgSend />
         </TouchableOpacity>
-
       </View>
     </View>
   )
@@ -92,14 +96,11 @@ const styles = StyleSheet.create({
     marginBottom: 12
   },
   avatar: {
-    width: 370,
-    height: 252,
     borderRadius: 20,
     marginTop: 12,
-    marginStart: 20,
+    marginStart: 19,
     justifyContent: "center",
-    alignItems: "center"
-
+    alignItems: "center",
   },
   tag: {
     fontSize: 16,
@@ -112,6 +113,7 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     color: colors.black,
     marginStart: 20,
+    width: 359
   },
   containerTick: {
     flexDirection: "row",

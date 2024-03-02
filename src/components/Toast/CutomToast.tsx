@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import Toast from 'react-native-toast-message';
+import { colors } from '@/theme';
 
 
 
@@ -11,12 +12,23 @@ const toastConfig = {
     </View>
   ),
 };
-const Toast = () => {
+const CustumToast = () => {
   return (
     <Toast />
   )
 }
 
-export default Toast
+export default CustumToast
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  CustumToast: {
+    backgroundColor: colors.white,
+    padding: 16,
+    borderRadius: 8,
+    width: 356,
+    height: 70,
+    borderLeftColor: colors.purple,
+    borderLeftWidth: 4,
+    justifyContent: 'center',
+  },
+})
