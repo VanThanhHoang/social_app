@@ -1,12 +1,12 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import HeaderBarEditProfile from '@/component/HeaderBarEditProfile'
+import HeaderBarEditBio from '@/component/HeaderBarEditBio'
 import BioCard from '@/component/BioCard'
 
 const EditBioScreen = () => {
   return (
     <View style = {styles.Container}>
-      <HeaderBarEditProfile backProfile='Cancel' title='EditBio' done='Done'/>
+      <HeaderBarEditBio backProfile='Cancel' title='EditBio' done='Done'/>
       <BioCard title='Bio'/>  
     </View>
   )

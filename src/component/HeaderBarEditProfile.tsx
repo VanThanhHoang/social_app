@@ -2,59 +2,45 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 
 interface HeaderBarEditProfileProps {
-    backProfile: string,
-    title: string,
-    done: string,
+    back?: string
+    next?: string
+    IconBackComponent?: React.ReactNode;
+    IconNextComponent?: React.ReactNode;
 }
 
-const HeaderBarEditProfile: React.FC<HeaderBarEditProfileProps> =  ({
-    backProfile,
-    title,
-    done,
-}) => {
-    return (
-        <View style={styles.Container}>
-            <View style={styles.HeaderBar}>
-                <TouchableOpacity>
-                    <Text style={styles.TitleCancel}>{backProfile}</Text>
-                </TouchableOpacity>
-                <Text style={styles.EditBio}>{title}</Text>
-                <TouchableOpacity>
-                    <Text style={styles.Done}>{done}</Text>
-                </TouchableOpacity>
-            </View>
-
-        </View>
-    )
+const HeaderBarEditProfile:React.FC<HeaderBarEditProfileProps> = ({back, next, IconBackComponent, IconNextComponent}) => {
+  return (
+    <View style = {styles.Container}>
+        <TouchableOpacity style = {styles.ButtonContainer}>
+            {IconBackComponent}
+            <Text style = {styles.TextStyle}>{back}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style = {styles.ButtonContainer}>
+            <Text style = {styles.TextStyle}>{next}</Text>
+            {IconNextComponent}
+        </TouchableOpacity>
+    </View>
+  )
 }
 
 export default HeaderBarEditProfile
 
 const styles = StyleSheet.create({
-    Done: {
+    TextStyle:{
         fontSize: 18,
         fontFamily: 'Roboto',
-        color: '#5E4EA0',
-        fontWeight: '700',
-    },
-    EditBio: {
-        fontSize: 18,
-        fontFamily: 'Roboto',
-        color: '#000',
-        fontWeight: '700',
-    },
-    TitleCancel: {
-        fontSize: 18,
-        fontFamily: 'Roboto',
-        color: '#000',
         fontWeight: '400',
-
+        color: '#000',
     },
-    HeaderBar: {
+    ButtonContainer:{
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+    },
+    Container:{
         flexDirection: 'row',
         justifyContent: 'space-between',
-    },
-    Container: {
-        backgroundColor: 'white',
+        alignItems: 'center',
+        marginBottom: 16,
     },
 })

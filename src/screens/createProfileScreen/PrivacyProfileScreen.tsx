@@ -2,7 +2,7 @@ import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import HeaderBarEditProfile from '@/component/HeaderBarEditProfile'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import PrivacyComponent from '@/component/PrivacyComponent';
 import PlantIcon from '@/assets/icons/PlantIcon'
 import PrivateIcon from '@/assets/icons/PrivateIcon';
@@ -15,10 +15,9 @@ const PrivacyProfileScreen = () => {
   return (
     <View style={styles.Container}>
       <View>
-        <TouchableOpacity style={styles.BackContainer}>
-          <FontAwesomeIcon icon={faChevronLeft} size={15} color="#000" style={{ marginRight: 8 }} />
-          <HeaderBarEditProfile title=" " backProfile='Back' done='' />
-        </TouchableOpacity>
+        <HeaderBarEditProfile 
+                back='Back'
+                IconBackComponent={<FontAwesomeIcon icon={faChevronLeft} size={15} color="#000" style={{ marginRight: 8 }} />}/>
         <View style={styles.TitleProfileContainer}>
           <Text
             style={styles.TitleProfile}>Privacy</Text>
