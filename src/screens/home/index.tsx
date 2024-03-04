@@ -15,9 +15,6 @@ import { use } from 'i18next'
 import SkeletonLoader from './components/SkeletonLoader'
 import CustumToast from '@/components/Toast/CutomToast'
 
-
-
-
 interface DataItem {
   avatar: ImageSourcePropType;
   hour: string;
@@ -30,6 +27,28 @@ interface DataItem {
   share: number;
 }
 const data: DataItem[] = [
+  {
+    avatar: images.logoMessi,
+    hour: "2 day ago",
+    title: "Messi",
+    description: "Una cosa que siempre me da buenas sensaciones… arrancar la nueva temporada con mis nuevos botines. Vamos @adidasfootball 👟💪",
+    tag: "adidasfootball",
+    image: images.messi,
+    star: 15700,
+    comment: 9696,
+    share: 500,
+  },
+  {
+    avatar: images.logoCr7,
+    hour: "1 day ago",
+    title: "Cristiano Ronaldo",
+    description: "Until the very end! 👊 We keep going, no stopping!",
+    tag: "CR7 🚀🚀🚀🚀🚀",
+    image: images.cr7,
+    star: 34060,
+    comment: 10000,
+    share: 6000,
+  },
   {
     avatar: images.logo,
     hour: "2 day ago",
@@ -259,8 +278,9 @@ const HomeScreen = () => {
           <ViewBottomSheet
             onPressToggle={() => handleFollow(selectedTitle)}
             onPressMute={() => handleMute(selectedTitle)}
+            onPressHide={() => handleHide(selectedTitle)}
             onPressBlock={() => handleBlock(selectedTitle)}
-            onPressHide={() => handleHide(selectedTitle)} />
+            />
         </BottomSheet>
       </View>
       <Toast config={toastConfig} />

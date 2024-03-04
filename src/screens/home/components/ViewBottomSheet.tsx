@@ -27,7 +27,7 @@ const ViewBottomSheet: React.FC<ViewBottomSheetProps> = ({ onPressToggle,onPress
                     <Text style={styles.textFollow}>Mute</Text>
                 </TouchableOpacity>
                 <View style={{ width: 326, height: 1, borderWidth: 0.1, backgroundColor: colors.grey, marginTop: 10 }} />
-                <TouchableOpacity style={styles.click} onPress={onPressBlock}>
+                <TouchableOpacity style={styles.click} onPress={onPressHide}>
                     <SvgHide style={styles.img} />
                     <Text style={styles.textFollow}>Hide</Text>
                 </TouchableOpacity>

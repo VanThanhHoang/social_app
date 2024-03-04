@@ -11,4 +11,8 @@ export const images = {
     logoNike: require("../images/logoNike.png"),
     nike2: require("../images/giay2.png"),
     nike3: require("../images/giay3.png"),
+    cr7: require("../images/cr7.png"),
+    messi: require("../images/messi.png"),
+    logoCr7: require("../images/logoCr7.png"),
+    logoMessi: require("../images/logoMessi.png"),
 }
