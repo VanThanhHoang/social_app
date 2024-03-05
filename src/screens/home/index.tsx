@@ -14,6 +14,7 @@ import Toast from 'react-native-toast-message';
 import { use } from 'i18next'
 import SkeletonLoader from './components/SkeletonLoader'
 import CustumToast from '@/components/Toast/CutomToast'
+import CustomAlert from './components/CustomAlert'
 
 interface DataItem {
   avatar: ImageSourcePropType;
@@ -116,6 +117,8 @@ const HomeScreen = () => {
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState<DataItem[]>([]);
   const [selectedTitle, setSelectedTitle] = useState<string>("");
+  const [selectedImage, setselectedImage] = useState<ImageSourcePropType | null>(null);
+  const [ShowAlert, setShowAlert] = useState<boolean>(false);
 
   useEffect(() => {
     setTimeout(() => {
@@ -131,8 +134,9 @@ const HomeScreen = () => {
     }
     setIsBottomSheetOpen(!isBottomSheetOpen);
   };
-  const toggleBottomSheet1 = (title: string) => {
+  const toggleBottomSheet1 = (title: string, logo : ImageSourcePropType | null) => {
     setSelectedTitle(title);
+    setselectedImage(logo);
     console.log(title);
     if (isBottomSheet) {
       bottomSheet.current?.close();
@@ -164,11 +168,13 @@ const HomeScreen = () => {
     setIsBottomSheetOpen(false);
     CustumToast({ type: "success", message: "You have Hide " + title });
   }
-  const handleBlock = (title: string) => {
+  const handleBlock = (title: string,logo : ImageSourcePropType | null ) => {
     setischeck(true);
     bottomSheet.current?.close();
     setIsBottomSheetOpen(false);
-    CustumToast({ type: "error", message: "You have Block " + title });
+    // CustumToast({ type: "error", message: "You have Block " + title });
+   setShowAlert(true);
+   setselectedImage(logo);
   }
 
   const toastConfig = {
@@ -214,7 +220,7 @@ const HomeScreen = () => {
                   star={item.star}
                   comment={item.comment}
                   share={item.share}
-                  onPress={() => toggleBottomSheet1(item.title)}
+                  onPress={() => toggleBottomSheet1(item.title,item.avatar)}
                 />
               )}
             />
@@ -264,7 +270,7 @@ const HomeScreen = () => {
       </View>
       <View style={{ width: 406, height: "100%", flex: 1, position: 'absolute' }}>
         {isBottomSheet && (
-          <TouchableOpacity style={styles.overlay} onPress={() => toggleBottomSheet1("")} activeOpacity={0.1}>
+          <TouchableOpacity style={styles.overlay} onPress={() => toggleBottomSheet1("", null)} activeOpacity={0.1}>
           </TouchableOpacity>
         )}
         <BottomSheet
@@ -279,10 +285,11 @@ const HomeScreen = () => {
             onPressToggle={() => handleFollow(selectedTitle)}
             onPressMute={() => handleMute(selectedTitle)}
             onPressHide={() => handleHide(selectedTitle)}
-            onPressBlock={() => handleBlock(selectedTitle)}
+            onPressBlock={() => handleBlock(selectedTitle,selectedImage)}
             />
         </BottomSheet>
       </View>
+      <CustomAlert visible={ShowAlert} title={selectedTitle}  avatar={selectedImage} onClose={() => setShowAlert(false)} />
       <Toast config={toastConfig} />
     </GestureHandlerRootView>
   )
