@@ -15,6 +15,7 @@ import { use } from 'i18next'
 import SkeletonLoader from './components/SkeletonLoader'
 import CustumToast from '@/components/Toast/CutomToast'
 import CustomAlert from './components/CustomAlert'
+import BottomSheetSwitch from './components/BottomSheetSwitch'
 
 interface DataItem {
   avatar: ImageSourcePropType;
@@ -25,7 +26,8 @@ interface DataItem {
   image: ImageSourcePropType;
   star: number;
   comment: number;
-  share: number;
+  share: number;  
+  url?: string;
 }
 const data: DataItem[] = [
   {
@@ -110,10 +112,13 @@ const HomeScreen = () => {
   const [ischeck, setischeck] = useState<boolean>(false)
   const bottomSheetRef = useRef<BottomSheet>(null);
   const bottomSheet = useRef<BottomSheet>(null);
+  const bottomSheet1 = useRef<BottomSheet>(null);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
   const [isBottomSheet, setisBottomSheet] = useState<boolean>(false);
+  const [isBottomSheet1, setisBottomSheet1] = useState<boolean>(false)
   const snapPoints = useMemo(() => [265], []);
   const snapPoint = useMemo(() => [265], []);
+  const snapPoint1 = useMemo(() => [176], []);
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState<DataItem[]>([]);
   const [selectedTitle, setSelectedTitle] = useState<string>("");
@@ -134,10 +139,17 @@ const HomeScreen = () => {
     }
     setIsBottomSheetOpen(!isBottomSheetOpen);
   };
+  const toggleBottomSheet2 = () => {
+    if (isBottomSheet1) {
+      bottomSheet1.current?.close();
+    } else {
+      bottomSheet1.current?.expand();
+    }
+    setisBottomSheet1(!isBottomSheet1);
+  };
   const toggleBottomSheet1 = (title: string, logo : ImageSourcePropType | null) => {
     setSelectedTitle(title);
     setselectedImage(logo);
-    console.log(title);
     if (isBottomSheet) {
       bottomSheet.current?.close();
     } else {
@@ -172,7 +184,6 @@ const HomeScreen = () => {
     setischeck(true);
     bottomSheet.current?.close();
     setIsBottomSheetOpen(false);
-    // CustumToast({ type: "error", message: "You have Block " + title });
    setShowAlert(true);
    setselectedImage(logo);
   }
@@ -220,7 +231,9 @@ const HomeScreen = () => {
                   star={item.star}
                   comment={item.comment}
                   share={item.share}
+                  url={item.url}
                   onPress={() => toggleBottomSheet1(item.title,item.avatar)}
+                  onPressSwitch={toggleBottomSheet2}
                 />
               )}
             />
@@ -287,6 +300,25 @@ const HomeScreen = () => {
             onPressHide={() => handleHide(selectedTitle)}
             onPressBlock={() => handleBlock(selectedTitle,selectedImage)}
             />
+        </BottomSheet>
+      </View>
+      <View style={{ width: 406, height: "100%", flex: 1, position: 'absolute' }}>
+        {isBottomSheet1 && (
+          <TouchableOpacity style={styles.overlay} onPress={toggleBottomSheet2} activeOpacity={0.1}>
+          </TouchableOpacity>
+        )}
+        <BottomSheet
+          ref={bottomSheet1}
+          snapPoints={snapPoint1}
+          index={-1}
+          onChange={(index) => {
+            setisBottomSheet1(index !== -1);
+          }}
+        >
+          <BottomSheetSwitch
+            onPressReport={() => Alert.alert("Report")}
+            onPressCaption={() => Alert.alert("Caption")}
+          />
         </BottomSheet>
       </View>
       <CustomAlert visible={ShowAlert} title={selectedTitle}  avatar={selectedImage} onClose={() => setShowAlert(false)} />

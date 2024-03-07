@@ -41,7 +41,7 @@ const ViewBottomSheet: React.FC<ViewBottomSheetProps> = ({ onPressToggle,onPress
     )
 }
 
-export default ViewBottomSheet
+export default React.memo(ViewBottomSheet)
 
 const styles = StyleSheet.create({
     click: {

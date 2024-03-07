@@ -39,7 +39,7 @@ const CustomAlert: React.FC<CustomAlertProps> = ({ visible, title, onClose, avat
         </Modal>
     );
 };
-export default CustomAlert;
+export default React.memo(CustomAlert);
 
 const styles = StyleSheet.create({
     btnCancel: {

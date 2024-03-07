@@ -45,4 +45,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Btn;
+export default React.memo(Btn);

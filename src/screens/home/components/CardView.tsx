@@ -1,4 +1,4 @@
-import { Image, ImageProps, ImageSourcePropType, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, ImageProps, ImageSourcePropType, StyleSheet, Text, TouchableOpacity, View, Alert } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { icons, images } from '@/assets'
 import { colors } from '@/theme'
@@ -9,6 +9,7 @@ import SvgStar from '@/assets/icons/iconSVG/Star'
 import Svg3dot from '@/assets/icons/iconSVG/3dot'
 import SvgStar2 from '@/assets/icons/iconSVG/Star2'
 import AutoHeightImage from 'react-native-auto-height-image'
+import Share from 'react-native-share';
 
 
 interface CardViewProps {
@@ -21,7 +22,9 @@ interface CardViewProps {
   star: number,
   comment: number,
   share: number,
-  onPress?: () => void
+  url ?: string,
+  onPress?: () => void,
+  onPressSwitch?: () => void
 }
 const CardView: React.FC<CardViewProps> = ({ ...props }) => {
   const [focus, setfocus] = useState<Boolean>(false);
@@ -31,6 +34,24 @@ const CardView: React.FC<CardViewProps> = ({ ...props }) => {
     setLike(!like);
     console.log(like)
   }
+ const onSearch = () => {
+  const options = {
+    message: "tesst",
+    url : "https://www.google.com/",
+    // email: "thp010620@gmail.com",
+    // suject: "test",
+    // recipient: "0981649752",
+    // title: "test"
+  };
+  Share.open(options)
+  .then((res) => {
+    console.log(res);
+  })
+  .catch((err) => {
+    err && console.log(err);
+  });
+ }
+
   return (
     <View style={{ marginTop: 10 }}>
       <View style={{ width: 450, height: 1, borderWidth: 0.1, backgroundColor: "#E3E3E3" }} />
@@ -57,6 +78,7 @@ const CardView: React.FC<CardViewProps> = ({ ...props }) => {
       ) : (
         <View style={{ height: 0 }} />
       )}
+      
       <View style={styles.containerAction}>
         <TouchableOpacity onPress={handleLike}>
           {like ? <SvgStar2 /> : <SvgStar />}
@@ -66,11 +88,11 @@ const CardView: React.FC<CardViewProps> = ({ ...props }) => {
           <SvgComponent />
         </TouchableOpacity>
         <Text style={styles.textAction}>{props.comment}</Text>
-        <TouchableOpacity style={styles.space}>
+        <TouchableOpacity onPress={props.onPressSwitch} style={styles.space}>
           <SvgSwitch />
         </TouchableOpacity>
         <Text style={styles.textAction}>{props.share}</Text>
-        <TouchableOpacity style={styles.space}>
+        <TouchableOpacity onPress={onSearch} style={styles.space}>
           <SvgSend />
         </TouchableOpacity>
       </View>
@@ -78,7 +100,7 @@ const CardView: React.FC<CardViewProps> = ({ ...props }) => {
   )
 }
 
-export default CardView
+export default React.memo(CardView)
 
 const styles = StyleSheet.create({
   space: {

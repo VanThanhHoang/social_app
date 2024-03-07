@@ -34,6 +34,7 @@ const SkeletonLoader = () => {
         </View>
     );
 };
+export default React.memo(SkeletonLoader);
 
 const styles = StyleSheet.create({
     card: {
@@ -107,4 +108,3 @@ const styles = StyleSheet.create({
     },
 });
 
-export default SkeletonLoader;

@@ -21,7 +21,7 @@ const Header:React.FC<Props> = ({onPressToggle}) => {
     );
 };
 
-export default Header;
+export default React.memo(Header);
 
 const styles = StyleSheet.create({
     overlay: {
