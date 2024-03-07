@@ -8,8 +8,8 @@ const ProfileScreen = () => {
   const scrollY = useRef(new Animated.Value(0)).current;
 
   const translateY = scrollY.interpolate({
-    inputRange: [0, 450],
-    outputRange: [0, -450],
+    inputRange: [0, 550],
+    outputRange: [0, -373],
     extrapolate: 'clamp',
   });
 
@@ -18,19 +18,22 @@ const ProfileScreen = () => {
 
   return (
     <View style={styles.container}>
-      <View style={[styles.headerContainer, {height: headerHeight}]}>
+      <View style={[styles.headerContainer]}>
         <HeaderProfile nameTitle="Profile" iconTick={true} />
       </View>
-      <Animated.View style={{flex: 1, transform: [{ translateY }], marginTop: headerHeight }}>
-        <View style={styles.profileUserContainer}>
-          <ProfileUser />
-        </View>
-        <TopTabProfile scrollY={scrollY} />
-      </Animated.View>
+      <View style={{flex:1,}}>
+        <Animated.View style={{ transform: [{ translateY }], marginTop: headerHeight }}>
+          <View style={styles.profileUserContainer}>
+            <ProfileUser />
+          </View>
+          <View style={{ height: "100%" }}>
+            <TopTabProfile scrollY={scrollY} />
+          </View>
+        </Animated.View>
+      </View>
     </View>
   );
 };
-
 export default ProfileScreen;
 
 const styles = StyleSheet.create({
@@ -38,7 +41,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   profileUserContainer: {
-    zIndex: 2, // Ensure the profile user stays above the tabs when scrolling
+   // Ensure the profile user stays above the tabs when scrolling
   },
   headerContainer: {
     position: 'absolute',
