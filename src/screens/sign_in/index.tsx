@@ -5,6 +5,7 @@ import {useAppDispatch, useAppSelector} from "@/redux/store";
 import {useLogger} from "@/utils";
 import {fetchUserById} from "@/redux/action";
 import { signInWithGoole } from "./components/sign_in_google";
+import HomeIcon from "@/assets/icons/HomeIcon";
 const LoginScreen = () => {
     const dispatch = useAppDispatch();
     const {isLoading} = useAppSelector(state => state.app);
@@ -15,6 +16,7 @@ const LoginScreen = () => {
     return <SafeAreaView style={styles.container}>
        <TouchableOpacity onPress={signInWithGoole}>
        <Text>Login with google</Text>
+       <HomeIcon/>
        </TouchableOpacity>
     </SafeAreaView>;
 }
