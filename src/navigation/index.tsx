@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { AppStacks, RootStackParamList } from "@/navigation/config";
 import { LoadingModal } from "@/components";
 import { useAppSelector } from "@/redux/store";
+import AppBottomTab from "./bottom_tab";
 
 export default function AppNavigator() {
   const AppStack = createNativeStackNavigator<RootStackParamList>();
@@ -12,7 +13,8 @@ export default function AppNavigator() {
     <>
     <LoadingModal visible={isLoading}/>
     <NavigationContainer>
-      <AppStack.Navigator screenOptions={{
+      <AppStack.Navigator
+       screenOptions={{
         headerShown: false
       }}>
         {AppStacks.map((stack, index) => {
