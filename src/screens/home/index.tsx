@@ -16,6 +16,9 @@ import SkeletonLoader from './components/SkeletonLoader'
 import CustumToast from '@/components/Toast/CutomToast'
 import CustomAlert from './components/CustomAlert'
 import BottomSheetSwitch from './components/BottomSheetSwitch'
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { HomeStackParamList, HomeStackNames } from '@/navigation/HomeNavigator/config'
 
 interface DataItem {
   avatar: ImageSourcePropType;
@@ -26,7 +29,7 @@ interface DataItem {
   image: ImageSourcePropType;
   star: number;
   comment: number;
-  share: number;  
+  share: number;
   url?: string;
 }
 const data: DataItem[] = [
@@ -147,7 +150,7 @@ const HomeScreen = () => {
     }
     setisBottomSheet1(!isBottomSheet1);
   };
-  const toggleBottomSheet1 = (title: string, logo : ImageSourcePropType | null) => {
+  const toggleBottomSheet1 = (title: string, logo: ImageSourcePropType | null) => {
     setSelectedTitle(title);
     setselectedImage(logo);
     if (isBottomSheet) {
@@ -180,12 +183,12 @@ const HomeScreen = () => {
     setIsBottomSheetOpen(false);
     CustumToast({ type: "success", message: "You have Hide " + title });
   }
-  const handleBlock = (title: string,logo : ImageSourcePropType | null ) => {
+  const handleBlock = (title: string, logo: ImageSourcePropType | null) => {
     setischeck(true);
     bottomSheet.current?.close();
     setIsBottomSheetOpen(false);
-   setShowAlert(true);
-   setselectedImage(logo);
+    setShowAlert(true);
+    setselectedImage(logo);
   }
 
   const toastConfig = {
@@ -201,7 +204,12 @@ const HomeScreen = () => {
     ),
 
   };
+  const navigation = useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
+  const handleDetail = (item: any) => {
+    navigation.navigate(HomeStackNames.PostDetail, { itemData: item });
+  }
   return (
+
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View>
         <Modal1 />
@@ -222,6 +230,7 @@ const HomeScreen = () => {
               showsVerticalScrollIndicator={false}
               renderItem={({ item }) => (
                 <CardView
+                  style={{ marginTop: 10 }}
                   avatar={item.avatar}
                   hour={item.hour}
                   title={item.title}
@@ -232,8 +241,10 @@ const HomeScreen = () => {
                   comment={item.comment}
                   share={item.share}
                   url={item.url}
-                  onPress={() => toggleBottomSheet1(item.title,item.avatar)}
+                  onPress={() => toggleBottomSheet1(item.title, item.avatar)}
                   onPressSwitch={toggleBottomSheet2}
+                  onPressDetail={() => handleDetail(item)}
+                  showView={true}
                 />
               )}
             />
@@ -298,8 +309,8 @@ const HomeScreen = () => {
             onPressToggle={() => handleFollow(selectedTitle)}
             onPressMute={() => handleMute(selectedTitle)}
             onPressHide={() => handleHide(selectedTitle)}
-            onPressBlock={() => handleBlock(selectedTitle,selectedImage)}
-            />
+            onPressBlock={() => handleBlock(selectedTitle, selectedImage)}
+          />
         </BottomSheet>
       </View>
       <View style={{ width: 406, height: "100%", flex: 1, position: 'absolute' }}>
@@ -321,7 +332,7 @@ const HomeScreen = () => {
           />
         </BottomSheet>
       </View>
-      <CustomAlert visible={ShowAlert} title={selectedTitle}  avatar={selectedImage} onClose={() => setShowAlert(false)} />
+      <CustomAlert visible={ShowAlert} title={selectedTitle} avatar={selectedImage} onClose={() => setShowAlert(false)} />
       <Toast config={toastConfig} />
     </GestureHandlerRootView>
   )

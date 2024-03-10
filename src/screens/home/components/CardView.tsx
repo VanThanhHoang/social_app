@@ -10,7 +10,10 @@ import Svg3dot from '@/assets/icons/iconSVG/3dot'
 import SvgStar2 from '@/assets/icons/iconSVG/Star2'
 import AutoHeightImage from 'react-native-auto-height-image'
 import Share from 'react-native-share';
-
+import { useNavigation } from '@react-navigation/native';
+import { HomeStackNames } from '@/navigation/HomeNavigator/config'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { HomeStackParamList } from '@/navigation/HomeNavigator/config'
 
 interface CardViewProps {
   avatar: ImageSourcePropType,
@@ -24,9 +27,13 @@ interface CardViewProps {
   share: number,
   url ?: string,
   onPress?: () => void,
-  onPressSwitch?: () => void
+  onPressSwitch?: () => void,
+  onPressDetail?: () => void,
+  style?: any ,
+  showView?: boolean
 }
 const CardView: React.FC<CardViewProps> = ({ ...props }) => {
+  
   const [focus, setfocus] = useState<Boolean>(false);
   const [like, setLike] = useState<Boolean>(false);
 
@@ -51,10 +58,12 @@ const CardView: React.FC<CardViewProps> = ({ ...props }) => {
     err && console.log(err);
   });
  }
+ 
 
   return (
-    <View style={{ marginTop: 10 }}>
-      <View style={{ width: 450, height: 1, borderWidth: 0.1, backgroundColor: "#E3E3E3" }} />
+    <View style={props.style}>
+      {props.showView ? <View style={{ width: 450, height: 1, borderWidth: 0.1, backgroundColor: "#E3E3E3" }} /> : <View style={{ height: 0 }} />
+      }
       <View style={{ flexDirection: "row", padding: 20 }}>
         <Image style={styles.imgCar} source={props.avatar} />
         <View>
@@ -84,7 +93,7 @@ const CardView: React.FC<CardViewProps> = ({ ...props }) => {
           {like ? <SvgStar2 /> : <SvgStar />}
         </TouchableOpacity>
         <Text style={styles.textAction}>{props.star}</Text>
-        <TouchableOpacity style={styles.space}>
+        <TouchableOpacity onPress={props.onPressDetail} style={styles.space}>
           <SvgComponent />
         </TouchableOpacity>
         <Text style={styles.textAction}>{props.comment}</Text>
