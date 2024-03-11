@@ -19,7 +19,7 @@ const App = () => {
         //     </PersistGate>
         // </Provider>
         <NavigationContainer>
-            <PrivacyScreen />
+            <ProfileScreen />
         </NavigationContainer>
 
     );
