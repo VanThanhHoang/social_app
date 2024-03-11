@@ -11,7 +11,6 @@ interface Props {
 
 const TopTabProfile:React.FC<Props> = ({ scrollY }) => {
   return (
-    <NavigationContainer independent={true}>
       <Tab.Navigator
         initialRouteName="Vnpic"
         screenOptions={{
@@ -33,7 +32,6 @@ const TopTabProfile:React.FC<Props> = ({ scrollY }) => {
           {() => <RepliesProfile scrollY={scrollY} />}
         </Tab.Screen>
       </Tab.Navigator>
-    </NavigationContainer>
   );
 };
 
