@@ -20,19 +20,7 @@ const appSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(fetchUserById.pending, (state) => {
-            state.isLoading = true;
-            logger(state.isLoading + "")
-        });
-        builder.addCase(fetchUserById.fulfilled, (state) => {
-            state.isLoading = false;
-            logger(state.isLoading + "")
-
-        });
-        builder.addCase(fetchUserById.rejected, (state) => {
-            state.isLoading = false;
-            logger(state.isLoading + "")
-        });
+      
     }
 });
 export const {setLoading} = appSlice.actions;

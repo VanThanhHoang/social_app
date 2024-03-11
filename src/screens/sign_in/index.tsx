@@ -1,13 +1,12 @@
-import {SafeAreaView, StyleSheet, Text} from "react-native";
+import {SafeAreaView, StyleSheet, Text,TouchableOpacity} from "react-native";
 import React, {useEffect} from "react";
 import {useTranslation} from "react-i18next";
-import {LanguageKey} from "@/language";
-import {useAppDispatch, useAppSelector} from "@/redux/store";
+import {useAppDispatch, useAppSelector} from "@/redux/store"; 
 import {useLogger} from "@/utils";
 import {fetchUserById} from "@/redux/action";
-
-const SampleScreen = () => {
-    const logger = useLogger("App");
+import { signInWithGoole } from "./components/sign_in_google";
+import HomeIcon from "@/assets/icons/HomeIcon";
+const LoginScreen = () => {
     const dispatch = useAppDispatch();
     const {isLoading} = useAppSelector(state => state.app);
         useEffect(() => {
@@ -15,7 +14,10 @@ const SampleScreen = () => {
     }, []);
     const {t} = useTranslation()
     return <SafeAreaView style={styles.container}>
-        <Text>{t(LanguageKey.hello)}</Text>
+       <TouchableOpacity onPress={signInWithGoole}>
+       <Text>Login with google</Text>
+       <HomeIcon/>
+       </TouchableOpacity>
     </SafeAreaView>;
 }
 const styles = StyleSheet.create({
@@ -26,4 +28,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default SampleScreen
+export default LoginScreen

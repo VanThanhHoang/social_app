@@ -38,7 +38,7 @@ function getLogTime():string{
 export const useLogger = (title: string, color: ANSI_COLOR_CODES = ANSI_COLOR_CODES.fgWhite) => {
   return function(msg:any){
     const time:string = `${ANSI_COLOR_CODES.fgGreen} ${getLogTime()} ${ANSI_COLOR_CODES.reset}`
-    const content:string =`${color}  [${title.toUpperCase()}] ${msg} ${ANSI_COLOR_CODES.reset}`
+    const content:string =`${color}  [${title.toUpperCase()}] ${JSON.stringify(msg)} ${ANSI_COLOR_CODES.reset}`
     console.log(`${time} ${content}`)
   }
 };
