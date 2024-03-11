@@ -20,7 +20,7 @@ interface ListItem {
 }
 
 const formatText = (text: string) => {
-  return text.length > 20 ? text.slice(0, 20) + '...' : text;
+  return text.length > 20 ? text.slice(0, 10) + '...' : text;
 };
 
 const AllScreen = () => {
@@ -32,7 +32,7 @@ const AllScreen = () => {
       title: 'Leslielexander',
       follow: 'Follow request',
       time: '2s',
-      icon: '../assets/images/hand-wave 1.png',
+      icon: 'https://scontent.fsgn5-10.fna.fbcdn.net/v/t39.30808-6/273472588_367999775159447_2299855215787601008_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=5f2048&_nc_ohc=8d374QbpNvcAX8dzjSa&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfB4PKVYw19RYz_HF-pVMCSXQ0uHaGTMThW2mKrheMInVA&oe=65F4072F',
       type: 1,
     },
     {
@@ -42,6 +42,7 @@ const AllScreen = () => {
       title: 'quanhoang',
       follow: 'Follow request',
       time: '2s',
+      icon: 'https://scontent.fsgn5-10.fna.fbcdn.net/v/t39.30808-6/273472588_367999775159447_2299855215787601008_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=5f2048&_nc_ohc=8d374QbpNvcAX8dzjSa&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfB4PKVYw19RYz_HF-pVMCSXQ0uHaGTMThW2mKrheMInVA&oe=65F4072F',
       type: 1,
     },
     {
@@ -51,17 +52,19 @@ const AllScreen = () => {
       title: 'Leslielexander',
       follow: 'follow you',
       time: '2s',
+      icon: 'https://scontent.fsgn5-10.fna.fbcdn.net/v/t39.30808-6/273472588_367999775159447_2299855215787601008_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=5f2048&_nc_ohc=8d374QbpNvcAX8dzjSa&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfB4PKVYw19RYz_HF-pVMCSXQ0uHaGTMThW2mKrheMInVA&oe=65F4072F',
       type: 2,
     },
-    // {
-    //   id: 4,
-    //   imageUri:
-    //     'https://lh3.googleusercontent.com/-eKol7jffhIA/AAAAAAAAAAI/AAAAAAAAAAA/ALKGfkmrGrt3N80VTCfonwvlUE4RXRIjgg/s128-c/photo.jpg',
-    //   title: 'Nickygote stared at your post',
-    //   follow: 'Turn up the heat with my UTOPIA',
-    //   time: '2d',
-    //   type: 3,
-    // },
+    {
+      id: 4,
+      imageUri:
+        'https://lh3.googleusercontent.com/-eKol7jffhIA/AAAAAAAAAAI/AAAAAAAAAAA/ALKGfkmrGrt3N80VTCfonwvlUE4RXRIjgg/s128-c/photo.jpg',
+      title: 'Nickygote stared at your post',
+      follow: 'Turn up the heat with my UTOPIA',
+      time: '2d',
+      icon: 'https://scontent.fsgn5-10.fna.fbcdn.net/v/t39.30808-6/273472588_367999775159447_2299855215787601008_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=5f2048&_nc_ohc=8d374QbpNvcAX8dzjSa&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfB4PKVYw19RYz_HF-pVMCSXQ0uHaGTMThW2mKrheMInVA&oe=65F4072F',
+      type: 3,
+    },
     {
       id: 5,
       imageUri:
@@ -69,6 +72,7 @@ const AllScreen = () => {
       title: 'Item 5',
       follow: 'follow',
       time: '2s',
+      icon: 'https://scontent.fsgn5-10.fna.fbcdn.net/v/t39.30808-6/273472588_367999775159447_2299855215787601008_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=5f2048&_nc_ohc=8d374QbpNvcAX8dzjSa&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfB4PKVYw19RYz_HF-pVMCSXQ0uHaGTMThW2mKrheMInVA&oe=65F4072F',
       type: 1,
     },
     {
@@ -78,6 +82,7 @@ const AllScreen = () => {
       title: 'Item 5',
       follow: 'follow',
       time: '2s',
+      icon: 'https://scontent.fsgn5-10.fna.fbcdn.net/v/t39.30808-6/273472588_367999775159447_2299855215787601008_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=5f2048&_nc_ohc=8d374QbpNvcAX8dzjSa&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfB4PKVYw19RYz_HF-pVMCSXQ0uHaGTMThW2mKrheMInVA&oe=65F4072F',
       type: 1,
     },
     {
@@ -87,6 +92,7 @@ const AllScreen = () => {
       title: 'Item 5',
       follow: 'follow',
       time: '2s',
+      icon: 'https://scontent.fsgn5-10.fna.fbcdn.net/v/t39.30808-6/273472588_367999775159447_2299855215787601008_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=5f2048&_nc_ohc=8d374QbpNvcAX8dzjSa&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfB4PKVYw19RYz_HF-pVMCSXQ0uHaGTMThW2mKrheMInVA&oe=65F4072F',
       type: 1,
     },
     {
@@ -96,6 +102,7 @@ const AllScreen = () => {
       title: 'Item 5',
       follow: 'follow',
       time: '2s',
+      icon: 'https://scontent.fsgn5-10.fna.fbcdn.net/v/t39.30808-6/273472588_367999775159447_2299855215787601008_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=5f2048&_nc_ohc=8d374QbpNvcAX8dzjSa&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfB4PKVYw19RYz_HF-pVMCSXQ0uHaGTMThW2mKrheMInVA&oe=65F4072F',
       type: 3,
     },
     {
@@ -105,6 +112,7 @@ const AllScreen = () => {
       title: 'Item 5',
       follow: 'follow',
       time: '2s',
+      icon: 'https://scontent.fsgn5-10.fna.fbcdn.net/v/t39.30808-6/273472588_367999775159447_2299855215787601008_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=5f2048&_nc_ohc=8d374QbpNvcAX8dzjSa&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfB4PKVYw19RYz_HF-pVMCSXQ0uHaGTMThW2mKrheMInVA&oe=65F4072F',
       type: 3,
     },
     {
@@ -114,6 +122,7 @@ const AllScreen = () => {
       title: 'Item 5',
       follow: 'follow',
       time: '2s',
+      icon: 'https://scontent.fsgn5-10.fna.fbcdn.net/v/t39.30808-6/273472588_367999775159447_2299855215787601008_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=5f2048&_nc_ohc=8d374QbpNvcAX8dzjSa&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfB4PKVYw19RYz_HF-pVMCSXQ0uHaGTMThW2mKrheMInVA&oe=65F4072F',
       type: 2,
     },
     {
@@ -123,6 +132,7 @@ const AllScreen = () => {
       title: 'Item 5',
       follow: 'follow',
       time: '2s',
+      icon: 'https://scontent.fsgn5-10.fna.fbcdn.net/v/t39.30808-6/273472588_367999775159447_2299855215787601008_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=5f2048&_nc_ohc=8d374QbpNvcAX8dzjSa&_nc_ht=scontent.fsgn5-10.fna&oh=00_AfB4PKVYw19RYz_HF-pVMCSXQ0uHaGTMThW2mKrheMInVA&oe=65F4072F',
       type: 1,
     },
   ];
