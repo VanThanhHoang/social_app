@@ -4,4 +4,5 @@ export const icons = {
     tick : require("../icons/tick.png"),
     frame : require("../icons/Frame.png"),
     planet : require("../icons/planet.png"),
+    ic_tag: require("../icons/ic_tag.png")
 };

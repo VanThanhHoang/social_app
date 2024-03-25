@@ -1,6 +1,6 @@
 import React from 'react';
 import HomeIcon from '@/assets/icons/HomeIcon';
-import {LoginScreen} from '@/screens';
+import {HomeScreen, LoginScreen, PostScreen} from '@/screens';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {SvgProps} from 'react-native-svg';
 import SearchIcon from '@/assets/icons/SearchIcon';
@@ -17,7 +17,7 @@ const BottomTabs: BottomTabProps[] = [
   {
     icon: HomeIcon,
     name: 'Home',
-    component: LoginScreen,
+    component: HomeScreen,
   },
   {
     icon: SearchIcon,
@@ -27,7 +27,7 @@ const BottomTabs: BottomTabProps[] = [
   {
     icon: PostIcon,
     name: 'Post',
-    component: LoginScreen,
+    component: PostScreen,
   },
   {
     icon: StarIcon,
@@ -35,11 +35,12 @@ const BottomTabs: BottomTabProps[] = [
     component: LoginScreen,
   },
   {
-    icon: ProfileIcon ,
+    icon: ProfileIcon,
     name: 'Profile',
     component: LoginScreen,
   },
 ];
+
 function AppBottomTab() {
   return (
     <Tab.Navigator
@@ -49,18 +50,16 @@ function AppBottomTab() {
         tabBarActiveTintColor: '#5E4EA0',
         tabBarInactiveTintColor: '#C8C8C8',
       }}>
-      {
-        BottomTabs.map((tab, index) => (
-          <Tab.Screen
-            key={index}
-            name={tab.name}
-            component={tab.component}
-            options={{
-              tabBarIcon: ({color}) => <tab.icon color={color} />,
-            }}
-          />
-        ))
-      }
+      {BottomTabs.map((tab, index) => (
+        <Tab.Screen
+          key={index}
+          name={tab.name}
+          component={tab.component}
+          options={{
+            tabBarIcon: ({color}) => <tab.icon color={color} />,
+          }}
+        />
+      ))}
     </Tab.Navigator>
   );
 }
