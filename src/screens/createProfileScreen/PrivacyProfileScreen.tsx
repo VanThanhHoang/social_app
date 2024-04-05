@@ -1,23 +1,31 @@
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
-import HeaderBarEditProfile from '@/component/HeaderBarEditProfile'
+import HeaderBarEditProfile from '@/screens/createProfileScreen/component/HeaderBarEditProfile'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import PrivacyComponent from '@/component/PrivacyComponent';
+import PrivacyComponent from '@/screens/createProfileScreen/component/PrivacyComponent';
 import PlantIcon from '@/assets/icons/PlantIcon'
 import PrivateIcon from '@/assets/icons/PrivateIcon';
-import ButtonBottom from '@/component/ButtonBottom';
+import ButtonBottom from '@/screens/createProfileScreen/component/ButtonBottom';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { LoginStackEnum, LoginStackParamList } from '@/navigation/login';
 const PrivacyProfileScreen = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<LoginStackParamList>>();
   const [selectedPrivacyOption, setSelectedPrivacyOption] = useState('Public Profile');
   const handleNext = () => {
-    Alert.alert('Thằng thành ngu ngốc')
+    navigation.navigate(LoginStackEnum.FollowAccountScreen);
+  }
+  const handleBack = () => {
+    navigation.goBack();
   }
   return (
     <View style={styles.Container}>
       <View>
         <HeaderBarEditProfile 
                 back='Back'
-                IconBackComponent={<FontAwesomeIcon icon={faChevronLeft} size={15} color="#000" style={{ marginRight: 8 }} />}/>
+                IconBackComponent={<FontAwesomeIcon icon={faChevronLeft} size={15} color="#000" style={{ marginRight: 8 }} />}
+                onPressBack={handleBack}/>
         <View style={styles.TitleProfileContainer}>
           <Text
             style={styles.TitleProfile}>Privacy</Text>
@@ -40,7 +48,7 @@ const PrivacyProfileScreen = () => {
           isSelected={selectedPrivacyOption === 'Private Profile'} />
         </TouchableOpacity>
       </View>
-      <ButtonBottom onPress={handleNext} title='Next' />
+      <ButtonBottom onPress={handleNext} title='Next' backgroundColor='#5E4EA0' color='#FFFFFF' />
     </View>
   )
 }

@@ -19,7 +19,7 @@ const HeaderProfile: React.FC<HeaderProfileProps> = ({ nameTitle, iconTick }) =>
                 <Text style={styles.NameTitle}>{nameTitle}</Text>
                 {iconTick && <Icontick style = {styles.IconStyle} />}
             </View>
-            <TouchableOpacity>
+            <TouchableOpacity >
                 <IconMenu />
             </TouchableOpacity>
         </View>

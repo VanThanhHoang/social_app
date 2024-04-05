@@ -1,21 +1,31 @@
-import { ImageBackground, StyleSheet, Text, View } from 'react-native'
+import { Alert, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import LinearGradient from 'react-native-linear-gradient'
-import HeaderBarEditProfile from '@/component/HeaderBarEditProfile'
+import HeaderBarEditProfile from '@/screens/createProfileScreen/component/HeaderBarEditProfile'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faChevronLeft, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
-import ButtonBottom from '@/component/ButtonBottom'
+import ButtonBottom from '@/screens/createProfileScreen/component/ButtonBottom'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { useNavigation } from '@react-navigation/native'
+import { LoginStackParamList } from '@/navigation/login'
 const JoinVerses = () => {
+    const navigation = useNavigation<NativeStackNavigationProp<LoginStackParamList>>();
+    const handleNext = () => {
+        Alert.alert('Thằng Pháp Ngu', 'Đã nhấn nút Join Verses')
+    }
+    const handleBack = () => {
+        navigation.goBack();
+    }
     return (
         <View style={styles.Container}>
             <LinearGradient colors={['#5E4EA0', '#E693BF',]} style={styles.gradient}>
                 <ImageBackground source={require('@/assets/images/backgroundjoinverses.png')} style={{ width: '100%', height: '100%', justifyContent: 'space-between', padding:16}}>
                   
                         <View>
-                            <View style={styles.HeaderContainer}>
+                            <TouchableOpacity style={styles.HeaderContainer} onPress={handleBack}>
                                 <FontAwesomeIcon icon={faChevronLeft} size={15} color="#fff" />
                                 <Text style={styles.BackStyle}>Back</Text>
-                            </View>
+                            </TouchableOpacity>
                             <View style={styles.TitleContainer}>
                                 <View style={styles.ProfileSetup}>
                                     <FontAwesomeIcon icon={faCircleCheck} size={15} color="#fff" />
@@ -31,7 +41,7 @@ const JoinVerses = () => {
                                 </View>
                             </View>
                         </View>
-                        <ButtonBottom title="Join Verses"  backgroundColor= '#FFF' color='#5E4EA0'/>
+                        <ButtonBottom title="Join Verses"  backgroundColor= '#FFF' color='#5E4EA0' onPress={handleNext}/>
                         
                 </ImageBackground>
 

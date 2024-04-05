@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import HeaderBarEditProfile from '@/component/HeaderBarEditProfile'
+import HeaderBarEditProfile from '@/screens/createProfileScreen/component/HeaderBarEditProfile'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import Search from '@/component/Search';
-import UserItem from '@/component/UserItem';
+import UserItem from '@/screens/createProfileScreen/component/UserItem';
+import ButtonBottom from '@/screens/createProfileScreen/component/ButtonBottom';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { LoginStackEnum, LoginStackParamList } from '@/navigation/login';
 
 const userFollow = [
     {
@@ -53,7 +57,14 @@ const userFollow = [
 
 const FollowAccountScreen = () => {
     const [listData, setListData] = useState<any[]>(userFollow);
-    
+    const navigation = useNavigation<NativeStackNavigationProp<LoginStackParamList>>();
+    const handleNext = () => {
+        navigation.navigate(LoginStackEnum.JoinVerses);
+    }
+    const handleBack = () => {
+        navigation.goBack();
+    }
+
     const follow = (id: any) => {
         const newListData = listData.map((user) => {
             if (user.id === id) {
@@ -61,7 +72,7 @@ const FollowAccountScreen = () => {
                 // Nếu tài khoản là public và trạng thái hiện tại là Follow hoặc following, đổi trạng thái.
                 if (user.accountType === 'public') {
                     newFollowingStatus = user.followingStatus === 'Follow' ? 'Following' : 'Follow';
-                } 
+                }
                 // Nếu tài khoản là private và trạng thái hiện tại là Follow hoặc Requested, đổi trạng thái.
                 else if (user.accountType === 'private') {
                     newFollowingStatus = user.followingStatus === 'Follow' ? 'Requested' : 'Follow';
@@ -77,33 +88,40 @@ const FollowAccountScreen = () => {
     };
     return (
         <View style={styles.Container}>
-            <HeaderBarEditProfile
-                back='Back'
-                next='Next'
-                IconBackComponent={<FontAwesomeIcon icon={faChevronLeft} size={15} color="#000" style={{ marginRight: 8 }} />}
-                IconNextComponent={<FontAwesomeIcon icon={faChevronRight} size={15} color="#000" style={{ marginLeft: 8 }} />} />
-            <View style={styles.TitleStyle}>
-                <Text style={styles.TitleStyleTextFollow}>Follow the accounts that</Text>
-                <Text style={[styles.TitleStyleTextFollow, { color: '#E693BF' }]}>related to you?</Text>
-                <Text style={styles.TitleStyleTextHow}>How it works</Text>
-            </View>
             <View>
-                <Search />
+
+                <HeaderBarEditProfile
+                    back='Back'
+                    next='Next'
+                    IconBackComponent={<FontAwesomeIcon icon={faChevronLeft} size={15} color="#000" style={{ marginRight: 8 }} />}
+                    IconNextComponent={<FontAwesomeIcon icon={faChevronRight} size={15} color="#000" style={{ marginLeft: 8 }} />} 
+                    onPressBack={handleBack}
+                    onPressNext={handleNext}/>
+                <View style={styles.TitleStyle}>
+                    <Text style={styles.TitleStyleTextFollow}>Follow the accounts that</Text>
+                    <Text style={[styles.TitleStyleTextFollow, { color: '#E693BF' }]}>related to you?</Text>
+                    <Text style={styles.TitleStyleTextHow}>How it works</Text>
+                </View>
+                <View>
+                    <Search />
+                </View>
+                <View>
+                    {listData.map((item, index) => {
+                        return <UserItem
+                            key={index}
+                            nameUser={item.nameUser}
+                            fullName={item.fullName}
+                            icontick={item.icontick}
+                            followingStatus={item.followingStatus}
+                            onPress={() => follow(item.id)}
+                        />
+                    }
+                    )}
+
+                </View>
+
             </View>
-            <View>
-                {listData.map((item, index) => {
-                    return <UserItem
-                        key={index}
-                        nameUser={item.nameUser}
-                        fullName={item.fullName}
-                        icontick={item.icontick}
-                        followingStatus={item.followingStatus}
-                        onPress={() => follow(item.id)}
-                    />
-                }
-                )}
-                
-            </View>
+            <ButtonBottom title='Follow All' backgroundColor='#5E4EA0' color='#FFFFFF' />
         </View>
     )
 }
@@ -135,5 +153,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         padding: 16,
+        justifyContent: 'space-between',
     },
 })

@@ -6,20 +6,20 @@ import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { LoginStackParamList } from '@/navigation/login'
 
-const EditBioScreen = () => {
+const EditLinkScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<LoginStackParamList>>();
     const goBack = () => {
         navigation.goBack();
     }
   return (
     <View style = {styles.Container}>
-      <HeaderBarEditBio backProfile='Cancel' title='EditBio' done='Done' onPress={goBack}/>
-      <BioCard title='Bio' placeholder='Write a Bio...'/>  
+      <HeaderBarEditBio backProfile='Cancel' title='EditLink' done='Done' onPress={goBack}/>
+      <BioCard title='Link' placeholder='Write a Link...'/>  
     </View>
   )
 }
 
-export default EditBioScreen
+export default EditLinkScreen
 
 const styles = StyleSheet.create({
   

@@ -14,6 +14,7 @@ const VnpicProfile:React.FC<Props> = ({ scrollY }) => {
   return (
     <View style={styles.container}>
     <Animated.FlatList
+    ListFooterComponent={<View style={{ height: 370 }} />}
       data={data}
       renderItem={({ item }) => <Text style={styles.item}>{item.text}</Text>}
       keyExtractor={item => item.key}

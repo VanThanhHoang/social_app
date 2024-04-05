@@ -3,8 +3,10 @@ import App from "@/App";
 import { LoginScreen } from "@/screens";
 import React, { ReactElement } from "react";
 import AppBottomTab from "./bottom_tab";
+import LoginNavigation from "./login";
 
 export enum AppStackNames {
+  LoginNavigation = "LoginNavigation",
   HomeBottomTab="HomeBottomTab",
   Screen1 = "Screen1",
   Screen2 = "Screen2",
@@ -12,6 +14,7 @@ export enum AppStackNames {
 }
 
 export type RootStackParamList = {
+  [AppStackNames.LoginNavigation]: undefined;
   [AppStackNames.HomeBottomTab]: undefined;
   [AppStackNames.Screen1]: undefined;
   [AppStackNames.Screen2]: { userId: string };
@@ -24,6 +27,11 @@ interface StackProps {
 }
 
 export const AppStacks: StackProps [] = [
+  {
+    name: AppStackNames.LoginNavigation,
+    component: LoginNavigation,
+    options: {}
+  },
   {
     name: AppStackNames.HomeBottomTab,
     component: AppBottomTab,

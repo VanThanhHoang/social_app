@@ -2,12 +2,19 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons'
-import ProfileCard from '@/component/ProfileCard'
-import ButtonBottom from '@/component/ButtonBottom'
+import ProfileCard from '@/screens/createProfileScreen/component/ProfileCard'
+import ButtonBottom from '@/screens/createProfileScreen/component/ButtonBottom'
 import { LinearTextGradient } from 'react-native-text-gradient'
-import HeaderBarEditProfile from '@/component/HeaderBarEditProfile'
+import HeaderBarEditProfile from '@/screens/createProfileScreen/component/HeaderBarEditProfile'
+import { useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { LoginStackEnum, LoginStackParamList } from '@/navigation/login'
 
 const CreateProfileScreen = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<LoginStackParamList>>();
+  const goNext = () => {
+    navigation.navigate(LoginStackEnum.PrivacyProfileScreen)
+  }
   return (
     <View style={styles.CreateProfileContainer}>
       <View>
@@ -22,7 +29,7 @@ const CreateProfileScreen = () => {
         <ProfileCard />
       </View>
       <View>
-        <ButtonBottom title='Next' backgroundColor='#5E4EA0' color='#FFFFFF' />
+        <ButtonBottom title='Next' backgroundColor='#5E4EA0' color='#FFFFFF' onPress={goNext}/>
       </View>
       
     </View>
