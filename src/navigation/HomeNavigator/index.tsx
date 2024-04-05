@@ -5,10 +5,9 @@ import { HomeStackParamList, HomeStacks } from "./config";
 
 
 
-export default function HomeNavigator() {
+export default function HomeDetailNavigator() {
     const AppStack = createNativeStackNavigator<HomeStackParamList>();
     return (
-        <NavigationContainer>
             <AppStack.Navigator
                 screenOptions={{ headerShown: false }}>
                 {HomeStacks.map((stack, index) => {
@@ -21,7 +20,6 @@ export default function HomeNavigator() {
                 })
                 }
             </AppStack.Navigator>
-        </NavigationContainer>
     );
 }
 

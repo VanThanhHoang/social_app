@@ -1,6 +1,7 @@
 import React from 'react';
 import HomeIcon from '@/assets/icons/HomeIcon';
 import {LoginScreen} from '@/screens';
+import {HomeScreen} from '@/screens';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {SvgProps} from 'react-native-svg';
 import SearchIcon from '@/assets/icons/SearchIcon';
@@ -17,7 +18,7 @@ const BottomTabs: BottomTabProps[] = [
   {
     icon: HomeIcon,
     name: 'Home',
-    component: LoginScreen,
+    component: HomeScreen,
   },
   {
     icon: SearchIcon,

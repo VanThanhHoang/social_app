@@ -19,6 +19,8 @@ import BottomSheetSwitch from './components/BottomSheetSwitch'
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { HomeStackParamList, HomeStackNames } from '@/navigation/HomeNavigator/config'
+import { RootStackParamList, AppStackNames } from '@/navigation/config'
+
 
 interface DataItem {
   avatar: ImageSourcePropType;
@@ -204,9 +206,12 @@ const HomeScreen = () => {
     ),
 
   };
-  const navigation = useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
+  const navigation = useNavigation<any>();
   const handleDetail = (item: any) => {
-    navigation.navigate(HomeStackNames.PostDetail, { itemData: item });
+    navigation.navigate(AppStackNames.HomeDetailNavigator, {
+      screen: HomeStackNames.PostDetail,
+      params: { itemData: item },
+    });
   }
   return (
 

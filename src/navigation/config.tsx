@@ -3,9 +3,13 @@ import App from "@/App";
 import { LoginScreen } from "@/screens";
 import React, { ReactElement } from "react";
 import AppBottomTab from "./bottom_tab";
+import HomeDetailNavigator from "./HomeNavigator";
+import { NavigatorScreenParams } from "@react-navigation/native";
+import { HomeStackParamList } from "./HomeNavigator/config";
 
 export enum AppStackNames {
   HomeBottomTab="HomeBottomTab",
+  HomeDetailNavigator = "HomeDetailNavigator",
   Screen1 = "Screen1",
   Screen2 = "Screen2",
 
@@ -13,6 +17,7 @@ export enum AppStackNames {
 
 export type RootStackParamList = {
   [AppStackNames.HomeBottomTab]: undefined;
+  [AppStackNames.HomeDetailNavigator]: NavigatorScreenParams<HomeStackParamList> | undefined;
   [AppStackNames.Screen1]: undefined;
   [AppStackNames.Screen2]: { userId: string };
 };
@@ -30,8 +35,8 @@ export const AppStacks: StackProps [] = [
     options: {}
   },
   {
-    name: AppStackNames.Screen1,
-    component: LoginScreen,
+    name: AppStackNames.HomeDetailNavigator,
+    component: HomeDetailNavigator,
     options: {}
   },
   {
