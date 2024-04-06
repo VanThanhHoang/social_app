@@ -10,43 +10,66 @@ import IconHelp from '@/assets/icons/IconHelp'
 import IconPrivacy from '@/assets/icons/IconPrivacy'
 import ItemSetting from './component/ItemSetting'
 import IconLogout from '@/assets/icons/IconLogout'
+import AccountScreen from './AccountScreen'
+import PrivacyScreen from './PrivacyScreen'
+import { useNavigation } from '@react-navigation/native'
+import { RootStackParamList } from '@/navigation/config'
+import { ProfileNavigatorProps, ProfileStackNames } from '@/navigation/ProfileNavigator/config'
 
 
 const dataOptionSetting = [
     {
+        id: 1,
         title: 'Follow and invite friends',
         icon: <IconFollow />,
+        screenName: ProfileStackNames.Account,
     },
     {
+        id: 2,
         title: 'Notification',
         icon: <IconNotification />,
+        screenName: ProfileStackNames.Account,
     },
     {
+        id: 3,
         title: 'Privacy',
         icon: <IconPrivacy />,
+        screenName: ProfileStackNames.Account,
     },
     {
+        id: 4,
         title: 'Account',
         icon: <IconAccount />,
+        screenName: ProfileStackNames.Account,
     },
     {
+        id: 5,
         title: 'Help',
         icon: <IconHelp />,
+        screenName: ProfileStackNames.Account,
     },
     {
+        id: 6,
         title: 'About',
         icon: <IconAbout />,
+        screenName: ProfileStackNames.Account,
     },
 ]
 
 const Setting = () => {
+    const navigation = useNavigation<ProfileNavigatorProps>();
     return (
         <View style={styles.Container}>
             <HeaderBar title='Settings' />
             <ButtonSwitch title='Language' textOff='Eng' textOn='Vie' />
             <View style = {styles.ListStyle}>
                 {dataOptionSetting.map((item, index) => (
-                    <ItemSetting key={index} title={item.title} icon={item.icon} color='#2C2B2B'/>
+                    <ItemSetting 
+                        key={index} 
+                        title={item.title} 
+                        icon={item.icon} 
+                        color='#2C2B2B'
+                        onPress={() => navigation.navigate(item.screenName)}/>
                 ))}
             </View>
             <View style = {styles.LogoutContainer}>

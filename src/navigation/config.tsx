@@ -4,7 +4,7 @@ import { LoginScreen } from "@/screens";
 import React, { ReactElement } from "react";
 import AppBottomTab from "./bottom_tab";
 import LoginNavigation from "./login";
-
+import { NavigatorScreenParams } from "@react-navigation/native";
 export enum AppStackNames {
   LoginNavigation = "LoginNavigation",
   HomeBottomTab="HomeBottomTab",
@@ -15,8 +15,8 @@ export enum AppStackNames {
 
 export type RootStackParamList = {
   [AppStackNames.LoginNavigation]: undefined;
-  [AppStackNames.HomeBottomTab]: undefined;
-  [AppStackNames.Screen1]: undefined;
+  [AppStackNames.HomeBottomTab]:  undefined;
+  [AppStackNames.Screen1]: undefined; 
   [AppStackNames.Screen2]: { userId: string };
 };
 

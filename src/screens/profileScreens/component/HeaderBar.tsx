@@ -2,15 +2,17 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons'
+import { useNavigation } from '@react-navigation/native'
 
 interface HeaderBarProps {
     title: string
 }
 
 const HeaderBar:React.FC<HeaderBarProps> = ({title}) => {
+    const navigation = useNavigation();
     return (
         <View style={styles.Container}>
-            <TouchableOpacity style = {styles.BackStyle}>
+            <TouchableOpacity onPress={() => navigation.goBack()} style = {styles.BackStyle}>
                 <FontAwesomeIcon icon={faChevronLeft} size={15} color="#000" />
                 <Text style = {styles.BackTextStyle}>Back</Text>
             </TouchableOpacity>

@@ -7,9 +7,10 @@ import { icon } from '@fortawesome/fontawesome-svg-core';
 interface HeaderProfileProps {
     nameTitle?: string;
     iconTick?: boolean;
+    onPressMenu?: () => void,
 }
 
-const HeaderProfile: React.FC<HeaderProfileProps> = ({ nameTitle, iconTick }) => {
+const HeaderProfile: React.FC<HeaderProfileProps> = ({ nameTitle, iconTick, onPressMenu }) => {
     return (
         <View style={styles.Container}>
             <TouchableOpacity>
@@ -19,7 +20,7 @@ const HeaderProfile: React.FC<HeaderProfileProps> = ({ nameTitle, iconTick }) =>
                 <Text style={styles.NameTitle}>{nameTitle}</Text>
                 {iconTick && <Icontick style = {styles.IconStyle} />}
             </View>
-            <TouchableOpacity >
+            <TouchableOpacity onPress={onPressMenu} >
                 <IconMenu />
             </TouchableOpacity>
         </View>

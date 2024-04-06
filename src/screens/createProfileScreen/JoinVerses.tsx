@@ -8,10 +8,12 @@ import ButtonBottom from '@/screens/createProfileScreen/component/ButtonBottom'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { useNavigation } from '@react-navigation/native'
 import { LoginStackParamList } from '@/navigation/login'
+import { AppStackNames } from '@/navigation/config'
+import AppBottomTab from '@/navigation/bottom_tab'
 const JoinVerses = () => {
-    const navigation = useNavigation<NativeStackNavigationProp<LoginStackParamList>>();
+    const navigation = useNavigation<NativeStackNavigationProp<any>>();
     const handleNext = () => {
-        Alert.alert('Thằng Pháp Ngu', 'Đã nhấn nút Join Verses')
+        navigation.navigate(AppStackNames.HomeBottomTab, { screen: 'Home'})
     }
     const handleBack = () => {
         navigation.goBack();

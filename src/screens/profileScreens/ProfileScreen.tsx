@@ -3,23 +3,28 @@ import React, { useRef } from 'react';
 import HeaderProfile from './component/HeaderProfile';
 import ProfileUser from './component/ProfileUser';
 import TopTabProfile from './component/TopTabProfile';
-
+import { useNavigation } from '@react-navigation/native';
+import { ProfileNavigatorProps } from '@/navigation/ProfileNavigator/config';
+import { ProfileStackNames, ProfileStackParamList } from '@/navigation/ProfileNavigator/config';
 const ProfileScreen = () => {
   const scrollY = useRef(new Animated.Value(0)).current;
-
+  const navigation = useNavigation<ProfileNavigatorProps>();
   const translateY = scrollY.interpolate({
     inputRange: [0, 550],
     outputRange: [0, -373],
     extrapolate: 'clamp',
   });
 
+  const handlePressMenu = () => {
+    navigation.navigate(ProfileStackNames.Setting);
+  }
   // Giả sử chiều cao của HeaderProfile là 60
   const headerHeight = 50;
 
   return (
     <View style={styles.container}>
       <View style={[styles.headerContainer]}>
-        <HeaderProfile nameTitle="Profile" iconTick={true} />
+        <HeaderProfile   onPressMenu={handlePressMenu} nameTitle="Profile" iconTick={true} />
       </View>
       <View style={{flex:1,}}>
         <Animated.View style={{ transform: [{ translateY }], marginTop: headerHeight }}>

@@ -4,12 +4,13 @@ import React from 'react'
 interface ItemSettingProps {
     title: string,
     icon: React.ReactNode,
-    color?: string
+    color?: string,
+    onPress?: () => void
 }
 
-const ItemSetting:React.FC<ItemSettingProps> = ({title, icon, color}) => {
+const ItemSetting:React.FC<ItemSettingProps> = ({title, icon, color, onPress}) => {
   return (
-    <TouchableOpacity style={styles.itemContainer}>
+    <TouchableOpacity style={styles.itemContainer} onPress={onPress}>
       {icon}
       <Text style = {[styles.TextStyle, {color: color}]}>{title}</Text>
     </TouchableOpacity>
