@@ -22,42 +22,42 @@ const dataOptionSetting = [
         id: 1,
         title: 'Follow and invite friends',
         icon: <IconFollow />,
-        screenName: ProfileStackNames.Account,
+        screenName: "AccountScreen"
     },
     {
         id: 2,
         title: 'Notification',
         icon: <IconNotification />,
-        screenName: ProfileStackNames.Account,
+        screenName: "AccountScreen"
     },
     {
         id: 3,
         title: 'Privacy',
         icon: <IconPrivacy />,
-        screenName: ProfileStackNames.Account,
+        screenName: "PrivacyScreen"
     },
     {
         id: 4,
         title: 'Account',
         icon: <IconAccount />,
-        screenName: ProfileStackNames.Account,
+        screenName: "PrivacyScreen"
     },
     {
         id: 5,
         title: 'Help',
         icon: <IconHelp />,
-        screenName: ProfileStackNames.Account,
+        screenName: "PrivacyScreen"
     },
     {
         id: 6,
         title: 'About',
         icon: <IconAbout />,
-        screenName: ProfileStackNames.Account,
+        screenName: "ProfileScreen"
     },
 ]
 
 const Setting = () => {
-    const navigation = useNavigation<ProfileNavigatorProps>();
+    const navigation = useNavigation<any>();
     return (
         <View style={styles.Container}>
             <HeaderBar title='Settings' />

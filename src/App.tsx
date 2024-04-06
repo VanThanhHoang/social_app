@@ -14,14 +14,14 @@ import PrivacyScreen from "./screens/profileScreens/PrivacyScreen";
 const App = () => {
     //tesst
     return (
-        // <Provider store={store}>
-        //     <PersistGate loading={null} persistor={persistor}>
-        //         <ProfileScreen/>
-        //     </PersistGate>
-        // </Provider>
-        <NavigationContainer>
-            <ProfileScreen />
-        </NavigationContainer>
+        <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+                <AppNavigator/>
+            </PersistGate>
+        </Provider>
+        // <NavigationContainer>
+        //     <ProfileScreen />
+        // </NavigationContainer>
 
     );
 };
