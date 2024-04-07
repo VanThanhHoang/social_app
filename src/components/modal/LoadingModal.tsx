@@ -1,4 +1,5 @@
 import {animations} from '@/assets';
+import React from 'react';
 import LottieView from 'lottie-react-native';
 import {Modal, StyleSheet, View} from 'react-native';
 type LoadingModalProps = {

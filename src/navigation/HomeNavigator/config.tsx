@@ -1,6 +1,5 @@
 import { ImageDetail } from "@/screens";
 import { PostDetail } from "@/screens";
-import { HomeScreen } from "@/screens";
 
 export enum HomeStackNames {
     ImageDetail = "ImageDetail",

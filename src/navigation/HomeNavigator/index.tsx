@@ -8,8 +8,7 @@ import { HomeStackParamList, HomeStacks } from "./config";
 export default function HomeNavigator() {
     const AppStack = createNativeStackNavigator<HomeStackParamList>();
     return (
-        //test
-        <NavigationContainer>
+        
             <AppStack.Navigator
                 screenOptions={{ headerShown: false }}>
                 {HomeStacks.map((stack, index) => {
@@ -22,7 +21,7 @@ export default function HomeNavigator() {
                 })
                 }
             </AppStack.Navigator>
-        </NavigationContainer>
+      
     );
 }
 

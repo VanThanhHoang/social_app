@@ -5,9 +5,15 @@ import React, { ReactElement } from "react";
 import AppBottomTab from "./bottom_tab";
 import LoginNavigation from "./login";
 import { NavigatorScreenParams } from "@react-navigation/native";
+import HomeNavigator from "./HomeNavigator";
+import { HomeStackParamList } from "./HomeNavigator/config";
+import { HomeStacks } from "./HomeNavigator/config";
+
+
 export enum AppStackNames {
   LoginNavigation = "LoginNavigation",
   HomeBottomTab="HomeBottomTab",
+  HomeNavigator = "HomeNavigator",
   Screen1 = "Screen1",
   Screen2 = "Screen2",
 
@@ -16,6 +22,7 @@ export enum AppStackNames {
 export type RootStackParamList = {
   [AppStackNames.LoginNavigation]: undefined;
   [AppStackNames.HomeBottomTab]:  undefined;
+  [AppStackNames.HomeNavigator]: NavigatorScreenParams<HomeStackParamList> | undefined;
   [AppStackNames.Screen1]: undefined; 
   [AppStackNames.Screen2]: { userId: string };
 };
@@ -38,13 +45,9 @@ export const AppStacks: StackProps [] = [
     options: {}
   },
   {
-    name: AppStackNames.Screen1,
-    component: LoginScreen,
+    name: AppStackNames.HomeNavigator,
+    component: HomeNavigator,
     options: {}
   },
-  {
-    name: AppStackNames.Screen2,
-    component: LoginScreen,
-    options: {}
-  }
+  
 ];
