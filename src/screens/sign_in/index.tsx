@@ -31,11 +31,11 @@ const LoginScreen = () => {
     </View>
     <View style = {styles.ButtonLoginContainer}>
         <TouchableOpacity style = {styles.ButtonLogin} onPress={signInWithGoole}>
-            <Text style = {styles.ButtonLoginTitle}>Login with google</Text>
+            <Text style = {styles.ButtonLoginTitle}>{t('Login with Google')}</Text>
             <IconGoogle />
         </TouchableOpacity>
         <TouchableOpacity style = {styles.ButtonLogin} onPress={() => navigation.navigate(LoginStackEnum.CreateProfileScreen)}>
-            <Text style = {styles.ButtonLoginTitle}>Login with Facebook</Text>
+            <Text style = {styles.ButtonLoginTitle}>{t('Login with Facebook')}</Text>
             <IconFacebook />
         </TouchableOpacity>
     </View>

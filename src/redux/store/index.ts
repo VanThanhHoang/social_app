@@ -13,9 +13,11 @@ import {
 import reduxStorage from "./reduxStorage";
 import {appReducer} from "@/redux/slice";
 import { SliceName } from "@/redux/constant";
+import { languageReducer } from "../slice/language.slice";
 
 const rootReducer:any = combineReducers({
-  [SliceName.APP]: appReducer
+  [SliceName.APP]: appReducer,
+  [SliceName.LANGUAGE]: languageReducer,
 });
 
 const persistConfig = {
@@ -24,7 +26,7 @@ const persistConfig = {
   storage: reduxStorage,
   timeout: 0,
   blacklist: [],
-  whitelist: [],
+  whitelist: [SliceName.LANGUAGE],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

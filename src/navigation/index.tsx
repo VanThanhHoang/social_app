@@ -5,10 +5,21 @@ import { AppStacks, RootStackParamList } from "@/navigation/config";
 import { LoadingModal } from "@/components";
 import { useAppSelector } from "@/redux/store";
 import AppBottomTab from "./bottom_tab";
+import i18n from "@/language/i18n";
+
+
+
+const useAsynsLanguage = () => {
+  const language = useAppSelector(state => state.language.language);
+  React.useEffect(() => {
+    i18n.changeLanguage(language);
+  }, [language]);
+};
 
 export default function AppNavigator() {
   const AppStack = createNativeStackNavigator<RootStackParamList>();
   const {isLoading} = useAppSelector(state => state.app);
+  useAsynsLanguage();
   return (
     <>
     <LoadingModal visible={isLoading}/>

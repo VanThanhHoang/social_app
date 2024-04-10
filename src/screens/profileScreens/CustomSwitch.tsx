@@ -1,5 +1,9 @@
 import React, { useState, useRef } from 'react';
 import { View, TouchableWithoutFeedback, Animated, StyleSheet, Text } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { setLanguage } from '@/redux/slice/language.slice';
+import { useTranslation } from 'react-i18next';
+
 
 
 interface CustomSwitchProps {
@@ -12,8 +16,16 @@ interface CustomSwitchProps {
 const CustomSwitch: React.FC<CustomSwitchProps> = ({textOn, textOff, iconOn, iconOff}) => {
     const [isEnabled, setIsEnabled] = useState(false);
     const animatedValue = useRef(new Animated.Value(0)).current;
+    const dispatch = useDispatch();
+    const { i18n } = useTranslation();
+    const handleChangeLanguage = () => {
+        const newLang = i18n.language === 'en' ? 'vi' : 'en';
+        dispatch(setLanguage(newLang));
+        i18n.changeLanguage(newLang);
+    }
 
     const toggleSwitch = () => {
+        handleChangeLanguage();
         setIsEnabled(previousState => !previousState);
         Animated.timing(animatedValue, {
             toValue: isEnabled ? 0 : 1,

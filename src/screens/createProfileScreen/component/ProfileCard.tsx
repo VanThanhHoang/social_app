@@ -7,6 +7,7 @@ import { launchCamera, launchImageLibrary } from 'react-native-image-picker'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { LoginStackEnum, LoginStackParamList } from '@/navigation/login'
+import { useTranslation } from 'react-i18next'
 
 const ProfileCard = () => {
     const navigation = useNavigation<NativeStackNavigationProp<LoginStackParamList>>();
@@ -114,15 +115,16 @@ const ProfileCard = () => {
             console.log('An error occurred: ', error);
         }
     };
+    const { t} = useTranslation();
 
     return (
         <View style={styles.Container}>
             <View style={styles.NameContainer}>
                 <View style={styles.NameTitleContainer}>
-                    <Text style={styles.NameTitle}>Name</Text>
+                    <Text style={styles.NameTitle}>{t('Name')}</Text>
                     <View style={styles.TextInputContainer}>
                         <FontAwesomeIcon icon={faUser} size={15} color="#000" />
-                        <TextInput placeholder="+ Name" style={styles.TextInputStyle} />
+                        <TextInput placeholder={t("+ Name")} style={styles.TextInputStyle} />
                     </View>
                 </View>
                 <TouchableOpacity style={styles.ButtonCamera} onPress={handleSelectImage}>

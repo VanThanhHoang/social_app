@@ -11,18 +11,14 @@ import ProfileScreen from "./screens/profileScreens/ProfileScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import Setting from "./screens/profileScreens/Setting";
 import PrivacyScreen from "./screens/profileScreens/PrivacyScreen";
+import i18n from "./language/i18n";
 const App = () => {
-    //tesst
     return (
         <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
                 <AppNavigator/>
             </PersistGate>
         </Provider>
-        // <NavigationContainer>
-        //     <ProfileScreen />
-        // </NavigationContainer>
-
     );
 };
 export default App;

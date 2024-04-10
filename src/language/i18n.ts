@@ -22,3 +22,5 @@ i18n
     defaultNS: "translation",
     lng: LanguageKey.en,
   });
+
+export default i18n;
