@@ -9,6 +9,7 @@ import StarIcon from '@/assets/icons/StarIcon';
 import ProfileIcon from '@/assets/icons/ProfileIcon';
 import ProfileScreen from '@/screens/profileScreens/ProfileScreen';
 import ProfileNavigator from '../ProfileNavigator';
+import Notification from '@/screens/Notification/NotificationScreen';
 const Tab = createBottomTabNavigator();
 type BottomTabProps = {
   icon: (props: SvgProps) => React.JSX.Element;
@@ -34,7 +35,7 @@ const BottomTabs: BottomTabProps[] = [
   {
     icon: StarIcon,
     name: 'Notification',
-    component: LoginScreen,
+    component: Notification,
   },
   {
     icon: ProfileIcon,
