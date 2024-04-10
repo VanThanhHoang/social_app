@@ -18,6 +18,9 @@ const ProfileScreen = () => {
   const handlePressMenu = () => {
     navigation.navigate(ProfileStackNames.Setting);
   }
+  const handlePressEditProfile = () => {
+    navigation.navigate(ProfileStackNames.EditProfile);
+  }
   // Giả sử chiều cao của HeaderProfile là 60
   const headerHeight = 50;
 
@@ -29,7 +32,7 @@ const ProfileScreen = () => {
       <View style={{flex:1,}}>
         <Animated.View style={{ transform: [{ translateY }], marginTop: headerHeight }}>
           <View style={styles.profileUserContainer}>
-            <ProfileUser />
+            <ProfileUser onPressEditProfile={handlePressEditProfile} />
           </View>
           <View style={{ height: "100%" }}>
             <TopTabProfile scrollY={scrollY} />
@@ -44,6 +47,7 @@ export default ProfileScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#fff',
   },
   profileUserContainer: {
    // Ensure the profile user stays above the tabs when scrolling

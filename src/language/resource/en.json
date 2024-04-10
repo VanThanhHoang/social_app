@@ -1,4 +1,30 @@
 {
   "welcome": "WelCome",
-  "hello": "Hello"
+  "hello": "Hello",
+  "Language": "Language",
+  "Follow and invite friends": "Follow and invite friends",
+  "Follow": "Follow",
+  "Invite": "Invite",
+  "Notifications": "Notifications",
+  "Privacy": "Privacy",
+  "Account": "Account",
+  "Help": "Help",
+  "About": "About",
+  "Login with Facebook": "Login with Facebook",
+  "Login with Google": "Login with Google",
+  "Logout": "Logout",
+  "Next": "Next",
+  "Skip": "Skip",
+  "Back": "Back",
+  "Profile": "Profile",
+  "Customize your VNPIC profile": "Customize your VNPIC profile",
+  "Name": "Name",
+  "Your privacy on VNPIC can be different": "Your privacy on VNPIC can be different",
+  "Public": "Public",
+  "Private": "Private",
+  "Anyone on VNPIC can see, share and interact with your content.": "Anyone on VNPIC can see, share and interact with your content.",
+  "Only your approve followers can see and interact with your content." : "Only your approve followers can see and interact with your content."
+  
+
+
 }

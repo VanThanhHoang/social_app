@@ -1,5 +1,9 @@
 import React, { useState, useRef } from 'react';
 import { View, TouchableWithoutFeedback, Animated, StyleSheet, Text } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { setLanguage } from '@/redux/slice/language.slice';
+import { useTranslation } from 'react-i18next';
+
 
 
 interface CustomSwitchProps {
@@ -7,19 +11,37 @@ interface CustomSwitchProps {
     textOff?: string;
     iconOn?: React.ReactNode;
     iconOff?: React.ReactNode;
+    onValueChange?: (isEnabled: boolean) => void;
 }
 
-const CustomSwitch: React.FC<CustomSwitchProps> = ({textOn, textOff, iconOn, iconOff}) => {
+const CustomSwitch: React.FC<CustomSwitchProps> = ({textOn, textOff, iconOn, iconOff, onValueChange}) => {
     const [isEnabled, setIsEnabled] = useState(false);
     const animatedValue = useRef(new Animated.Value(0)).current;
+    const dispatch = useDispatch();
+    const { i18n } = useTranslation();
+    const handleChangeLanguage = () => {
+        const newLang = i18n.language === 'en' ? 'vi' : 'en';
+        dispatch(setLanguage(newLang));
+        i18n.changeLanguage(newLang);
+    }
 
     const toggleSwitch = () => {
+<<<<<<< Updated upstream
+        handleChangeLanguage();
         setIsEnabled(previousState => !previousState);
+=======
+        const newState = !isEnabled; // Lưu trạng thái mới vào biến tạm
+        setIsEnabled(newState); // Cập nhật trạng thái isEnabled
+>>>>>>> Stashed changes
         Animated.timing(animatedValue, {
             toValue: isEnabled ? 0 : 1,
             duration: 250,
             useNativeDriver: false,
         }).start();
+
+        if (onValueChange) {
+            onValueChange(newState); // Gọi hàm onValueChange với trạng thái mới
+        }
     };
 
     const switchTranslate = animatedValue.interpolate({

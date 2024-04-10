@@ -8,14 +8,15 @@ interface ButtonSwitchProps {
     textOff?: string;
     iconOn?: React.ReactNode;
     iconOff?: React.ReactNode;
+    onToggle?: (isActive: boolean) => void;
 }
 
-const ButtonSwitch: React.FC<ButtonSwitchProps> = ({title, textOn, textOff, iconOn, iconOff}) => {
+const ButtonSwitch: React.FC<ButtonSwitchProps> = ({title, textOn, textOff, iconOn, iconOff, onToggle}) => {
   
   return (
     <View style = {styles.Container}>
       <Text style = {styles.TextStyle}>{title}</Text>
-      <CustomSwitch textOn = {textOn} textOff = {textOff} iconOn = {iconOn} iconOff = {iconOff} />
+      <CustomSwitch textOn = {textOn} textOff = {textOff} iconOn = {iconOn} iconOff = {iconOff} onValueChange={onToggle} />
     </View>
   )
 }

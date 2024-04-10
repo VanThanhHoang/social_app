@@ -151,7 +151,9 @@ const AllScreen = () => {
         <View style={styles.containerTitle}>
           <View style={styles.imgView}>
             <Image style={styles.image} source={{uri: item.imageUri}} />
-            <Image style={styles.imageIcon} source={{uri: item.icon}} />
+            {item.icon && (
+              <Image style={styles.imageIcon} source={{uri: item.icon}} />
+            )}
           </View>
           <View
             style={{

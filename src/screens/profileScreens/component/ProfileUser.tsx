@@ -5,7 +5,11 @@ import Icontick from '@/assets/icons/Icontick'
 import IconLink from '@/assets/icons/IconLink'
 import IconStar from '@/assets/icons/IconStar'
 
-const ProfileUser = () => {
+type ProfileUserProps = {
+    onPressEditProfile: () => void;
+}
+
+const ProfileUser:React.FC<ProfileUserProps> = ({onPressEditProfile}) => {
     return (
         <View style={styles.Container}>
             <View style={styles.AvatarContainer}>
@@ -14,7 +18,7 @@ const ProfileUser = () => {
                     <Image source={require('@/assets/images/nytao.png')} style={styles.AvatarStyle} />
                 </View>
                 <View style={styles.EditProfileContainer}>
-                    <TouchableOpacity style={styles.ButtonEditProfileStyle}>
+                    <TouchableOpacity style={styles.ButtonEditProfileStyle} onPress={onPressEditProfile}>
                         <Text style={styles.EditProfileTextStyle}>Edit profile</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.ButtonShareStyle}>

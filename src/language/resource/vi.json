@@ -1,4 +1,26 @@
 {
   "welcome": "Chào mừng",
-  "hello": "Chào"
+  "hello": "Chào",
+  "Language": "Ngôn ngữ",
+  "Follow and invite friends": "Theo dõi và mời bạn bè",
+  "Notifications": "Thông báo",
+  "Privacy": "Quyền riêng tư",
+  "Account": "Tài khoản",
+  "Help": "Trợ giúp",
+  "About": "Về",
+  "Logout": "Đăng xuất",
+  "Login with Facebook": "Đăng nhập bằng Facebook",
+  "Login with Google": "Đăng nhập bằng Google",
+  "Next": "Tiếp theo",
+  "Back": "Quay lại",
+  "Skip": "Bỏ qua",
+  "Profile": "Hồ sơ",
+  "Customize your VNPIC profile": "Tùy chỉnh hồ sơ VNPIC của bạn",
+  "Name": "Tên",
+  "+ Name": "+ Tên",
+  "Your privacy on VNPIC can be different" : "Quyền riêng tư của bạn trên VNPIC có thể khác nhau",
+  "Public": "Chế độ công khai",
+  "Private": "Chế độ riêng tư",
+  "Anyone on VNPIC can see, share and interact with your content." : "Bất kỳ ai trên VNPIC đều có thể xem, chia sẻ và tương tác với nội dung của bạn.",
+  "Only your approve followers can see and interact with your content." : "Chỉ những người theo dõi bạn đã được phê duyệt mới có thể xem và tương tác với nội dung của bạn."
 }

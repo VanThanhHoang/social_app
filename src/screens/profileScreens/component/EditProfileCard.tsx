@@ -7,9 +7,10 @@ import { launchCamera, launchImageLibrary } from 'react-native-image-picker'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { LoginStackEnum, LoginStackParamList } from '@/navigation/login'
-import { useTranslation } from 'react-i18next'
-
-const ProfileCard = () => {
+import ButtonSwitch from './ButtonSwitch'
+import IconRinged from '@/assets/icons/IconRinged'
+import IconPrivacy from '@/assets/icons/IconPrivacy'
+const EditProfileCard = () => {
     const navigation = useNavigation<NativeStackNavigationProp<LoginStackParamList>>();
     const [selectedImage, setSelectedImage] = useState<string | null | undefined>(null);
     const [userData, setUserData] = useState({});
@@ -115,16 +116,15 @@ const ProfileCard = () => {
             console.log('An error occurred: ', error);
         }
     };
-    const { t} = useTranslation();
 
     return (
         <View style={styles.Container}>
             <View style={styles.NameContainer}>
                 <View style={styles.NameTitleContainer}>
-                    <Text style={styles.NameTitle}>{t('Name')}</Text>
+                    <Text style={styles.NameTitle}>Name</Text>
                     <View style={styles.TextInputContainer}>
                         <FontAwesomeIcon icon={faUser} size={15} color="#000" />
-                        <TextInput placeholder={t("+ Name")} style={styles.TextInputStyle} />
+                        <TextInput placeholder="+ Name" style={styles.TextInputStyle} />
                     </View>
                 </View>
                 <TouchableOpacity style={styles.ButtonCamera} onPress={handleSelectImage}>
@@ -158,11 +158,15 @@ const ProfileCard = () => {
                 </View>
             </View>
             <View style={styles.line}></View>
+            <View>
+                <ButtonSwitch title='Your profile is private'  iconOn={<IconRinged />} iconOff={<IconPrivacy />}/>
+            </View>
+            
         </View>
     )
 }
 
-export default ProfileCard
+export default EditProfileCard
 
 const styles = StyleSheet.create({
     image: {

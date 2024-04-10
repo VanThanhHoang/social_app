@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import AllScreen from './AllScreen';
 import MentionsScreen from './MentionsScreen';
@@ -26,8 +26,16 @@ const Notification = () => {
           tabBarLabelStyle: styles.tabLabel,
           tabBarIndicatorStyle: {backgroundColor: '#5E4EA0'},
         }}>
-        <Tab.Screen name="All" component={AllScreen} />
-        <Tab.Screen name="Mentions" component={MentionsScreen} />
+        <Tab.Screen
+          name="All"
+          component={AllScreen}
+          options={{tabBarLabel: 'All'}}
+        />
+        <Tab.Screen
+          name="Mentions"
+          component={MentionsScreen}
+          options={{tabBarLabel: 'Mentions'}}
+        />
       </Tab.Navigator>
     </SafeAreaView>
   );

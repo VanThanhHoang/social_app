@@ -7,7 +7,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { LoginStackParamList } from '@/navigation/login'
 
 const EditBioScreen = () => {
-  const navigation = useNavigation<NativeStackNavigationProp<LoginStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
     const goBack = () => {
         navigation.goBack();
     }
