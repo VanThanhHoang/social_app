@@ -28,7 +28,7 @@ interface DataItem {
   title: string;
   description: string;
   tag?: string;
-  image: ImageSourcePropType;
+  image: String[];
   star: number;
   comment: number;
   share: number;
@@ -41,7 +41,7 @@ const data: DataItem[] = [
     title: "Messi",
     description: "Una cosa que siempre me da buenas sensaciones… arrancar la nueva temporada con mis nuevos botines. Vamos @adidasfootball 👟💪",
     tag: "adidasfootball",
-    image: images.messi,
+    image: ["https://raw.githubusercontent.com/VanThanhHoang/social_app/main/src/assets/images/messi.png"],
     star: 15700,
     comment: 9696,
     share: 500,
@@ -52,7 +52,7 @@ const data: DataItem[] = [
     title: "Cristiano Ronaldo",
     description: "Until the very end! 👊 We keep going, no stopping!",
     tag: "CR7 🚀🚀🚀🚀🚀",
-    image: images.cr7,
+    image: ["https://raw.githubusercontent.com/VanThanhHoang/social_app/main/src/assets/images/cr7.png"],
     star: 34060,
     comment: 10000,
     share: 6000,
@@ -63,7 +63,7 @@ const data: DataItem[] = [
     title: "Mercedes",
     description: "Test",
     tag: "",
-    image: "",
+    image: [],
     star: 1060,
     comment: 100,
     share: 50,
@@ -74,7 +74,7 @@ const data: DataItem[] = [
     title: "Mercedes",
     description: "Introducing the new G63 model",
     tag: "Mercedes",
-    image: images.xe,
+    image: ["https://raw.githubusercontent.com/VanThanhHoang/social_app/main/src/assets/images/xe.png"],
     star: 1060,
     comment: 100,
     share: 50,
@@ -85,7 +85,7 @@ const data: DataItem[] = [
     title: "Nike",
     description: "Tell us how you style your Nike Acronym. Full techwear? Mix and match? Let us know 👀",
     tag: "Nike",
-    image: images.avatar3,
+    image: ["https://raw.githubusercontent.com/VanThanhHoang/social_app/main/src/assets/images/avatar3.png"],
     star: 800,
     comment: 400,
     share: 40,
@@ -95,7 +95,7 @@ const data: DataItem[] = [
     hour: "2h",
     title: "pewdiepie",
     description: "Green flag to those people who updates you because they know how you over thinking while waiting for them",
-    image: images.avatar2,
+    image: ["https://raw.githubusercontent.com/VanThanhHoang/social_app/main/src/assets/images/avatar2.png"],
     star: 1060,
     comment: 100,
     share: 50,
@@ -106,12 +106,13 @@ const data: DataItem[] = [
     title: "Capypara",
     description: "Capypara swimming is so cute 🥰🥰🥰🥰",
     tag: "Puma #capypara #cuteduchua #animal",
-    image: images.avatar4,
+    image: ["https://raw.githubusercontent.com/VanThanhHoang/social_app/main/src/assets/images/avatar4.png", "https://raw.githubusercontent.com/VanThanhHoang/social_app/main/src/assets/images/avatar3.png", "https://raw.githubusercontent.com/VanThanhHoang/social_app/main/src/assets/images/avatar2.png"],
     star: 1809,
     comment: 600,
     share: 40,
   },
 ]
+
 const HomeScreen = () => {
   const [check, setcheck] = useState<number>(1);
   const [ischeck, setischeck] = useState<boolean>(false)
@@ -172,39 +173,39 @@ const HomeScreen = () => {
     bottomSheet.current?.close();
     setIsBottomSheetOpen(false)
     CustumToast({ type: "success", message: (
-      <Text>
-        {t("You have Mute ")}
-        <Text style={{fontWeight:"bold"}}>
-          {title}
+        <Text>
+          {t("You have Mute ")}
+          <Text style={{fontWeight:"bold"}}>
+            {title}
+          </Text>
         </Text>
-      </Text>
-    ) });
+      ) });
   }
   const handleFollow = (title: string) => {
     setischeck(true);
     bottomSheet.current?.close();
     setIsBottomSheetOpen(false);
     CustumToast({ type: "success", message: (
-      <Text>
-        {t("You have Fllow ")}
-        <Text style={{fontWeight:"bold"}}>
-          {title}
+        <Text>
+          {t("You have Fllow ")}
+          <Text style={{fontWeight:"bold"}}>
+            {title}
+          </Text>
         </Text>
-      </Text>
-    ) });
+      ) });
   }
   const handleHide = (title: string) => {
     setischeck(true);
     bottomSheet.current?.close();
     setIsBottomSheetOpen(false);
     CustumToast({ type: "success", message: (
-      <Text>
-        {t("You have Hide ")}
-        <Text style={{fontWeight:"bold"}}>
-          {title}
+        <Text>
+          {t("You have Hide ")}
+          <Text style={{fontWeight:"bold"}}>
+            {title}
+          </Text>
         </Text>
-      </Text>
-    )});
+      )});
   }
   const handleBlock = (title: string, logo: ImageSourcePropType | null) => {
     setischeck(true);

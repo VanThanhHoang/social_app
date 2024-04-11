@@ -23,6 +23,7 @@ import {useNavigation} from '@react-navigation/native';
 import {HomeStackNames} from '@/navigation/HomeNavigator/config';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {HomeStackParamList} from '@/navigation/HomeNavigator/config';
+import ListImageContent from "@/screens/home/components/ListImageContent";
 
 interface CardViewProps {
   avatar: ImageSourcePropType;
@@ -30,7 +31,7 @@ interface CardViewProps {
   title: string;
   description: string;
   tag?: string;
-  image: ImageSourcePropType | {uri: String} | any;
+  image: String[];
   star: number;
   comment: number;
   share: number;
@@ -114,15 +115,18 @@ const CardView: React.FC<CardViewProps> = ({...props}) => {
         {props.tag ? `#${props.tag}` : <View style={{height: 0}} />}
       </Text>
       {/* <Image style={{ width: imageWidth, height: imgHeight, borderRadius: 20,resizeMode:"cover" }} source={props.image} /> */}
-      {props.image ? (
+      {props.image.length===1 ? (
         <AutoHeightImage
           style={styles.avatar}
           width={370}
-          source={props.image}
+          source={{uri: props.image[0].toString()}}
         />
-      ) : (
-        <View style={{height: 0}} />
-      )}
+      ): props.image.length>1?
+        (
+          <ListImageContent medias={props.image}/>
+        ): (
+          <View style={{height: 0}} />
+        )}
 
       <View style={styles.containerAction}>
         <TouchableOpacity onPress={handleLike}>
