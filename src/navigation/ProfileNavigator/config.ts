@@ -2,13 +2,23 @@ import AccountScreen from "@/screens/profileScreens/AccountScreen";
 import PrivacyScreen from "@/screens/profileScreens/PrivacyScreen";
 import ProfileScreen from "@/screens/profileScreens/ProfileScreen";
 import Setting from "@/screens/profileScreens/Setting";
+import FollowAndFriendsScreen from "@/screens/profileScreens/FollowAndFriendsScreen";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import NotificationScreen from "@/screens/profileScreens/NotificationScreen";
+import HelpScreen from "@/screens/profileScreens/HelpScreen";
+import AboutSreen from "@/screens/profileScreens/AboutSreen";
+import EditProfileScreen from "@/screens/profileScreens/EditProfileScreen";
 
 export enum ProfileStackNames {
     Profile = "ProfileScreen",
     Setting = "Setting",
     Account = "AccountScreen",
     Privacy = "PrivacyScreen",
+    FollowAndFriends = "FollowAndFriendsScreen",
+    Notification = "NotificationScreen",
+    Help = "HelpScreen",
+    About = "AboutSreen",
+    EditProfile = "EditProfileScreen"
 }
 
 export type ProfileStackParamList = {
@@ -16,6 +26,11 @@ export type ProfileStackParamList = {
     [ProfileStackNames.Setting]: undefined;
     [ProfileStackNames.Account]: undefined;
     [ProfileStackNames.Privacy]: undefined;
+    [ProfileStackNames.FollowAndFriends]: undefined;
+    [ProfileStackNames.Notification]: undefined;
+    [ProfileStackNames.Help]: undefined;
+    [ProfileStackNames.About]: undefined;
+    [ProfileStackNames.EditProfile]: undefined;
 };
 
 interface StackProps {
@@ -43,6 +58,31 @@ export const ProfileStacks: StackProps[] = [
     {
         name: ProfileStackNames.Privacy,
         component: PrivacyScreen,
+        options: {}
+    },
+    {
+        name: ProfileStackNames.FollowAndFriends,
+        component: FollowAndFriendsScreen,
+        options: {}
+    },
+    {
+        name: ProfileStackNames.Notification,
+        component: NotificationScreen,
+        options: {}
+    },
+    {
+        name: ProfileStackNames.Help,
+        component: HelpScreen,
+        options: {}
+    },
+    {
+        name: ProfileStackNames.About,
+        component: AboutSreen,
+        options: {}
+    },
+    {
+        name: ProfileStackNames.EditProfile,
+        component: EditProfileScreen,
         options: {}
     }
 ];

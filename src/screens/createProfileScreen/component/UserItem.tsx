@@ -9,13 +9,12 @@ interface UserItemProps {
     fullName: string,
     icontick?: boolean,
     // avatar: ImageProps,
-     followingStatus: string,
-     onPress?: () => void
+    followingStatus: string,
+    onPress?: () => void
 }
 
 const UserItem:React.FC<UserItemProps> = ({nameUser, fullName, icontick,followingStatus, onPress }) => {
-    const {t} = useTranslation();
-    const textColor = followingStatus === t('Follow') ? '#000' : '#C8C8C8' ; 
+    const textColor = followingStatus === 'Follow' ? '#000' : '#C8C8C8';
   return (
     <View style = {styles.Container}>
       <Image style = {styles.ImageAvatar} source={require('@/assets/images/nytao.png')} />
@@ -38,27 +37,32 @@ const UserItem:React.FC<UserItemProps> = ({nameUser, fullName, icontick,followin
 export default UserItem
 
 const styles = StyleSheet.create({
-    TextFollow:{
+    UserNameContainer:{
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    TextFollow: {
         fontSize: 14,
         fontFamily: 'Roboto',
         fontWeight: '700',
         paddingVertical: 4,
     },
-    FullNameText:{
+    FullNameText: {
         fontSize: 16,
         fontFamily: 'Roboto',
         fontWeight: '400',
         color: '#767676',
         marginTop: 4,
     },
-    NameText:{
+    NameText: {
         fontSize: 16,
         fontFamily: 'Roboto',
         fontWeight: '700',
         color: '#2C2B2B',
         marginRight: 8,
     },
-    ButtonFollow:{
+    ButtonFollow: {
         alignItems: 'center',
         width: 100,
         justifyContent: 'center',
@@ -69,15 +73,15 @@ const styles = StyleSheet.create({
     },
     FullNameContainer:{
         marginLeft:12,
-        width: '58%',
+        width: '61%',
         
     },
-    NameContainer:{
+    NameContainer: {
         flexDirection: 'row',
         alignItems: 'center',
 
     },
-    Container:{
+    Container: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -87,6 +91,6 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
         borderRadius: 60,
-        
+
     },
 })

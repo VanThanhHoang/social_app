@@ -9,7 +9,11 @@ import StarIcon from '@/assets/icons/StarIcon';
 import ProfileIcon from '@/assets/icons/ProfileIcon';
 import ProfileScreen from '@/screens/profileScreens/ProfileScreen';
 import ProfileNavigator from '../ProfileNavigator';
+<<<<<<< Updated upstream
 import Notification from '@/screens/Notification/NotificationScreen';
+=======
+import SearchScreen from '@/screens/searchScreen/SearchScreen';
+>>>>>>> Stashed changes
 const Tab = createBottomTabNavigator();
 type BottomTabProps = {
   icon: (props: SvgProps) => React.JSX.Element;
@@ -25,7 +29,7 @@ const BottomTabs: BottomTabProps[] = [
   {
     icon: SearchIcon,
     name: 'Search',
-    component: LoginScreen,
+    component: SearchScreen,
   },
   {
     icon: PostIcon,
@@ -52,6 +56,7 @@ function AppBottomTab() {
         headerShown: false,
         tabBarActiveTintColor: '#5E4EA0',
         tabBarInactiveTintColor: '#C8C8C8',
+        tabBarHideOnKeyboard: true,
       }}>
       {BottomTabs.map((tab, index) => (
         <Tab.Screen

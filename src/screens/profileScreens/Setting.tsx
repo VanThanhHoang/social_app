@@ -25,13 +25,13 @@ const dataOptionSetting = [
         id: 1,
         title: 'Follow and invite friends',
         icon: <IconFollow />,
-        screenName: "AccountScreen"
+        screenName: "FollowAndFriendsScreen"
     },
     {
         id: 2,
         title: 'Notification',
         icon: <IconNotification />,
-        screenName: "AccountScreen"
+        screenName: "NotificationScreen"
     },
     {
         id: 3,
@@ -43,19 +43,19 @@ const dataOptionSetting = [
         id: 4,
         title: 'Account',
         icon: <IconAccount />,
-        screenName: "PrivacyScreen"
+        screenName: "AccountScreen"
     },
     {
         id: 5,
         title: 'Help',
         icon: <IconHelp />,
-        screenName: "PrivacyScreen"
+        screenName: "HelpScreen"
     },
     {
         id: 6,
         title: 'About',
         icon: <IconAbout />,
-        screenName: "ProfileScreen"
+        screenName: "AboutSreen"
     },
 ]
 

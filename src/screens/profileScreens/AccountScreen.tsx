@@ -12,8 +12,7 @@ const AccountScreen = () => {
     const [checked, setChecked] = useState('10minutes');
     return (
         <View style={styles.Container}>
-            <HeaderBar title='Privacy' />
-            <ButtonSwitch title='Your profile is private' iconOn={<IconRinged />} iconOff={<IconPrivacy />} />
+            <HeaderBar title='Account' />
             <View style={styles.OptionContainer}>
                 <Text style={styles.TextStyle1}>Get a reminder to take a break</Text>
                 <View style={styles.LineStyle}></View>
@@ -106,5 +105,6 @@ const styles = StyleSheet.create({
     },
     Container: {
         flex: 1,
+        backgroundColor: '#fff',
     },
 })
