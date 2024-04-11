@@ -5,23 +5,25 @@ interface HeaderBarEditBioProps {
     backProfile: string,
     title: string,
     done: string,
-    onPress?: () => void
+    onPressBack?: () => void,
+    onPressDone?: () => void,
 }
 
 const HeaderBarEditBioProps: React.FC<HeaderBarEditBioProps> =  ({
     backProfile,
     title,
     done,
-    onPress
+    onPressBack,
+    onPressDone
 }) => {
     return (
         <View style={styles.Container}>
             <View style={styles.HeaderBar}>
-                <TouchableOpacity onPress={onPress}>
+                <TouchableOpacity onPress={onPressBack}>
                     <Text style={styles.TitleCancel}>{backProfile}</Text>
                 </TouchableOpacity>
                 <Text style={styles.EditBio}>{title}</Text>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={onPressDone}>
                     <Text style={styles.Done}>{done}</Text>
                 </TouchableOpacity>
             </View>

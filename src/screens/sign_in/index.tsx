@@ -1,9 +1,9 @@
-import {SafeAreaView, StyleSheet, Text,TouchableOpacity, View} from "react-native";
-import React, {useEffect} from "react";
-import {useTranslation} from "react-i18next";
-import {useAppDispatch, useAppSelector} from "@/redux/store"; 
-import {useLogger} from "@/utils";
-import {fetchUserById} from "@/redux/action";
+import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { AppDispatch, useAppDispatch, useAppSelector } from "@/redux/store";
+import { useLogger } from "@/utils";
+import { fetchUserById } from "@/redux/action";
 import { signInWithGoole } from "./components/sign_in_google";
 import HomeIcon from "@/assets/icons/HomeIcon";
 import LinearGradient from "react-native-linear-gradient";
@@ -12,43 +12,46 @@ import IconFacebook from "@/assets/icons/IconFacebook";
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { LoginStackParamList, LoginStackEnum } from '@/navigation/login';
-
+import { userInfoSelector } from "@/redux/test/userStore";  
 
 const LoginScreen = () => {
     const navigation = useNavigation<NativeStackNavigationProp<LoginStackParamList>>();
-    const dispatch = useAppDispatch();
-    const {isLoading} = useAppSelector(state => state.app);
-        useEffect(() => {
+    const dispatch: AppDispatch = useAppDispatch();
+    const { isLoading } = useAppSelector(state => state.app);
+    const user = useAppSelector(userInfoSelector);
+    console.log(user, "user");
+    useEffect(() => {
         dispatch(fetchUserById(123))
     }, []);
-    const {t} = useTranslation()
-    
+    const { t } = useTranslation()
     return <View style={styles.LoginContainer}>
-    <View style={styles.TitleContainer}>
-        <LinearGradient colors={['#5E4EA0', '#E693BF', ]} style={styles.gradient}>
-            <Text style={styles.titleStyle}>Everyone loves <Text style={{ color: '#E693BF' }}>VNPIC</Text>.</Text>
-        </LinearGradient>
-    </View>
-    <View style = {styles.ButtonLoginContainer}>
-        <TouchableOpacity style = {styles.ButtonLogin} onPress={signInWithGoole}>
-            <Text style = {styles.ButtonLoginTitle}>{t('Login with Google')}</Text>
-            <IconGoogle />
-        </TouchableOpacity>
-        <TouchableOpacity style = {styles.ButtonLogin} onPress={() => navigation.navigate(LoginStackEnum.CreateProfileScreen)}>
-            <Text style = {styles.ButtonLoginTitle}>{t('Login with Facebook')}</Text>
-            <IconFacebook />
-        </TouchableOpacity>
-    </View>
-</View>;
+        <View style={styles.TitleContainer}>
+            <LinearGradient colors={['#5E4EA0', '#E693BF',]} style={styles.gradient}>
+                <Text style={styles.titleStyle}>Everyone loves <Text style={{ color: '#E693BF' }}>VNPIC</Text>.</Text>
+            </LinearGradient>
+        </View>
+        <View style={styles.ButtonLoginContainer}>
+            <TouchableOpacity style={styles.ButtonLogin}
+                onPress={() => signInWithGoole(navigation, dispatch)}
+            >
+                <Text style={styles.ButtonLoginTitle}>{t('Login with Google')}</Text>
+                <IconGoogle />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.ButtonLogin} onPress={() => navigation.navigate(LoginStackEnum.CreateProfileScreen)}>
+                <Text style={styles.ButtonLoginTitle}>{t('Login with Facebook')}</Text>
+                <IconFacebook />
+            </TouchableOpacity>
+        </View>
+    </View>;
 }
 const styles = StyleSheet.create({
-    ButtonLoginTitle:{
+    ButtonLoginTitle: {
         fontSize: 14,
         fontFamily: 'Roboto',
         color: 'black',
         fontWeight: '400',
     },
-    ButtonLogin:{
+    ButtonLogin: {
         borderRadius: 10,
         borderWidth: 1,
         borderColor: '#C9C9C9',
@@ -61,10 +64,10 @@ const styles = StyleSheet.create({
         marginHorizontal: 16,
         marginVertical: 10,
     },
-    ButtonLoginContainer:{
+    ButtonLoginContainer: {
         marginTop: 150,
     },
-    titleStyle:{
+    titleStyle: {
         fontSize: 36,
         fontFamily: 'Roboto',
         color: 'white',

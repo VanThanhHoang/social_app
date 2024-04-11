@@ -1,28 +1,31 @@
 import axios from 'axios';
-import {BASE_URL} from "@env"
-console.log(BASE_URL)
+import { localStorage } from '@/utils';
+
 const AxiosInstance = (contentType = 'application/json') => {
-  const axiosInstance = axios.create({
-    baseURL:`${BASE_URL}/api/`,
-  });
-  // config request
-  axiosInstance.interceptors.request.use(
-    async (config) => {
-      // getToken here
-      // const token = await AsyncStorage.getItem('token');
-      config.headers['Authorization'] = `Bearer ${''}`;
-      config.headers['Accept'] = 'application/json';
-      config.headers['Content-Type'] = contentType;
-      return config;
-    },
-    err => Promise.reject(err)
-  );
-  // handle response
-  axiosInstance.interceptors.response.use(
-    res => res.data,
-    err => Promise.reject(err)
-  );
-  return axiosInstance;
+  const BASE_URL = 'https://sever-social-media-app.onrender.com/';
+    const axiosInstance = axios.create({
+        baseURL: BASE_URL,
+        timeout: 10000, // có tác dụng khi gọi api lâu quá thì sẽ báo lỗi 
+    });
+
+    axiosInstance.interceptors.request.use(
+        async (config: any) => {
+            const token = localStorage.getString('token');
+            config.headers = {
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json',
+                'Content-Type': contentType
+            }
+            return config;
+        },
+        err => Promise.reject(err)
+    );
+
+    axiosInstance.interceptors.response.use(
+        res => res.data,
+        err => Promise.reject(err)
+    );
+    return axiosInstance;
 };
 
 export default AxiosInstance;

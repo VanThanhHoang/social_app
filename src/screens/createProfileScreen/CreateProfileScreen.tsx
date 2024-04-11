@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 import ProfileCard from '@/screens/createProfileScreen/component/ProfileCard'
@@ -13,10 +13,13 @@ import { useTranslation } from 'react-i18next'
 
 const CreateProfileScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<LoginStackParamList>>();
+
   const { t } = useTranslation()
   const goNext = () => {
     navigation.navigate(LoginStackEnum.PrivacyProfileScreen)
   }
+  
+
   return (
     <View style={styles.CreateProfileContainer}>
       <View>
@@ -28,7 +31,7 @@ const CreateProfileScreen = () => {
             style={styles.TitleProfile}>{t('Profile')}</Text>
           <Text style={styles.TitleProfileCustomize}>{t('Customize your VNPIC profile')}</Text>
         </View>
-        <ProfileCard />
+        <ProfileCard/>
       </View>
       <View>
         <ButtonBottom title={t('Next')} backgroundColor='#5E4EA0' color='#FFFFFF' onPress={goNext}/>

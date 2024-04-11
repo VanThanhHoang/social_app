@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, Platform, PermissionsAndroid, Alert, Image, } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
 import { faCamera } from '@fortawesome/free-solid-svg-icons'
@@ -8,10 +8,20 @@ import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { LoginStackEnum, LoginStackParamList } from '@/navigation/login'
 import { useTranslation } from 'react-i18next'
+import { useAppSelector } from '@/redux/store'
+import { userInfoSelector } from '@/redux/test/userStore'
+import AxiosInstance from '@/network/axiosInstance'
+
+const axios = AxiosInstance();
+
+
+
 
 const ProfileCard = () => {
     const navigation = useNavigation<NativeStackNavigationProp<LoginStackParamList>>();
     const [selectedImage, setSelectedImage] = useState<string | null | undefined>(null);
+    const [fullName, setFullName] = useState('');
+    const [avatar, setAvatar] = useState('');
     const [userData, setUserData] = useState({});
     const requestCameraPermission = async () => {
         if (Platform.OS === 'android') {
@@ -81,7 +91,11 @@ const ProfileCard = () => {
                 console.log('Image picker error: ', response.errorMessage);
             } else {
                 const imageUri = response.assets && response.assets[0].uri;
-                setSelectedImage(imageUri);
+                if (imageUri) {
+                    const uploadImageUri = await uploadImage(imageUri);
+                    console.log(uploadImageUri, "uploadImageUri");
+                    setSelectedImage(uploadImageUri);
+                }
             }
         } catch (error) {
             console.log('An error occurred: ', error);
@@ -109,14 +123,68 @@ const ProfileCard = () => {
                 console.log('Camera Error: ', response.errorMessage);
             } else {
                 const imageUri = response.assets && response.assets[0].uri;
-                setSelectedImage(imageUri);
+                if (imageUri) {
+                    const uploadImageUri = await uploadImage(imageUri);
+                    console.log(uploadImageUri, "uploadImageUri");
+                    setSelectedImage(uploadImageUri);
+                }
+                
             }
         } catch (error) {
             console.log('An error occurred: ', error);
         }
     };
+    const uploadImage = async (imageUri: string) => {
+        const formData = new FormData();
+        formData.append('filename', {
+            uri: imageUri,
+            type: 'image/jpeg', // Hoặc type khác tùy vào định dạng ảnh của bạn
+            name: 'image',
+        });
+    
+        try {
+            const response = await axios.post('upload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+    
+            // Kiểm tra nếu upload thành công
+            if (response.data.status === 200) {
+                console.log("Upload success", response.data);
+                return response.data.data.link; // Trả về link ảnh
+            } else {
+                console.log("Upload failed", { ...response});
+                console.log("Upload failedádasdasdasda");
+                return null;
+            }
+        } catch (error) {
+            console.error("Error uploading image", JSON.stringify(error));
+            console.log("Upload failedádasdasdasda");
+            return null;
+        }
+    };
     const { t} = useTranslation();
-
+    const [bio, setBio] = useState('');
+    const [link, setLink] = useState('');
+    const openEditBioScreen = () => {
+        navigation.navigate(LoginStackEnum.EditBioScreen, {
+            onSaveBio: (newBio: string) => setBio(newBio),
+        });
+      };
+      const openEditLinkScreen = () => {
+        navigation.navigate(LoginStackEnum.EditLinkScreen, {
+            onSaveLink: (newLink: string) => setLink(newLink),
+        });
+      };
+      const userInfo = useAppSelector(userInfoSelector)
+    useEffect(() => {
+        if (userInfo) {
+            setFullName(userInfo.fullName);
+            setSelectedImage(userInfo.avatar);
+          }
+    }, [userInfo]);
+    console.log(selectedImage, "selectedImage");
     return (
         <View style={styles.Container}>
             <View style={styles.NameContainer}>
@@ -124,7 +192,7 @@ const ProfileCard = () => {
                     <Text style={styles.NameTitle}>{t('Name')}</Text>
                     <View style={styles.TextInputContainer}>
                         <FontAwesomeIcon icon={faUser} size={15} color="#000" />
-                        <TextInput placeholder={t("+ Name")} style={styles.TextInputStyle} />
+                        <TextInput placeholder={t("+ Name")} style={styles.TextInputStyle} value={fullName} onChangeText={setFullName} />
                     </View>
                 </View>
                 <TouchableOpacity style={styles.ButtonCamera} onPress={handleSelectImage}>
@@ -142,18 +210,18 @@ const ProfileCard = () => {
             <View style={styles.line}></View>
             <View style={styles.NameContainer}>
                 <View style={styles.NameTitleContainer}>
-                    <TouchableOpacity onPress={() => navigation.navigate(LoginStackEnum.EditBioScreen)}>
+                    <TouchableOpacity onPress={openEditBioScreen}>
                         <Text style={styles.NameTitle}>Bio</Text>
-                        <TextInput placeholder="+ Bio" style={styles.TextInputStyle}  editable = {false}/>
+                        <TextInput placeholder="+ Bio" style={styles.TextInputStyle} value={bio}  editable = {false}/>
                     </TouchableOpacity>
                 </View>
             </View>
             <View style={styles.line}></View>
             <View style={styles.NameContainer}>
                 <View style={styles.NameTitleContainer}>
-                <TouchableOpacity onPress={() => navigation.navigate(LoginStackEnum.EditLinkScreen)}>
+                <TouchableOpacity onPress={openEditLinkScreen}>
                     <Text style={styles.NameTitle}>Link</Text>
-                    <TextInput placeholder="+ Link" style={styles.TextInputStyle} editable = {false}/>
+                    <TextInput placeholder="+ Link" style={styles.TextInputStyle} value={link} editable = {false}/>
                     </TouchableOpacity>
                 </View>
             </View>

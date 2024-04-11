@@ -5,13 +5,15 @@ import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { text } from '@fortawesome/fontawesome-svg-core';
 interface BioCardProps {
     title: string
-    placeholder: string
+    placeholder: string,
+    value: string;
+    onChangeText: (text: string) => void;
 }
 
-const BioCard: React.FC<BioCardProps> = ({title, placeholder}) => {
+const BioCard: React.FC<BioCardProps> = ({title, placeholder, value, onChangeText}) => {
     const [numberText, setNumberText] = useState('');
     const ClearText = () => {
-        setNumberText('');
+        onChangeText('');
     }
     const handleTextChange = (text:string) => {
         const MAX_CHARS_PER_LINE = 230; // Giới hạn số ký tự trên mỗi dòng
@@ -25,6 +27,7 @@ const BioCard: React.FC<BioCardProps> = ({title, placeholder}) => {
         }).join('\n');
     
         setNumberText(newText);
+        onChangeText(newText);
       };
   return (
     <View style = {styles.Container}>

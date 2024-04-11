@@ -26,13 +26,10 @@ const CustomSwitch: React.FC<CustomSwitchProps> = ({textOn, textOff, iconOn, ico
     }
 
     const toggleSwitch = () => {
-<<<<<<< Updated upstream
         handleChangeLanguage();
         setIsEnabled(previousState => !previousState);
-=======
         const newState = !isEnabled; // Lưu trạng thái mới vào biến tạm
         setIsEnabled(newState); // Cập nhật trạng thái isEnabled
->>>>>>> Stashed changes
         Animated.timing(animatedValue, {
             toValue: isEnabled ? 0 : 1,
             duration: 250,

@@ -27,8 +27,8 @@ export enum LoginStackEnum {
 export type LoginStackParamList = {
     [LoginStackEnum.Login]: undefined;
     [LoginStackEnum.CreateProfileScreen]: undefined;
-    [LoginStackEnum.EditBioScreen]: undefined;
-    [LoginStackEnum.EditLinkScreen]: undefined;
+    [LoginStackEnum.EditBioScreen]: {onSaveBio?: (newBio: string) => void};
+    [LoginStackEnum.EditLinkScreen]: {onSaveLink?: (newLink: string) => void};
     [LoginStackEnum.PrivacyProfileScreen]: undefined;
     [LoginStackEnum.FollowAccountScreen]: undefined;
     [LoginStackEnum.JoinVerses]: undefined;

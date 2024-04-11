@@ -20,7 +20,8 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { HomeStackParamList, HomeStackNames } from '@/navigation/HomeNavigator/config'
 import { RootStackParamList, AppStackNames } from '@/navigation/config'
-
+import { useAppSelector } from '@/redux/store'
+import { userInfoSelector } from '@/redux/test/userStore'
 
 interface DataItem {
   avatar: ImageSourcePropType;
@@ -113,6 +114,8 @@ const data: DataItem[] = [
   },
 ]
 const HomeScreen = () => {
+  const userInfo = useAppSelector(userInfoSelector)
+  console.log(userInfo)
   const [check, setcheck] = useState<number>(1);
   const [ischeck, setischeck] = useState<boolean>(false)
   const bottomSheetRef = useRef<BottomSheet>(null);
