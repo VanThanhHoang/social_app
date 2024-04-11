@@ -4,7 +4,7 @@ import Toast from 'react-native-toast-message';
 
 interface CustomToastProps {
     type : "success" | "error",
-    message : string
+    message : any
 }
 
 const CustomToast = ({ type, message }: CustomToastProps) => {

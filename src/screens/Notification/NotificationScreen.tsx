@@ -10,15 +10,17 @@ import {
   StatusBar,
   ScrollView,
 } from 'react-native';
+import {useTranslation} from 'react-i18next';
 
 const Tab = createMaterialTopTabNavigator();
 
 const Notification = () => {
+  const {t} = useTranslation();
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
       <View style={styles.header}>
-        <Text style={styles.text}>Notification</Text>
+        <Text style={styles.text}>{t('Notification')}</Text>
       </View>
       <Tab.Navigator
         screenOptions={{
@@ -29,12 +31,12 @@ const Notification = () => {
         <Tab.Screen
           name="All"
           component={AllScreen}
-          options={{tabBarLabel: 'All'}}
+          options={{tabBarLabel: t('All')}}
         />
         <Tab.Screen
           name="Mentions"
           component={MentionsScreen}
-          options={{tabBarLabel: 'Mentions'}}
+          options={{tabBarLabel: t('Mentions')}}
         />
       </Tab.Navigator>
     </SafeAreaView>

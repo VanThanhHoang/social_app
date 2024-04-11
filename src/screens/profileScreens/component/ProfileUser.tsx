@@ -4,8 +4,10 @@ import IconShare from '@/assets/icons/IconShare'
 import Icontick from '@/assets/icons/Icontick'
 import IconLink from '@/assets/icons/IconLink'
 import IconStar from '@/assets/icons/IconStar'
+import { useTranslation } from 'react-i18next'
 
 const ProfileUser = () => {
+    const {t} = useTranslation();
     return (
         <View style={styles.Container}>
             <View style={styles.AvatarContainer}>
@@ -15,7 +17,7 @@ const ProfileUser = () => {
                 </View>
                 <View style={styles.EditProfileContainer}>
                     <TouchableOpacity style={styles.ButtonEditProfileStyle}>
-                        <Text style={styles.EditProfileTextStyle}>Edit profile</Text>
+                        <Text style={styles.EditProfileTextStyle}>{t('Edit profile')}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.ButtonShareStyle}>
                         <IconShare />
@@ -37,13 +39,13 @@ const ProfileUser = () => {
             </View>
             <View style={styles.FollowerContainer}>
                 <View style={styles.FollowerItemContainer}>
-                    <Text style={styles.FollowQuantity}>1.5M</Text>
-                    <Text style={styles.FollowTextStyle}>followers</Text>
+                    <Text style={styles.FollowQuantity}>1.5M </Text>
+                    <Text style={styles.FollowTextStyle}>{t('followers')}</Text>
                 </View>
                 <IconStar style={styles.IconStarStyle} />
                 <View style={styles.FollowerItemContainer}>
-                    <Text style={styles.FollowQuantity}>1.5M</Text>
-                    <Text style={styles.FollowTextStyle}>following</Text>
+                    <Text style={styles.FollowQuantity}>1.5M </Text>
+                    <Text style={styles.FollowTextStyle}>{t('Following')}</Text>
                 </View>
             </View>
             <View style={styles.PeopleFollowerContainer}>

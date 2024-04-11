@@ -1,15 +1,17 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {colors} from '@/theme';
+import {useTranslation} from 'react-i18next';
 
 const AppBar = () => {
+  const {t}  = useTranslation();
   return (
     <View style={styles.appBar}>
       <TouchableOpacity>
-        <Text style={styles.cancelForeground}>Cancel</Text>
+        <Text style={styles.cancelForeground}>{t('Cancel')}</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.postBackground}>
-        <Text style={styles.postForeground}>Post</Text>
+        <Text style={styles.postForeground}>{t('Post')}</Text>
       </TouchableOpacity>
     </View>
   );

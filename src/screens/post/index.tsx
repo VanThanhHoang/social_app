@@ -11,6 +11,7 @@ import ListMediaContent from '@/screens/post/components/listMediaContent';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import BottomSheet from "@gorhom/bottom-sheet";
 import { icons } from "@/assets";
+import { useTranslation } from 'react-i18next';
 
 const PostScreen = () => {
   const [medias, setMedias] = useState<Array<ImageOrVideo>>([]);
@@ -19,6 +20,7 @@ const PostScreen = () => {
   const snapPoints = useMemo(() => [ '40%'], []);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
   const [audienceType, setAudienceType] = useState<number>(0);
+  const { t} = useTranslation();
 
   const toggleBottomSheet = () => {
     if (isBottomSheetOpen) {
@@ -68,9 +70,9 @@ const PostScreen = () => {
               setIsBottomSheetOpen(index !== -1);
             }}>
             <View style={styles.bottomSheetContainer}>
-              <Text style={styles.text}>Who can reply?</Text>
+              <Text style={styles.text}>{t('Who can reply?')}</Text>
               <Text style={{marginTop: 12, fontSize: 16, fontWeight: '400'}}>
-                Pick who can reply to this post
+                {t('Pick who can reply to this post')}
               </Text>
               <View
                 style={{
@@ -86,7 +88,7 @@ const PostScreen = () => {
                 style={{flexDirection: 'row', marginTop: 28, justifyContent: 'space-between'}}>
                 <View style={{flexDirection: 'row'}}>
                   <Image style={{width: 34, height: 24}} source={icons.planet} />
-                  <Text style={styles.textWorl}>Worldwide</Text>
+                  <Text style={styles.textWorl}>{t('Worldwide')}</Text>
                 </View>
                 <TouchableOpacity>
                   <View style={styles.radio}>
@@ -101,7 +103,7 @@ const PostScreen = () => {
                 style={{flexDirection: 'row', marginTop: 20, justifyContent: 'space-between'}}>
                 <View style={{flexDirection: 'row'}}>
                   <Image style={{width: 34, height: 24}} source={icons.frame} />
-                  <Text style={styles.textWorl}>Following </Text>
+                  <Text style={styles.textWorl}>{t('Worldwide')} </Text>
                 </View>
                 <TouchableOpacity >
                   <View style={styles.radio}>
@@ -114,7 +116,7 @@ const PostScreen = () => {
                 style={{flexDirection: 'row', marginTop: 20, justifyContent: 'space-between'}}>
                 <View style={{flexDirection: 'row'}}>
                   <Image style={{width: 34, height: 24}} source={icons.ic_tag} />
-                  <Text style={styles.textWorl}>Only people you mention</Text>
+                  <Text style={styles.textWorl}>{t('Only people you mention')}</Text>
                 </View>
                 <TouchableOpacity >
                   <View style={styles.radio}>

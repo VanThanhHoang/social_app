@@ -6,7 +6,9 @@ import TopTabProfile from './component/TopTabProfile';
 import { useNavigation } from '@react-navigation/native';
 import { ProfileNavigatorProps } from '@/navigation/ProfileNavigator/config';
 import { ProfileStackNames, ProfileStackParamList } from '@/navigation/ProfileNavigator/config';
+import { useTranslation } from 'react-i18next';
 const ProfileScreen = () => {
+  const { t } = useTranslation();
   const scrollY = useRef(new Animated.Value(0)).current;
   const navigation = useNavigation<ProfileNavigatorProps>();
   const translateY = scrollY.interpolate({
@@ -24,7 +26,7 @@ const ProfileScreen = () => {
   return (
     <View style={styles.container}>
       <View style={[styles.headerContainer]}>
-        <HeaderProfile   onPressMenu={handlePressMenu} nameTitle="Profile" iconTick={true} />
+        <HeaderProfile   onPressMenu={handlePressMenu} nameTitle={t("Profile")} iconTick={true} />
       </View>
       <View style={{flex:1,}}>
         <Animated.View style={{ transform: [{ translateY }], marginTop: headerHeight }}>

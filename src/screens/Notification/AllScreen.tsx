@@ -8,6 +8,7 @@ import {
   ListRenderItem,
   TouchableOpacity,
 } from 'react-native';
+import {useTranslation} from 'react-i18next';
 
 interface ListItem {
   id: number;
@@ -171,13 +172,13 @@ const AllScreen = () => {
             <TouchableOpacity
               style={styles.buttonWrapper}
               onPress={() => handleConfirm(item)}>
-              <Text style={styles.textButton}>Confirm</Text>
+              <Text style={styles.textButton}>{t('Confirm')}</Text>
             </TouchableOpacity>
             <View style={{width: 10}} />
             <TouchableOpacity
               style={styles.buttonWrapper}
               onPress={() => handleCancel(item)}>
-              <Text style={styles.textButton}>Cancel</Text>
+              <Text style={styles.textButton}>{t('Cancel')}</Text>
             </TouchableOpacity>
           </View>
         ) : item.type === 2 ? (
@@ -186,7 +187,7 @@ const AllScreen = () => {
             <TouchableOpacity
               style={styles.buttonWrapper}
               onPress={() => handleFollow(item)}>
-              <Text style={styles.textButton}>Follow</Text>
+              <Text style={styles.textButton}>{t('Follow')}</Text>
             </TouchableOpacity>
           </View>
         ) : (
@@ -204,6 +205,7 @@ const AllScreen = () => {
       />
     </View>
   );
+  const { t} = useTranslation();
   return (
     <View style={styles.container}>
       <FlatList

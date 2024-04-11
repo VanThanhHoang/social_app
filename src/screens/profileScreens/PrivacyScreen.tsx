@@ -5,19 +5,21 @@ import ButtonSwitch from './component/ButtonSwitch'
 import IconRinged from '@/assets/icons/IconRinged'
 import IconPrivacy from '@/assets/icons/IconPrivacy'
 import { RadioButton } from 'react-native-paper'
+import { useTranslation } from 'react-i18next'
 
 
 const PrivacyScreen = () => {
+  const {t} = useTranslation();
   const [checked, setChecked] = useState('everyone');
   return (
     <View style={styles.Container}>
-      <HeaderBar title='Privacy' />
-      <ButtonSwitch title='Your profile is private' iconOn={<IconRinged />} iconOff={<IconPrivacy />} />
+      <HeaderBar title={t('Privacy')} />
+      <ButtonSwitch title={t('Your profile is private')} iconOn={<IconRinged />} iconOff={<IconPrivacy />} />
       <View style={styles.OptionContainer}>
-        <Text style={styles.TextStyle1}>Allow mentions from</Text>
+        <Text style={styles.TextStyle1}>{t('Allow mentions from')}</Text>
         <View style={styles.LineStyle}></View>
         <View style={styles.TextOptionStyle}>
-          <Text style={styles.TextStyle2}>From everyone</Text>
+          <Text style={styles.TextStyle2}>{t('From everyone')}</Text>
           <RadioButton
             value="everyone"
             status={checked === 'everyone' ? 'checked' : 'unchecked'}
@@ -26,7 +28,7 @@ const PrivacyScreen = () => {
         </View>
         <View style={styles.LineStyle}></View>
         <View style={styles.TextOptionStyle}>
-          <Text style={styles.TextStyle2}>Profiles you follow</Text>
+          <Text style={styles.TextStyle2}>{t('Profiles you follow')}</Text>
           <RadioButton
             value="followed"
             status={checked === 'followed' ? 'checked' : 'unchecked'}
@@ -35,7 +37,7 @@ const PrivacyScreen = () => {
         </View>
         <View style={styles.LineStyle}></View>
         <View style={styles.TextOptionStyle}>
-          <Text style={styles.TextStyle2}>No one</Text>
+          <Text style={styles.TextStyle2}>{t('No one')}</Text>
           <RadioButton
             value="noone"
             status={checked === 'noone' ? 'checked' : 'unchecked'}

@@ -2,9 +2,11 @@ import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-nativ
 import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faMagnifyingGlass, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { useTranslation } from 'react-i18next';
 
 
 const Search = () => {
+    const { t } = useTranslation();
     const [inputValue, setInputValue] = useState('');
     const clearInput = () => {
         setInputValue('');
@@ -13,7 +15,7 @@ const Search = () => {
         <View style={styles.Container}>
             <FontAwesomeIcon icon={faMagnifyingGlass} size={20} color="#9F9F9F" />
             <TextInput
-                placeholder="Search"
+                placeholder={t('Search')}
                 value={inputValue}
                 onChangeText={setInputValue}
                 style={styles.TextInputStyle} />

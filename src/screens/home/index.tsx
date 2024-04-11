@@ -20,7 +20,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { HomeStackParamList, HomeStackNames } from '@/navigation/HomeNavigator/config'
 import { RootStackParamList, AppStackNames } from '@/navigation/config'
-
+import { useTranslation } from 'react-i18next';
 
 interface DataItem {
   avatar: ImageSourcePropType;
@@ -170,20 +170,41 @@ const HomeScreen = () => {
   const handleMute = (title: string) => {
     setischeck(true);
     bottomSheet.current?.close();
-    setIsBottomSheetOpen(false);
-    CustumToast({ type: "success", message: "You have muted " + title });
+    setIsBottomSheetOpen(false)
+    CustumToast({ type: "success", message: (
+      <Text>
+        {t("You have Mute ")}
+        <Text style={{fontWeight:"bold"}}>
+          {title}
+        </Text>
+      </Text>
+    ) });
   }
   const handleFollow = (title: string) => {
     setischeck(true);
     bottomSheet.current?.close();
     setIsBottomSheetOpen(false);
-    CustumToast({ type: "success", message: "You have Follow " + title });
+    CustumToast({ type: "success", message: (
+      <Text>
+        {t("You have Fllow ")}
+        <Text style={{fontWeight:"bold"}}>
+          {title}
+        </Text>
+      </Text>
+    ) });
   }
   const handleHide = (title: string) => {
     setischeck(true);
     bottomSheet.current?.close();
     setIsBottomSheetOpen(false);
-    CustumToast({ type: "success", message: "You have Hide " + title });
+    CustumToast({ type: "success", message: (
+      <Text>
+        {t("You have Hide ")}
+        <Text style={{fontWeight:"bold"}}>
+          {title}
+        </Text>
+      </Text>
+    )});
   }
   const handleBlock = (title: string, logo: ImageSourcePropType | null) => {
     setischeck(true);
@@ -213,6 +234,7 @@ const HomeScreen = () => {
       params: { itemData: item },
     });
   }
+  const {t} = useTranslation();
   return (
 
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -272,13 +294,13 @@ const HomeScreen = () => {
           <View style={styles.contentContainer}>
             <View style={styles.pick}>
               <Image style={styles.img} source={icons.backup} />
-              <Text style={styles.text}>Pick your new feed</Text>
+              <Text style={styles.text}>{t('Pick your new feed')}</Text>
             </View>
-            <Text style={{ marginTop: 8 }}>Choose what you want us to show you</Text>
+            <Text style={{ marginTop: 8 }}>{t('Choose what you want us to show you')}</Text>
             <View style={{ width: 326, height: 1, borderWidth: 0.2, backgroundColor: colors.grey, marginTop: 27 }}></View>
             <TouchableOpacity onPress={() => handleRadioSelect(1)} style={{ flexDirection: "row", marginTop: 30 }}>
               <Image style={{ width: 34, height: 24 }} source={icons.planet} />
-              <Text style={styles.textWorl}>Worldwide</Text>
+              <Text style={styles.textWorl}>{t('Worldwide')}</Text>
               <TouchableOpacity style={styles.radioButton}>
                 <View style={styles.radio}>
                   {check == 1 ? <View style={styles.radio1}></View> : null}
@@ -287,8 +309,8 @@ const HomeScreen = () => {
             </TouchableOpacity>
             <TouchableOpacity onPress={() => handleRadioSelect(2)} style={{ flexDirection: "row", marginTop: 20 }}>
               <Image style={{ width: 34, height: 24 }} source={icons.frame} />
-              <Text style={styles.textWorl}>Following  </Text>
-              <TouchableOpacity style={styles.radioButton}>
+              <Text style={styles.textWorl}>{t('Following')}  </Text>
+              <TouchableOpacity style={styles.radioButton2}>
                 <View style={styles.radio}>
                   {check == 2 ? <View style={styles.radio1}></View> : null}
                 </View>
@@ -414,6 +436,10 @@ const styles = StyleSheet.create({
   },
   radioButton: {
     marginLeft: 171,
+    top: 3
+  },
+  radioButton2: {
+    marginLeft: 125,
     top: 3
   },
   radio: {

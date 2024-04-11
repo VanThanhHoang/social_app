@@ -17,12 +17,14 @@ interface ListItem {
   type?: number;
   icon?: string;
 }
+import {useTranslation} from 'react-i18next';
 
 const formatText = (text: string) => {
   return text.length > 20 ? text.slice(0, 20) + '...' : text;
 };
 
 const MentionsScreen = () => {
+  const {t} = useTranslation();
   const data: ListItem[] = [
     {
       id: 1,

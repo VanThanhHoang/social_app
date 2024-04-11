@@ -3,6 +3,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import VnpicProfile from './VnpicProfile';
 import RepliesProfile from './RepliesProfile';
 import { NavigationContainer } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 
 const Tab = createMaterialTopTabNavigator();
 interface Props {
@@ -10,6 +11,7 @@ interface Props {
 }
 
 const TopTabProfile:React.FC<Props> = ({ scrollY }) => {
+  const {t} = useTranslation();
   return (
       <Tab.Navigator
         initialRouteName="Vnpic"
@@ -28,7 +30,7 @@ const TopTabProfile:React.FC<Props> = ({ scrollY }) => {
         <Tab.Screen name="Vnpic">
           {() => <VnpicProfile scrollY={scrollY} />}
         </Tab.Screen>
-        <Tab.Screen name="Replies">
+        <Tab.Screen name={t('Replies')}>
           {() => <RepliesProfile scrollY={scrollY} />}
         </Tab.Screen>
       </Tab.Navigator>

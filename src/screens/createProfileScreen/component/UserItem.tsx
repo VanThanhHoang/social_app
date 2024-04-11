@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, ImageProps } from 'rea
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import Icontick from '@/assets/icons/Icontick'
+import { useTranslation } from 'react-i18next'
 
 interface UserItemProps {
     nameUser: string,
@@ -13,7 +14,8 @@ interface UserItemProps {
 }
 
 const UserItem:React.FC<UserItemProps> = ({nameUser, fullName, icontick,followingStatus, onPress }) => {
-    const textColor = followingStatus === 'Follow' ? '#000' : '#C8C8C8';
+    const {t} = useTranslation();
+    const textColor = followingStatus === t('Follow') ? '#000' : '#C8C8C8' ; 
   return (
     <View style = {styles.Container}>
       <Image style = {styles.ImageAvatar} source={require('@/assets/images/nytao.png')} />
@@ -40,6 +42,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontFamily: 'Roboto',
         fontWeight: '700',
+        paddingVertical: 4,
     },
     FullNameText:{
         fontSize: 16,
@@ -57,17 +60,16 @@ const styles = StyleSheet.create({
     },
     ButtonFollow:{
         alignItems: 'center',
-        width: 88,
+        width: 100,
         justifyContent: 'center',
         paddingVertical: 6,
-        paddingHorizontal: 12,
         borderRadius: 8,
         borderWidth: 1,
         borderColor: '#C8C8C8',
     },
     FullNameContainer:{
         marginLeft:12,
-        width: '61%',
+        width: '58%',
         
     },
     NameContainer:{

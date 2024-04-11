@@ -13,6 +13,7 @@ import ImagePicker, {ImageOrVideo} from 'react-native-image-crop-picker';
 import {Dispatch, SetStateAction} from 'react';
 import React from 'react';
 import { icons } from "@/assets";
+import { useTranslation } from 'react-i18next';
 
 interface ToolBarProps {
   setMedias: Dispatch<SetStateAction<ImageOrVideo[]>>;
@@ -38,6 +39,7 @@ const ToolBar = ({setMedias, setToolBarHeight, audienceType, handlePresentModalP
         console.log('Cancel');
       });
   }
+  const { t} = useTranslation();
 
   return (
     <View style={styles.body} onLayout={onLayout}>
@@ -50,7 +52,7 @@ const ToolBar = ({setMedias, setToolBarHeight, audienceType, handlePresentModalP
       </TouchableOpacity>
       <TouchableOpacity onPress={handlePresentModalPress} style={styles.audience}>
         <Image style={{width: 34, height: 24}} source={audienceType===0?icons.planet:audienceType==1?icons.frame:icons.ic_tag} />
-        <Text style={styles.audienceText}>{audienceType===0?"Everyone can reply":audienceType===1?"People you follow":"Only people you mention"}</Text>
+        <Text style={styles.audienceText}>{audienceType===0?t('Everyone can reply'):audienceType===1?t("People you follow"):t("Only people you mention")}</Text>
       </TouchableOpacity>
     </View>
   );

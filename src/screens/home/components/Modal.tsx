@@ -3,11 +3,13 @@ import React, { useState, useEffect } from 'react'
 // import {animations,images} from '@/assets';
 import { images } from '@/assets';
 import { colors } from '@/theme';
+import { useTranslation } from 'react-i18next';
 
 
 
 const Modal1 = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const {t} = useTranslation();
   useEffect(() => {
     setModalVisible(true);
   }, []);
@@ -28,15 +30,15 @@ const Modal1 = () => {
             />
             <Image source={images.stars} style={styles.stars} />
             <Text style={styles.text}>
-              We Verses with Stars
+              {t('We verse with Stars')}
             </Text>
             <Text style={styles.text2}>
-              No more boring heart engagement
+              {t('No more boring heart engagement')}
             </Text>
             <TouchableOpacity
               style={[styles.button, styles.buttonClose]}
               onPress={() => setModalVisible(!modalVisible)}>
-              <Text style={styles.textStyle}>Let’s get in</Text>
+              <Text style={styles.textStyle}>{t('Let’s get in')}</Text>
             </TouchableOpacity>
           </View>
         </View>

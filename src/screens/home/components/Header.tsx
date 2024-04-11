@@ -12,7 +12,7 @@ const Header:React.FC<Props> = ({onPressToggle}) => {
     return (
         <GestureHandlerRootView style={{flex: 1 }}>
             <View style={styles.container}>
-                <Image style={styles.logo} source={icons.logo} />
+                <Image style={styles.logo} source={icons.logo_vnpic} />
                 <TouchableOpacity onPress={onPressToggle}>
                     <Image style={styles.backup} source={icons.backup} />
                 </TouchableOpacity>
@@ -87,8 +87,8 @@ const styles = StyleSheet.create({
 
     },
     logo: {
-        width: 36,
-        height: 36,
+        width: 40,
+        height: 40,
     },
     backup: {
         width: 25,

@@ -50,7 +50,7 @@ const PrivacyProfileScreen = () => {
           isSelected={selectedPrivacyOption === 'Private Profile'} />
         </TouchableOpacity>
       </View>
-      <ButtonBottom onPress={handleNext} title='Next' backgroundColor='#5E4EA0' color='#FFFFFF' />
+      <ButtonBottom onPress={handleNext} title={t('Next')} backgroundColor='#5E4EA0' color='#FFFFFF' />
     </View>
   )
 }

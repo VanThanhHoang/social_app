@@ -10,8 +10,10 @@ import { useNavigation } from '@react-navigation/native'
 import { LoginStackParamList } from '@/navigation/login'
 import { AppStackNames } from '@/navigation/config'
 import AppBottomTab from '@/navigation/bottom_tab'
+import { useTranslation } from 'react-i18next'
 const JoinVerses = () => {
     const navigation = useNavigation<NativeStackNavigationProp<any>>();
+    const {t} = useTranslation();
     const handleNext = () => {
         navigation.navigate(AppStackNames.HomeBottomTab, { screen: 'Home'})
     }
@@ -26,24 +28,24 @@ const JoinVerses = () => {
                         <View>
                             <TouchableOpacity style={styles.HeaderContainer} onPress={handleBack}>
                                 <FontAwesomeIcon icon={faChevronLeft} size={15} color="#fff" />
-                                <Text style={styles.BackStyle}>Back</Text>
+                                <Text style={styles.BackStyle}>{t('Back')}</Text>
                             </TouchableOpacity>
                             <View style={styles.TitleContainer}>
                                 <View style={styles.ProfileSetup}>
                                     <FontAwesomeIcon icon={faCircleCheck} size={15} color="#fff" />
-                                    <Text style={styles.ProfileSetupText}>Profile set up</Text>
+                                    <Text style={styles.ProfileSetupText}>{t('Profile set up')}</Text>
                                 </View>
                                 <View>
-                                    <Text style={styles.CongratsLiftx}>Congrats Liftx!</Text>
-                                    <Text style={styles.CongratsLiftx}>You’re set to start!</Text>
+                                    <Text style={styles.CongratsLiftx}>{t('Congrats Liftx!')}</Text>
+                                    <Text style={styles.CongratsLiftx}>{t('You’re set to start!')}</Text>
                                 </View>
                                 <View style={styles.Thankyou}>
-                                    <Text style={styles.ThankyouText}>Thank you for choosing us as your trusted</Text>
-                                    <Text style={styles.ThankyouText}>trusted social media app, enjoy!</Text>
+                                    <Text style={styles.ThankyouText}>{t('Thank you for choosing us as your trusted')}</Text>
+                                    <Text style={styles.ThankyouText}>{t('trusted social media app, enjoy!')}</Text>
                                 </View>
                             </View>
                         </View>
-                        <ButtonBottom title="Join Verses"  backgroundColor= '#FFF' color='#5E4EA0' onPress={handleNext}/>
+                        <ButtonBottom title={t("Join VNPIC")}  backgroundColor= '#FFF' color='#5E4EA0' onPress={handleNext}/>
                         
                 </ImageBackground>
 

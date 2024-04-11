@@ -5,6 +5,8 @@ import { colors } from '@/theme';
 import SvgMute from '@/assets/icons/iconSVG/Mute';
 import SvgHide from '@/assets/icons/iconSVG/Hide';
 import SvgBlock from '@/assets/icons/iconSVG/Block';
+import { use } from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 
 interface ViewBottomSheetProps {
@@ -15,26 +17,27 @@ interface ViewBottomSheetProps {
     onPressBlock?: () => void;
 }
 const ViewBottomSheet: React.FC<ViewBottomSheetProps> = ({ onPressToggle,onPressMute,title, onPressBlock,onPressHide }) => {
+    const {t} = useTranslation();
     return (
         <View style={styles.container} >
             <TouchableOpacity style={styles.follow} onPress={onPressToggle}>
                 <SvgAdd style={styles.img} />
-                <Text style={styles.textFollow}>Follow</Text>
+                <Text style={styles.textFollow}>{t('Follow')}</Text>
             </TouchableOpacity>
             <View style={styles.container2}>
                 <TouchableOpacity style={styles.click} onPress={onPressMute}>
                     <SvgMute style={styles.img} />
-                    <Text style={styles.textFollow}>Mute</Text>
+                    <Text style={styles.textFollow}>{t('Mute')}</Text>
                 </TouchableOpacity>
                 <View style={{ width: 326, height: 1, borderWidth: 0.1, backgroundColor: colors.grey, marginTop: 10 }} />
                 <TouchableOpacity style={styles.click} onPress={onPressHide}>
                     <SvgHide style={styles.img} />
-                    <Text style={styles.textFollow}>Hide</Text>
+                    <Text style={styles.textFollow}>{t('Hide')}</Text>
                 </TouchableOpacity>
                 <View style={{ width: 326, height: 1, borderWidth: 0.1, backgroundColor: colors.grey, marginTop: 10 }} />
                 <TouchableOpacity style={styles.click} onPress={onPressBlock}>
                     <SvgBlock style={styles.img} />
-                    <Text style={styles.textFollow}>Block</Text>
+                    <Text style={styles.textFollow}>{t('Block')}</Text>
                 </TouchableOpacity>
             </View>
         </View>
