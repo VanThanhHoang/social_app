@@ -5,13 +5,14 @@ interface ButtonBottomProps {
   title: string
   backgroundColor?: string
   color?: string
-  onPress?: () => void
+  onPress?: () => void,
+  style?: any
 }
 
-const ButtonBottom: React.FC<ButtonBottomProps> = ({title, backgroundColor, color ,onPress}) =>{
+const ButtonBottom: React.FC<ButtonBottomProps> = ({title, backgroundColor, color ,onPress, style}) =>{
   return (
     <View >
-      <TouchableOpacity onPress={onPress} style = {[styles.Container, {backgroundColor: backgroundColor}]}>
+      <TouchableOpacity onPress={onPress} style = {[styles.Container, {backgroundColor: backgroundColor},style]}>
         <Text style ={[styles.TitleStyle, {color:color}]}>{title}</Text>
       </TouchableOpacity>
     </View>

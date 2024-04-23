@@ -10,6 +10,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import EditLinkScreen from '@/screens/createProfileScreen/EditLinkScreen';
 import PrivacyScreen from '@/screens/profileScreens/PrivacyScreen';
 import PrivacyProfileScreen from '@/screens/createProfileScreen/PrivacyProfileScreen';
+import SignUpScreen from '@/screens/sign_inScreen';
+import SigninScreen from '@/screens/sign_up';
+import ForgotPass from '@/screens/forgotPassword.tsx';
+import OtpCodeScreen from '@/screens/forgotPassword.tsx/OtpCodeScreen';
+import CreactNewPassScreen from '@/screens/forgotPassword.tsx/CreactNewPassScreen';
 
 const Stack = createNativeStackNavigator<LoginStackParamList>();
 
@@ -21,6 +26,11 @@ export enum LoginStackEnum {
     PrivacyProfileScreen = "PrivacyProfileScreen",
     FollowAccountScreen = "FollowAccountScreen",
     JoinVerses = "JoinVerses",
+    SignUpScreen = "SignUpScreen",
+    SignInScren = "SignInScreen",
+    ForgotPass = "ForgotPass",
+    OtpCodeScreen = "OtpCodeScreen",
+    CreactNewPassScreen = "CreactNewPassScreen"
 
 }
 
@@ -32,6 +42,11 @@ export type LoginStackParamList = {
     [LoginStackEnum.PrivacyProfileScreen]: undefined;
     [LoginStackEnum.FollowAccountScreen]: undefined;
     [LoginStackEnum.JoinVerses]: undefined;
+    [LoginStackEnum.SignUpScreen]: undefined;
+    [LoginStackEnum.SignInScren]: undefined;
+    [LoginStackEnum.ForgotPass]: undefined
+    [LoginStackEnum.OtpCodeScreen]: undefined
+    [LoginStackEnum.CreactNewPassScreen]: undefined
 
 }
 
@@ -77,6 +92,34 @@ export const LoginStack: LoginProps[] = [
         component: JoinVerses,
         options: {}
     },
+    {
+        name: LoginStackEnum.SignUpScreen,
+        component: SignUpScreen,
+        options: {}
+    },
+    {
+        name: LoginStackEnum.SignInScren,
+        component: SigninScreen,
+        options: {}
+    }
+    ,
+    {
+        name: LoginStackEnum.ForgotPass,
+        component: ForgotPass,
+        options: {}
+    }
+    ,
+    {
+        name: LoginStackEnum.OtpCodeScreen,
+        component: OtpCodeScreen,
+        options: {}
+    }
+    ,
+    {
+        name: LoginStackEnum.CreactNewPassScreen,
+        component: CreactNewPassScreen,
+        options: {}
+    }
 ]
 
 const LoginNavigation = () => {
