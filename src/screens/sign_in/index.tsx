@@ -19,7 +19,6 @@ const LoginScreen = () => {
     const dispatch: AppDispatch = useAppDispatch();
     const { isLoading } = useAppSelector(state => state.app);
     const user = useAppSelector(userInfoSelector);
-    console.log(user, "user");
     useEffect(() => {
         dispatch(fetchUserById(123))
     }, []);

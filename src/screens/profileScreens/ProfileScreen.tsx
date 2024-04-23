@@ -8,7 +8,7 @@ import { ProfileNavigatorProps } from '@/navigation/ProfileNavigator/config';
 import { ProfileStackNames, ProfileStackParamList } from '@/navigation/ProfileNavigator/config';
 import { useTranslation } from 'react-i18next';
 const ProfileScreen = () => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const scrollY = useRef(new Animated.Value(0)).current;
   const navigation = useNavigation<ProfileNavigatorProps>();
   const translateY = scrollY.interpolate({
