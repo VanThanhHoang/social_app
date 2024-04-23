@@ -32,7 +32,7 @@ const PrivacyProfileScreen = () => {
     } catch (error) {
       console.error('Error update', JSON.stringify(error));
     }
-    
+
   }
   const handleBack = () => {
     navigation.goBack();
@@ -75,9 +75,7 @@ const PrivacyProfileScreen = () => {
     </View>
   )
 }
-
 export default PrivacyProfileScreen
-
 const styles = StyleSheet.create({
   TitleProfileCustomize: {
     fontSize: 15.5,

@@ -97,9 +97,7 @@ const ProfileUser:React.FC<ProfileUserProps> = ({onPressEditProfile}) => {
         </View>
     )
 }
-
 export default ProfileUser
-
 const styles = StyleSheet.create({
     FollowPeopleTextStyle: {
         fontSize: 14,
