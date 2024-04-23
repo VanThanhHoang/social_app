@@ -20,6 +20,9 @@ export const signInWithGoole = async (navigation: any, dispatch: AppDispatch) =>
     await GoogleSignin.hasPlayServices();
     const { idToken } = await GoogleSignin.signIn();
     const token_FCM = await setUpNotification();
+    console.log(idToken, "ádasdas");
+    localStorage.set("FCM", token_FCM);
+
     try {
       // const data = {
       //   idToken,

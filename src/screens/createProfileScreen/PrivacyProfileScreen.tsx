@@ -1,5 +1,5 @@
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import HeaderBarEditProfile from '@/screens/createProfileScreen/component/HeaderBarEditProfile'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
@@ -11,16 +11,37 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { LoginStackEnum, LoginStackParamList } from '@/navigation/login';
 import { useTranslation } from 'react-i18next';
+import AxiosInstance from '@/network/axiosInstance';
+
+const axios = AxiosInstance();
 const PrivacyProfileScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<LoginStackParamList>>();
   const { t } = useTranslation()
-  const [selectedPrivacyOption, setSelectedPrivacyOption] = useState('Public Profile');
-  const handleNext = () => {
-    navigation.navigate(LoginStackEnum.FollowAccountScreen);
+  const [selectedPrivacyOption, setSelectedPrivacyOption] = useState(1)
+
+  const data = {
+    account_type: 0
+  }
+
+  const handleNext  = async(data: any) => {
+    try {
+      const response = await axios.patch('user/update_info', data);
+      console.log('response', response)
+      navigation.navigate(LoginStackEnum.FollowAccountScreen);
+      return response;
+    } catch (error) {
+      console.error('Error update', JSON.stringify(error));
+    }
+    
   }
   const handleBack = () => {
     navigation.goBack();
   }
+  useEffect(() => {
+    console.log('selectedPrivacyOption', selectedPrivacyOption)
+  }, [selectedPrivacyOption])
+
+
   return (
     <View style={styles.Container}>
       <View>
@@ -33,24 +54,24 @@ const PrivacyProfileScreen = () => {
             style={styles.TitleProfile}>{t('Privacy')}</Text>
           <Text style={styles.TitleProfileCustomize}>{t("Your privacy on VNPIC can be different")}</Text>
         </View>
-        <TouchableOpacity onPress={() => setSelectedPrivacyOption('Public Profile')}>
+        <TouchableOpacity onPress={() => setSelectedPrivacyOption(1)}>
           <PrivacyComponent 
             TitleStatus={t('Public')}
             TitleDetail={t('Anyone on VNPIC can see, share and interact with your content.')} 
-            borderColor={selectedPrivacyOption === 'Public Profile' ? '#5E4EA0' : '#C8C8C8'}
+            borderColor={selectedPrivacyOption === 1 ? '#5E4EA0' : '#C8C8C8'}
             IconComponent={<PlantIcon />}
-            isSelected={selectedPrivacyOption === 'Public Profile'} />
+            isSelected={selectedPrivacyOption === 1} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => setSelectedPrivacyOption('Private Profile')}>
+        <TouchableOpacity onPress={() => setSelectedPrivacyOption(0)}>
           <PrivacyComponent 
           TitleStatus={t('Private')} 
           TitleDetail={t('Only your approve followers can see and interact with your content.')} 
-          borderColor={selectedPrivacyOption === 'Private Profile' ? '#5E4EA0' : '#C8C8C8'}
+          borderColor={selectedPrivacyOption === 0 ? '#5E4EA0' : '#C8C8C8'}
           IconComponent={<PrivateIcon />}
-          isSelected={selectedPrivacyOption === 'Private Profile'} />
+          isSelected={selectedPrivacyOption === 0} />
         </TouchableOpacity>
       </View>
-      <ButtonBottom onPress={handleNext} title='Next' backgroundColor='#5E4EA0' color='#FFFFFF' />
+      <ButtonBottom onPress={() =>handleNext(data)} title='Next' backgroundColor='#5E4EA0' color='#FFFFFF' />
     </View>
   )
 }

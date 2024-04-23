@@ -7,6 +7,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 interface IUser {
     _id: string
+    userName: string
     fullName: string
     avatar: string
     dob: string
@@ -21,6 +22,7 @@ interface IUser {
     __v: number
     accessToken: string
     refreshToken: string
+    isFirstTimeLogin: boolean
 }
 
 interface UserState {
@@ -29,6 +31,7 @@ interface UserState {
 const initialState: UserState = {
     user: {
         _id: "",
+        userName: "",
         fullName: "",
         avatar: "",
         dob: "",
@@ -43,6 +46,7 @@ const initialState: UserState = {
         __v: 0,
         accessToken: "",
         refreshToken: "",
+        isFirstTimeLogin: false,
     },
 };
 const userSlice = createSlice({

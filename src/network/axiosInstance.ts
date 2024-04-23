@@ -11,6 +11,7 @@ const AxiosInstance = (contentType = 'application/json') => {
     axiosInstance.interceptors.request.use(
         async (config: any) => {
             const token = localStorage.getString('token');
+            console.log("token", token);
             config.headers = {
                 'Authorization': `Bearer ${token}`,
                 'Accept': 'application/json',
