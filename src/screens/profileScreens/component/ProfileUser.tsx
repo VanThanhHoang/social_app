@@ -1,19 +1,57 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState} from 'react'
 import IconShare from '@/assets/icons/IconShare'
 import Icontick from '@/assets/icons/Icontick'
 import IconLink from '@/assets/icons/IconLink'
 import IconStar from '@/assets/icons/IconStar'
-import { useTranslation } from 'react-i18next'
+import { useAppSelector } from '@/redux/store'
+import { userInfoSelector } from '@/redux/test/userStore'
+import AxiosInstance from '@/network/axiosInstance'
+import { useIsFocused } from '@react-navigation/native'
 
-const ProfileUser = () => {
-    const {t} = useTranslation();
+const axios = AxiosInstance();
+type ProfileUserProps = {
+    onPressEditProfile: () => void;
+}
+
+const ProfileUser:React.FC<ProfileUserProps> = ({onPressEditProfile}) => {
+    const userInfor = useAppSelector(userInfoSelector);
+    const [fullName, setFullName] = useState('');
+    const [userName, setUserName] = useState('');
+    const [bio, setBio] = useState('');
+    const [link, setLink] = useState('');
+    const [avatar, setAvatar] = useState('');
+    const isFocused = useIsFocused();
+    console.log(userInfor);
+
+      useEffect(() => {
+        if(isFocused)
+        getProfile();
+      }, [
+        userInfor._id, isFocused
+      ]);
+
+    const getProfile = async () => {
+        try {
+            const response = await axios.get(`/user/${userInfor._id}`);
+            setFullName(response.data.fullName);
+            setUserName(response.data.userName);
+            setBio(response.data.bio);
+            setLink(response.data.links.join(''));
+            setAvatar(response.data.avatar);
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    console.log(link);
+    console.log(avatar);
     return (
         <View style={styles.Container}>
             <View style={styles.AvatarContainer}>
                 <View>
                     <Image source={require('@/assets/images/backgroundavatarprofile.png')} style={styles.BackgroundAvatar} />
-                    <Image source={require('@/assets/images/nytao.png')} style={styles.AvatarStyle} />
+                    <Image source={avatar ? {uri: avatar} : require('../../../assets/images/noAvatar.png')}  style={styles.AvatarStyle} />
                 </View>
                 <View style={styles.EditProfileContainer}>
                     <TouchableOpacity style={styles.ButtonEditProfileStyle}>
@@ -25,13 +63,13 @@ const ProfileUser = () => {
                 </View>
             </View>
             <View style={styles.NameContainer}>
-                <Text style={styles.NameTextStyle}>BiCenzo Quasano</Text>
+                <Text style={styles.NameTextStyle}>{fullName}</Text>
                 <Icontick />
             </View>
             <View style={styles.StoryContainer}>
-                <Text style={styles.StoryTextStyle}>Best rapper alive</Text>
-                <Text style={styles.StoryTextStyle}>Contact for work : travis@utopia.com</Text>
-                <Text style={styles.StoryTextStyle}>Mr. Bincenzo: 070605894</Text>
+                <Text style={styles.StoryTextStyle}>{userName}</Text>
+                <Text style={styles.StoryTextStyle}>{bio}</Text>
+                <Text style={styles.StoryTextStyle}>{link}</Text>
                 <View style={styles.LinkContainer}>
                     <IconLink />
                     <Text style={styles.LinkTextStyle}>youtube/travisscott.com</Text>
@@ -59,9 +97,7 @@ const ProfileUser = () => {
         </View>
     )
 }
-
 export default ProfileUser
-
 const styles = StyleSheet.create({
     FollowPeopleTextStyle: {
         fontSize: 14,
@@ -189,7 +225,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 10,
         left: 10,
-        borderRadius: 50,
+        borderRadius: 60,
     },
     AvatarContainer: {
         flexDirection: 'row',

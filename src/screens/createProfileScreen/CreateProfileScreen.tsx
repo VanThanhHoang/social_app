@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 import ProfileCard from '@/screens/createProfileScreen/component/ProfileCard'
@@ -10,17 +10,20 @@ import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { LoginStackEnum, LoginStackParamList } from '@/navigation/login'
 import { useTranslation } from 'react-i18next'
+import { AppStackNames } from '@/navigation/config'
 
 const CreateProfileScreen = () => {
-  const navigation = useNavigation<NativeStackNavigationProp<LoginStackParamList>>();
+
   const { t } = useTranslation()
-  const goNext = () => {
-    navigation.navigate(LoginStackEnum.PrivacyProfileScreen)
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  const handleNext = () => {
+      navigation.navigate(AppStackNames.HomeBottomTab, { screen: 'Home'})
   }
   return (
     <View style={styles.CreateProfileContainer}>
       <View>
         <HeaderBarEditProfile
+        onPressNext={handleNext}
           next={t('Skip')}
           IconNextComponent={<FontAwesomeIcon icon={faChevronRight} size={15} color="#000" style={{ marginLeft: 8 }} />} />
         <View style={styles.TitleProfileContainer}>
@@ -28,10 +31,10 @@ const CreateProfileScreen = () => {
             style={styles.TitleProfile}>{t('Profile')}</Text>
           <Text style={styles.TitleProfileCustomize}>{t('Customize your VNPIC profile')}</Text>
         </View>
-        <ProfileCard />
+        <ProfileCard/>
       </View>
       <View>
-        <ButtonBottom title={t('Next')} backgroundColor='#5E4EA0' color='#FFFFFF' onPress={goNext}/>
+        {/* <ButtonBottom title={t('Next')} backgroundColor='#5E4EA0' color='#FFFFFF' onPress={goNext}/> */}
       </View>
       
     </View>
