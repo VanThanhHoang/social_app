@@ -1,30 +1,30 @@
 // this is sample config file for navigation
-import App from "@/App";
-import { LoginScreen } from "@/screens";
-import React, { ReactElement } from "react";
-import AppBottomTab from "./bottom_tab";
-import LoginNavigation from "./login";
-import { NavigatorScreenParams } from "@react-navigation/native";
-import HomeNavigator from "./HomeNavigator";
-import { HomeStackParamList } from "./HomeNavigator/config";
-import { HomeStacks } from "./HomeNavigator/config";
-
+import App from '@/App';
+import {LoginScreen} from '@/screens';
+import React, {ReactElement} from 'react';
+import AppBottomTab from './bottom_tab';
+import LoginNavigation from './login';
+import {NavigatorScreenParams} from '@react-navigation/native';
+import HomeNavigator from './HomeNavigator';
+import {HomeStackParamList} from './HomeNavigator/config';
+import {HomeStacks} from './HomeNavigator/config';
 
 export enum AppStackNames {
-  LoginNavigation = "LoginNavigation",
-  HomeBottomTab="HomeBottomTab",
-  HomeNavigator = "HomeNavigator",
-  Screen1 = "Screen1",
-  Screen2 = "Screen2",
-
+  LoginNavigation = 'LoginNavigation',
+  HomeBottomTab = 'HomeBottomTab',
+  HomeNavigator = 'HomeNavigator',
+  Screen1 = 'Screen1',
+  Screen2 = 'Screen2',
 }
 
 export type RootStackParamList = {
   [AppStackNames.LoginNavigation]: undefined;
-  [AppStackNames.HomeBottomTab]:  undefined;
-  [AppStackNames.HomeNavigator]: NavigatorScreenParams<HomeStackParamList> | undefined;
-  [AppStackNames.Screen1]: undefined; 
-  [AppStackNames.Screen2]: { userId: string };
+  [AppStackNames.HomeBottomTab]: undefined;
+  [AppStackNames.HomeNavigator]:
+    | NavigatorScreenParams<HomeStackParamList>
+    | undefined;
+  [AppStackNames.Screen1]: undefined;
+  [AppStackNames.Screen2]: {userId: string};
 };
 
 interface StackProps {
@@ -33,21 +33,20 @@ interface StackProps {
   options?: any;
 }
 
-export const AppStacks: StackProps [] = [
+export const AppStacks: StackProps[] = [
   {
     name: AppStackNames.LoginNavigation,
     component: LoginNavigation,
-    options: {}
+    options: {},
   },
   {
     name: AppStackNames.HomeBottomTab,
     component: AppBottomTab,
-    options: {}
+    options: {},
   },
   {
     name: AppStackNames.HomeNavigator,
     component: HomeNavigator,
-    options: {}
+    options: {},
   },
-  
 ];
