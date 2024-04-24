@@ -22,7 +22,7 @@ const PostDetail = () => {
     const goBack = () => {
         navigation.goBack();
     }
-    
+
   return (
     <View style={styles.container}>
         <TouchableOpacity style={styles.back} onPress={goBack}>
@@ -30,9 +30,9 @@ const PostDetail = () => {
             <Text style={styles.Back}>Back</Text>
         </TouchableOpacity>
         <View style={{ width: 450, height: 1, borderWidth: 0.1, backgroundColor: "#E3E3E3",marginTop:15 }} />
-        <FlatList 
-            ListHeaderComponent={ 
-            <CardView 
+        <FlatList
+            ListHeaderComponent={
+            <CardView
                 avatar={itemData.avatar}
                 hour={itemData.hour}
                 title={itemData.title}
@@ -43,10 +43,10 @@ const PostDetail = () => {
                 comment={itemData.comment}
                 share={itemData.share}
                 url={itemData.url}
-            />}  
+            />}
             data={data}
             renderItem={({item}) => (
-                <CartComments 
+                <CartComments
                     avatar={item.avatar}
                     hour={item.hour}
                     title={item.title}
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
         paddingTop: 18,
     },
     container:{
-        
+
     }
 })
 const data = [{
