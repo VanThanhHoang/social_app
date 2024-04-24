@@ -4,16 +4,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faMagnifyingGlass, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 
 type SearchComponentProps = {
+    searchText: string;
     onChangeText: (text: string) => void;
 };
 
 
-const SearchComponent:React.FC<SearchComponentProps> = ({onChangeText}) => {
-    const [inputValue, setInputValue] = useState('');
+const SearchComponent:React.FC<SearchComponentProps> = ({searchText, onChangeText}) => {
+    
     const [isFocused, setIsFocused] = useState(false); // Trạng thái để theo dõi sự focus
 
     const clearInput = () => {
-        setInputValue('');
+        
         Keyboard.dismiss();
         onChangeText('');
     };
@@ -24,20 +25,20 @@ const SearchComponent:React.FC<SearchComponentProps> = ({onChangeText}) => {
                 <FontAwesomeIcon icon={faMagnifyingGlass} size={20} color="#9F9F9F" />
                 <TextInput
                     placeholder="Search"
-                    value={inputValue}
-                    onChangeText={(text) =>{setInputValue(text); onChangeText(text);}}
+                    value={searchText}
+                    onChangeText={onChangeText}
                     onFocus={() => setIsFocused(true)} // Cập nhật trạng thái khi được focus
                     onBlur={() => setIsFocused(false)} // Cập nhật trạng thái khi mất focus
                     style={styles.textInputStyle}
                     
                 />
-                {inputValue && (
+                {searchText && (
                     <TouchableOpacity onPress={clearInput}>
                         <FontAwesomeIcon icon={faCircleXmark} size={20} color="#767676" />
                     </TouchableOpacity>
                 )}
             </View>
-            {inputValue && (
+            {searchText && (
                 <TouchableOpacity onPress={clearInput} style={styles.cancelButton}>
                     <Text style = {styles.cancelText}>Cancel</Text>
                 </TouchableOpacity>

@@ -54,8 +54,8 @@ const ProfileUser:React.FC<ProfileUserProps> = ({onPressEditProfile}) => {
                     <Image source={avatar ? {uri: avatar} : require('../../../assets/images/noAvatar.png')}  style={styles.AvatarStyle} />
                 </View>
                 <View style={styles.EditProfileContainer}>
-                    <TouchableOpacity style={styles.ButtonEditProfileStyle}>
-                        <Text style={styles.EditProfileTextStyle}>{t('Edit profile')}</Text>
+                    <TouchableOpacity style={styles.ButtonEditProfileStyle} onPress={onPressEditProfile}>
+                        <Text style={styles.EditProfileTextStyle}>Edit profile</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.ButtonShareStyle}>
                         <IconShare />
@@ -77,13 +77,13 @@ const ProfileUser:React.FC<ProfileUserProps> = ({onPressEditProfile}) => {
             </View>
             <View style={styles.FollowerContainer}>
                 <View style={styles.FollowerItemContainer}>
-                    <Text style={styles.FollowQuantity}>1.5M </Text>
-                    <Text style={styles.FollowTextStyle}>{t('followers')}</Text>
+                    <Text style={styles.FollowQuantity}>1.5M</Text>
+                    <Text style={styles.FollowTextStyle}>followers</Text>
                 </View>
                 <IconStar style={styles.IconStarStyle} />
                 <View style={styles.FollowerItemContainer}>
-                    <Text style={styles.FollowQuantity}>1.5M </Text>
-                    <Text style={styles.FollowTextStyle}>{t('Following')}</Text>
+                    <Text style={styles.FollowQuantity}>1.5M</Text>
+                    <Text style={styles.FollowTextStyle}>following</Text>
                 </View>
             </View>
             <View style={styles.PeopleFollowerContainer}>

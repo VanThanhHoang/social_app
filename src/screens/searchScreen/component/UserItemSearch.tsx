@@ -17,7 +17,7 @@ const UserItemSearch: React.FC<UserItemProps> = ({ nameUser, fullName, icontick,
     return (
         <View style={styles.Container}>
             <View style={styles.UserNameContainer}>
-                <Image style={styles.ImageAvatar} source={avatar || require('@/assets/images/nytao.png')} />
+                <Image style={styles.ImageAvatar} source={avatar ? {uri: avatar} : require('../../../assets/images/noAvatar.png')} />
                 <View style={styles.FullNameContainer}>
                     <View style={styles.NameContainer}>
                         <Text style={styles.NameText}>{nameUser}</Text>
