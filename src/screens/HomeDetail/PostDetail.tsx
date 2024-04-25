@@ -1,4 +1,4 @@
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View,FlatList } from 'react-native'
+import {StyleSheet, Text, TouchableOpacity, View,FlatList } from 'react-native'
 import React from 'react'
 import { useRoute } from '@react-navigation/native';
 import { RouteProp } from '@react-navigation/native';
@@ -10,14 +10,10 @@ import { colors } from '@/theme';
 import CardView from '../home/components/CardView';
 import CartComments from './CartComments';
 import { images } from '@/assets';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-
-
-
 type PostDetailRouteProp = RouteProp<HomeStackParamList,HomeStackNames.PostDetail>;
 const PostDetail = () => {
     const route = useRoute<PostDetailRouteProp>();
-    const itemData = route.params.itemData;
+    const itemData = route.params.post;
     const navigation = useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
     const goBack = () => {
         navigation.goBack();
@@ -33,16 +29,16 @@ const PostDetail = () => {
         <FlatList
             ListHeaderComponent={
             <CardView
-                avatar={itemData.avatar}
-                hour={itemData.hour}
-                title={itemData.title}
-                description={itemData.description}
-                tag={itemData.tag}
-                image={itemData.image}
-                star={itemData.star}
-                comment={itemData.comment}
-                share={itemData.share}
-                url={itemData.url}
+                avatar={itemData.author.avatar}
+                hour={itemData.createdAt}
+                title={itemData.author.userName}
+                description={itemData.body}
+                tag={''}
+                image={itemData.media}
+                star={itemData.reactions.length}
+                comment={itemData.comments.length}
+                share={0}
+                url={""}
             />}
             data={data}
             renderItem={({item}) => (
@@ -79,7 +75,7 @@ const styles = StyleSheet.create({
         paddingTop: 18,
     },
     container:{
-
+        backgroundColor: colors.white,
     }
 })
 const data = [{

@@ -1,15 +1,5 @@
-import {
-  Image,
-  ImageProps,
-  ImageSourcePropType,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Alert,
-} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState, useEffect} from 'react';
-import {icons, images} from '@/assets';
 import {colors} from '@/theme';
 import SvgSwitch from '@/assets/icons/iconSVG/Switch';
 import SvgSend from '@/assets/icons/iconSVG/Send';
@@ -19,19 +9,17 @@ import Svg3dot from '@/assets/icons/iconSVG/3dot';
 import SvgStar2 from '@/assets/icons/iconSVG/Star2';
 import AutoHeightImage from 'react-native-auto-height-image';
 import Share from 'react-native-share';
-import {useNavigation} from '@react-navigation/native';
-import {HomeStackNames} from '@/navigation/HomeNavigator/config';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {HomeStackParamList} from '@/navigation/HomeNavigator/config';
-import ListImageContent from "@/screens/home/components/ListImageContent";
+import ListImageContent from '@/screens/home/components/ListImageContent';
+import {formatPostTime} from '@/utils/time';
+import {Media} from '@/type';
 
 interface CardViewProps {
-  avatar: ImageSourcePropType;
-  hour: string;
+  avatar: string;
+  hour: Date;
   title: string;
   description: string;
   tag?: string;
-  image: String[];
+  image: Media[];
   star: number;
   comment: number;
   share: number;
@@ -40,16 +28,13 @@ interface CardViewProps {
   onPressSwitch?: () => void;
   onPressDetail?: () => void;
   style?: any;
-
   showView?: boolean;
 }
 const CardView: React.FC<CardViewProps> = ({...props}) => {
   const [focus, setfocus] = useState<Boolean>(false);
   const [like, setLike] = useState<Boolean>(false);
-
   const handleLike = () => {
     setLike(!like);
-    console.log(like);
   };
   const onSearch = () => {
     const options = {
@@ -83,28 +68,29 @@ const CardView: React.FC<CardViewProps> = ({...props}) => {
       ) : (
         <View style={{height: 0}} />
       )}
-      <View style={{flexDirection: 'row', padding: 20}}>
-        <Image style={styles.imgCar} source={props.avatar} />
-        <View>
-          <View style={styles.containerTick}>
-            <Text
-              style={{fontSize: 16, fontWeight: '500', color: colors.black}}>
-              {props.title}
+      <View
+        style={{
+          flexDirection: 'row',
+          padding: 20,
+          justifyContent: 'space-between',
+        }}>
+        <View style={{flexDirection: 'row'}}>
+          <Image style={styles.imgCar} source={{uri: props.avatar}} />
+          <View>
+            <View style={styles.containerTick}>
+              <Text
+                style={{fontSize: 16, fontWeight: '500', color: colors.black}}>
+                {props.title}
+              </Text>
+            </View>
+            <Text style={{fontSize: 12, marginStart: 10, marginTop: 3}}>
+              {formatPostTime(props.hour)}
             </Text>
-            <Image
-              style={{width: 20, height: 20, marginStart: 4}}
-              source={icons.tick}
-            />
-            <TouchableOpacity
-              onPress={props.onPress}
-              style={{position: 'absolute', marginStart: 290}}>
-              <Svg3dot />
-            </TouchableOpacity>
           </View>
-          <Text style={{fontSize: 12, marginStart: 10, marginTop: 3}}>
-            {props.hour}
-          </Text>
         </View>
+        <TouchableOpacity onPress={props.onPress}>
+          <Svg3dot />
+        </TouchableOpacity>
       </View>
       {props.description ? (
         <Text style={styles.title}>{props.description}</Text>
@@ -114,19 +100,17 @@ const CardView: React.FC<CardViewProps> = ({...props}) => {
       <Text style={styles.tag}>
         {props.tag ? `#${props.tag}` : <View style={{height: 0}} />}
       </Text>
-      {/* <Image style={{ width: imageWidth, height: imgHeight, borderRadius: 20,resizeMode:"cover" }} source={props.image} /> */}
-      {props.image.length===1 ? (
+      {props.image.length === 1 ? (
         <AutoHeightImage
           style={styles.avatar}
           width={370}
-          source={{uri: props.image[0].toString()}}
+          source={{uri: props.image[0].link}}
         />
-      ): props.image.length>1?
-        (
-          <ListImageContent medias={props.image}/>
-        ): (
-          <View style={{height: 0}} />
-        )}
+      ) : props.image.length > 1 ? (
+        <ListImageContent medias={props.image} />
+      ) : (
+        <View style={{height: 0}} />
+      )}
 
       <View style={styles.containerAction}>
         <TouchableOpacity onPress={handleLike}>
@@ -169,7 +153,7 @@ const styles = StyleSheet.create({
   avatar: {
     borderRadius: 20,
     marginTop: 12,
-    marginStart: 19,
+    alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -189,6 +173,7 @@ const styles = StyleSheet.create({
   containerTick: {
     flexDirection: 'row',
     marginStart: 12,
+    justifyContent: 'space-between',
   },
   imgCar: {
     width: 46,

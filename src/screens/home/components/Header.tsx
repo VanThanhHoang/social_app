@@ -1,7 +1,5 @@
 import React, { useRef, useMemo, useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import BottomSheet from '@gorhom/bottom-sheet';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { icons } from '@/assets';
 import { colors } from '@/theme';
 
@@ -10,14 +8,13 @@ interface Props {
 }
 const Header:React.FC<Props> = ({onPressToggle}) => {
     return (
-        <GestureHandlerRootView style={{flex: 1 }}>
+   
             <View style={styles.container}>
                 <Image style={styles.logo} source={icons.logo_vnpic} />
                 <TouchableOpacity onPress={onPressToggle}>
                     <Image style={styles.backup} source={icons.backup} />
                 </TouchableOpacity>
             </View>
-        </GestureHandlerRootView>
     );
 };
 

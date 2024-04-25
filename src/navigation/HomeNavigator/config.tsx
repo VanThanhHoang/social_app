@@ -1,5 +1,6 @@
 import {ImageDetail} from '@/screens';
 import {PostDetail} from '@/screens';
+import { Post } from '@/type';
 
 export enum HomeStackNames {
   ImageDetail = 'ImageDetail',
@@ -7,7 +8,7 @@ export enum HomeStackNames {
 }
 export type HomeStackParamList = {
   [HomeStackNames.ImageDetail]: undefined;
-  [HomeStackNames.PostDetail]: {itemData: any};
+  [HomeStackNames.PostDetail]: {post: Post};
 };
 interface StackProps {
   name: HomeStackNames;

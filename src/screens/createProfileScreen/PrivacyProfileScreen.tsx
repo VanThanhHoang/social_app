@@ -63,7 +63,7 @@ const PrivacyProfileScreen = () => {
             isSelected={selectedPrivacyOption === 1} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setSelectedPrivacyOption(0)}>
-          <PrivacyComponent 
+          <PrivacyComponent   
           TitleStatus={t('Private')} 
           TitleDetail={t('Only your approve followers can see and interact with your content.')} 
           borderColor={selectedPrivacyOption === 0 ? '#5E4EA0' : '#C8C8C8'}

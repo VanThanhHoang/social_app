@@ -1,16 +1,13 @@
-import * as React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {
-  AppStackNames,
-  AppStacks,
-  RootStackParamList,
-} from '@/navigation/config';
-import {LoadingModal} from '@/components';
-import {useAppSelector} from '@/redux/store';
-import AppBottomTab from './bottom_tab';
-import i18n from '@/language/i18n';
-import {localStorage} from '@/utils';
+import * as React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { AppStackNames, AppStacks, RootStackParamList } from "@/navigation/config";
+import { LoadingModal } from "@/components";
+import { useAppSelector } from "@/redux/store";
+import i18n from "@/language/i18n";
+import { localStorage } from "@/utils";
+
+  
 
 const useAsynsLanguage = () => {
   const language = useAppSelector(state => state.language.language);
