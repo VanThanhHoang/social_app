@@ -15,11 +15,13 @@ import {appReducer} from "@/redux/slice";
 import { SliceName } from "@/redux/constant";
 import { languageReducer } from "../slice/language.slice";
 import { userReducer } from "../slice/user.slice";
+import { newFeedReducer } from "../slice/newfeed.slice";
 
 const rootReducer:any = combineReducers({
   [SliceName.APP]: appReducer,
   [SliceName.LANGUAGE]: languageReducer,
-  [SliceName.USER]: userReducer
+  [SliceName.USER]: userReducer,
+  [SliceName.NEW_FEED]: newFeedReducer
 });
 
 const persistConfig = {

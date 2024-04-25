@@ -2,6 +2,7 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {SliceName} from "@/redux/constant";
 import {fetchUserById} from "@/redux/action";
 import {useLogger} from "@/utils";
+import { NewfeedAction } from "../action/newfeed.action";
 
 interface AppState {
     isLoading: boolean;
@@ -20,7 +21,7 @@ const appSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-      
+            
     }
 });
 export const {setLoading} = appSlice.actions;

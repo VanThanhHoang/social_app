@@ -1,12 +1,9 @@
 import {
   Image,
-  ImageProps,
-  ImageSourcePropType,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  Alert,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {icons, images} from '@/assets';
@@ -19,19 +16,17 @@ import Svg3dot from '@/assets/icons/iconSVG/3dot';
 import SvgStar2 from '@/assets/icons/iconSVG/Star2';
 import AutoHeightImage from 'react-native-auto-height-image';
 import Share from 'react-native-share';
-import {useNavigation} from '@react-navigation/native';
-import {HomeStackNames} from '@/navigation/HomeNavigator/config';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {HomeStackParamList} from '@/navigation/HomeNavigator/config';
-import ListImageContent from "@/screens/home/components/ListImageContent";
+import ListImageContent from '@/screens/home/components/ListImageContent';
+import {formatPostTime} from '@/utils/time';
+import { Media } from '@/type';
 
 interface CardViewProps {
-  avatar: ImageSourcePropType;
-  hour: string;
+  avatar: string;
+  hour: Date;
   title: string;
   description: string;
   tag?: string;
-  image: String[];
+  image: Media[];
   star: number;
   comment: number;
   share: number;
@@ -46,7 +41,6 @@ interface CardViewProps {
 const CardView: React.FC<CardViewProps> = ({...props}) => {
   const [focus, setfocus] = useState<Boolean>(false);
   const [like, setLike] = useState<Boolean>(false);
-
   const handleLike = () => {
     setLike(!like);
     console.log(like);
@@ -84,7 +78,7 @@ const CardView: React.FC<CardViewProps> = ({...props}) => {
         <View style={{height: 0}} />
       )}
       <View style={{flexDirection: 'row', padding: 20}}>
-        <Image style={styles.imgCar} source={props.avatar} />
+        <Image style={styles.imgCar} source={{uri: props.avatar}} />
         <View>
           <View style={styles.containerTick}>
             <Text
@@ -102,7 +96,7 @@ const CardView: React.FC<CardViewProps> = ({...props}) => {
             </TouchableOpacity>
           </View>
           <Text style={{fontSize: 12, marginStart: 10, marginTop: 3}}>
-            {props.hour}
+            {formatPostTime(props.hour)}
           </Text>
         </View>
       </View>
@@ -114,19 +108,17 @@ const CardView: React.FC<CardViewProps> = ({...props}) => {
       <Text style={styles.tag}>
         {props.tag ? `#${props.tag}` : <View style={{height: 0}} />}
       </Text>
-      {/* <Image style={{ width: imageWidth, height: imgHeight, borderRadius: 20,resizeMode:"cover" }} source={props.image} /> */}
-      {props.image.length===1 ? (
+      {props.image.length === 1 ? (
         <AutoHeightImage
           style={styles.avatar}
           width={370}
-          source={{uri: props.image[0].toString()}}
+          source={{uri: props.image[0].link}}
         />
-      ): props.image.length>1?
-        (
-          <ListImageContent medias={props.image}/>
-        ): (
-          <View style={{height: 0}} />
-        )}
+      ) : props.image.length > 1 ? (
+        <ListImageContent medias={props.image} />
+      ) : (
+        <View style={{height: 0}} />
+      )}
 
       <View style={styles.containerAction}>
         <TouchableOpacity onPress={handleLike}>
@@ -169,7 +161,7 @@ const styles = StyleSheet.create({
   avatar: {
     borderRadius: 20,
     marginTop: 12,
-    marginStart: 19,
+    alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
   },

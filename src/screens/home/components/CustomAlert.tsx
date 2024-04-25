@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 interface CustomAlertProps {
     visible: boolean;
     title: string;
-    avatar: ImageSourcePropType | null;
+    avatar: string | null;
     onClose: () => void;
 
 }
@@ -22,7 +22,7 @@ const CustomAlert: React.FC<CustomAlertProps> = ({ visible, title, onClose, avat
         >
             <View style={styles.centeredView}>
                 <View style={styles.modalView}>
-                    {avatar && <Image style={styles.imgCar} source={avatar} />}
+                    {avatar && <Image style={styles.imgCar} source={{uri:avatar}} />}
                     <Text style={styles.modalText}>{t('Block')} @{title}</Text>
                     <Text style={styles.modalText2}>@{title} {t('will no longer be able to follow or reply you, and you will not see notifications from')} @{title}</Text>
                     <View style={{ width: 290, height: 1, borderWidth: 0.1, backgroundColor: "#E3E3E3", marginTop: 210,position:"absolute" }} />
