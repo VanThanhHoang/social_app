@@ -15,7 +15,7 @@ interface UserItemProps {
 
 const UserItemSearch: React.FC<UserItemProps> = ({ nameUser, fullName, icontick, avatar, onPress, followersCount }) => {
     return (
-        <View style={styles.Container}>
+        <TouchableOpacity style={styles.Container} onPress={onPress}>
             <View style={styles.UserNameContainer}>
                 <Image style={styles.ImageAvatar} source={avatar ? {uri: avatar} : require('../../../assets/images/noAvatar.png')} />
                 <View style={styles.FullNameContainer}>
@@ -30,10 +30,7 @@ const UserItemSearch: React.FC<UserItemProps> = ({ nameUser, fullName, icontick,
                     </View>
                 </View>
             </View>
-            <TouchableOpacity style={styles.Close} onPress={onPress}>
-                <IconClose />
-            </TouchableOpacity>
-        </View>
+        </TouchableOpacity>
     )
 }
 

@@ -6,15 +6,16 @@ import { faMagnifyingGlass, faCircleXmark } from '@fortawesome/free-solid-svg-ic
 type SearchComponentProps = {
     searchText: string;
     onChangeText: (text: string) => void;
+    onPress?: () => void;
 };
 
 
-const SearchComponent:React.FC<SearchComponentProps> = ({searchText, onChangeText}) => {
-    
+const SearchComponent: React.FC<SearchComponentProps> = ({ searchText, onChangeText, onPress }) => {
+
     const [isFocused, setIsFocused] = useState(false); // Trạng thái để theo dõi sự focus
 
     const clearInput = () => {
-        
+
         Keyboard.dismiss();
         onChangeText('');
     };
@@ -22,7 +23,9 @@ const SearchComponent:React.FC<SearchComponentProps> = ({searchText, onChangeTex
     return (
         <View style={styles.container}>
             <View style={[styles.searchContainer, isFocused ? styles.focusedSearchContainer : null]}>
-                <FontAwesomeIcon icon={faMagnifyingGlass} size={20} color="#9F9F9F" />
+                <TouchableOpacity onPress={onPress}>
+                    <FontAwesomeIcon icon={faMagnifyingGlass} size={20} color="#9F9F9F" />
+                </TouchableOpacity>
                 <TextInput
                     placeholder="Search"
                     value={searchText}
@@ -30,7 +33,7 @@ const SearchComponent:React.FC<SearchComponentProps> = ({searchText, onChangeTex
                     onFocus={() => setIsFocused(true)} // Cập nhật trạng thái khi được focus
                     onBlur={() => setIsFocused(false)} // Cập nhật trạng thái khi mất focus
                     style={styles.textInputStyle}
-                    
+
                 />
                 {searchText && (
                     <TouchableOpacity onPress={clearInput}>
@@ -40,7 +43,7 @@ const SearchComponent:React.FC<SearchComponentProps> = ({searchText, onChangeTex
             </View>
             {searchText && (
                 <TouchableOpacity onPress={clearInput} style={styles.cancelButton}>
-                    <Text style = {styles.cancelText}>Cancel</Text>
+                    <Text style={styles.cancelText}>Cancel</Text>
                 </TouchableOpacity>
             )}
         </View>
@@ -50,7 +53,7 @@ const SearchComponent:React.FC<SearchComponentProps> = ({searchText, onChangeTex
 export default SearchComponent
 
 const styles = StyleSheet.create({
-    cancelText:{
+    cancelText: {
         color: '#000000',
         fontSize: 16,
         lineHeight: 18,

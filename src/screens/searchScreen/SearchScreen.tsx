@@ -1,22 +1,30 @@
-import { StyleSheet, Text, View, FlatList } from 'react-native'
-import React, {useState, useEffect} from 'react'
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, TextInput, Keyboard } from 'react-native'
+import React, { useState, useEffect } from 'react'
 import SearchComponent from './component/SearchComponent'
 import UserItemSearch from './component/UserItemSearch'
 import AxiosInstance from '@/network/axiosInstance'
-
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { useNavigation } from '@react-navigation/native'
+import { SearchStackNames } from '@/navigation/SearchNavigator/config'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faMagnifyingGlass, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import HistorySearch from './component/HistorySearch'
+import { formatTime } from './time'
 const axios = AxiosInstance();
 
 
 
 const SearchScreen = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [text, setText] = useState('');
+  const [textInput, setTextInput] = useState('')
   useEffect(() => {
     setLoading(true);
     const fetchData = async (text : string) => {
       setLoading(true);
-      const result = await axios.get(`/user/s/search?q=${text}`);
+      const result = await axios.get(`/user/s/search/history`);
       setData(result.data);
       setLoading(false);
       console.log('result: ', result);
@@ -29,29 +37,74 @@ const SearchScreen = () => {
       setLoading(false);
     }
   }, [text]);
+  const [isFocused, setIsFocused] = useState(false); // Trạng thái để theo dõi sự focus
+
+  const clearInput = () => {
+
+    Keyboard.dismiss();
+  };
+  const onPressDelete = async (id: string) => {
+    try {
+      const result: any = await axios.delete(`/user/deleteSearchHistory/${id}`);
+      if (result.message.includes("success") ) {
+        // Cập nhật state để loại bỏ mục đã xóa khỏi giao diện
+        const result = await axios.get(`/user/s/search/history`);
+        setData(result.data);
+        console.log('result: ', result);
+      }
+    } catch (error) {
+      console.log('Error: ', error);
+    }
+  };
+  const onPressSearch = (searchText: string) => {
+    navigation.navigate(SearchStackNames.ResultSearch, { searchText: searchText });
+    console.log(searchText, 'onPressSearch');
+  }
+
   return (
     <View style={styles.Container}>
       <View style={styles.SearchContainer}>
-        <SearchComponent searchText={text}
-          onChangeText={(text) => setText(text)}
-        />
+        <View style={styles.containerSearch}>
+          <View style={[styles.searchContainer, isFocused ? styles.focusedSearchContainer : null]}>
+            <TouchableOpacity onPress={() => onPressSearch(textInput)}>
+              <FontAwesomeIcon icon={faMagnifyingGlass} size={20} color="#9F9F9F" />
+            </TouchableOpacity>
+            <TextInput
+              placeholder="Search"
+              value={textInput}
+              onChangeText={(text) => setTextInput(text)}
+              onFocus={() => setIsFocused(true)} // Cập nhật trạng thái khi được focus
+              onBlur={() => setIsFocused(false)} // Cập nhật trạng thái khi mất focus
+              style={styles.textInputStyle}
+            />
+            <TouchableOpacity onPress={clearInput}>
+              <FontAwesomeIcon icon={faCircleXmark} size={20} color="#767676" />
+            </TouchableOpacity>
+
+          </View>
+          <TouchableOpacity onPress={clearInput} style={styles.cancelButton}>
+            <Text style={styles.cancelText}>Cancel</Text>
+          </TouchableOpacity>
+        </View>
       </View>
       <View style={styles.Line}></View>
-      <FlatList
-        data={data}
-        keyExtractor={(item) => item._id.toString()}
-        renderItem={({ item }) => (
-          <UserItemSearch
-            key={item.id}
-            nameUser={item.userName}
-            fullName={item.fullName}
-            icontick={item.icontick}
-            avatar={item.avatar}
-            followersCount={item.following_status}
-          />
-        )}
-        contentContainerStyle={styles.UserItemContainer}
-      />
+      <Text style = {styles.titleHistorySearch}>Lịch sử tìm kiếm</Text>
+      <View >
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={data}
+          keyExtractor={(item) => item._id.toString()}
+          renderItem={({ item }) => (
+            <HistorySearch
+              titleSearch={item.search}
+              timeHistory= {formatTime(item.createdAt)}
+              onPressDelete={() => onPressDelete(item._id)}
+              onPressSearch={() => onPressSearch(item.search)}
+            />
+          )}
+          contentContainerStyle={styles.UserItemContainer}
+        />
+      </View>
 
     </View>
   )
@@ -60,6 +113,52 @@ const SearchScreen = () => {
 export default SearchScreen
 
 const styles = StyleSheet.create({
+  titleHistorySearch:{
+    fontSize: 16,
+    lineHeight: 18,
+    fontFamily: 'Roboto',
+    fontWeight: '400',
+    color: '#000000',
+    marginLeft: 16,
+  },
+  cancelText: {
+    color: '#000000',
+    fontSize: 16,
+    lineHeight: 18,
+    fontFamily: 'Roboto',
+    fontWeight: '400',
+  },
+  containerSearch: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    marginTop: 24,
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#F7F7F7',
+    borderRadius: 16,
+    paddingHorizontal: 16,
+    flex: 1,
+    borderWidth: 1, // Thêm viền
+    borderColor: '#F7F7F7', // Màu viền mặc định
+  },
+  focusedSearchContainer: {
+    borderColor: '#E693BF', // Màu viền khi được focus
+  },
+  textInputStyle: {
+    lineHeight: 21,
+    fontSize: 15,
+    fontFamily: 'Roboto',
+    fontWeight: '400',
+    color: '#000',
+    marginLeft: 16,
+    flex: 1,
+  },
+  cancelButton: {
+    marginLeft: 10,
+  },
   UserItemContainer: {
     padding: 16,
   },

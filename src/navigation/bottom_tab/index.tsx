@@ -11,6 +11,7 @@ import ProfileScreen from '@/screens/profileScreens/ProfileScreen';
 import ProfileNavigator from '../ProfileNavigator';
 import Notification from '@/screens/Notification/NotificationScreen';
 import SearchScreen from '@/screens/searchScreen/SearchScreen';
+import SearchNavigator from '../SearchNavigator';
 const Tab = createBottomTabNavigator();
 type BottomTabProps = {
   icon: (props: SvgProps) => React.JSX.Element;
@@ -26,7 +27,7 @@ const BottomTabs: BottomTabProps[] = [
   {
     icon: SearchIcon,
     name: 'Search',
-    component: SearchScreen,
+    component: SearchNavigator,
   },
   {
     icon: PostIcon,
