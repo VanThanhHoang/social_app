@@ -6,7 +6,7 @@ export function formatPostTime(postTime: Date) {
     const diffHours = currentTime.diff(postTime, 'hours');
     const diffDays = currentTime.diff(postTime, 'days');
 
-    if (diffMinutes < 1) {
+    if (diffMinutes < 1)    {
         return 'Vừa xong';
     } else if (diffHours < 1) {
         return `${diffMinutes} phút trước`;

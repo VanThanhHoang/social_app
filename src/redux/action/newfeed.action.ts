@@ -9,6 +9,7 @@ const fetchNewFeed = createAsyncThunk(
       const response: PostResponse = await AxiosInstance().get(
         `post/new_feed?page=${page}`,
       );
+      console.log(response);
       return response; // Trả về dữ liệu để lưu vào store (nếu cần)
     } catch (error) {
       return thunkApi.rejectWithValue(error);

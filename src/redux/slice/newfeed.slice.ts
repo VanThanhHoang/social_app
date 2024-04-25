@@ -6,11 +6,13 @@ export interface NewFeedState {
   posts: Post[];
   currentPage: number;
   status: 'idle' | 'loading' | 'failed';
+  isLastPage:boolean;
 }
 const initialState: NewFeedState = {
   posts: [],
   currentPage: 1,
   status: 'idle',
+  isLastPage:false,
 };
 const newfeedSate = createSlice({
   name: 'newFeedSate',
@@ -22,6 +24,12 @@ const newfeedSate = createSlice({
         state.status = 'idle';
         const page = action.meta.arg;
         state.currentPage = page;
+        if(!action.payload.nextPage){
+          state.isLastPage = true;
+        }
+        if(action.payload.posts.length === 0){
+          return;
+        }
         if (page === 1) {
           state.posts = action.payload.posts;
         } else {

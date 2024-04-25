@@ -34,6 +34,8 @@ import {useDispatch} from 'react-redux';
 import {NewfeedAction} from '@/redux/action/newfeed.action';
 import {Post} from '@/type';
 import {NewFeedState} from '@/redux/slice/newfeed.slice';
+import FooterList from './components/FooterList';
+import FooterLastPageList from './components/FooterLastPageList';
 const HomeScreen = () => {
   console.log('HomeScreen');
   const userInfo = useAppSelector(userInfoSelector);
@@ -169,13 +171,13 @@ const HomeScreen = () => {
   const handleDetail = (item: any) => {
     navigation.navigate(AppStackNames.HomeNavigator, {
       screen: HomeStackNames.PostDetail,
-      params: {itemData: item},
+      params: {post: item},
     });
   };
   const {t} = useTranslation();
   // handle new feed
   const appDispatch = useAppDispatch();
-  const {posts, currentPage, status}: NewFeedState = useAppSelector(
+  const {posts, currentPage, status, isLastPage}: NewFeedState = useAppSelector(
     state => state.newFeed,
   );
   useEffect(() => {
@@ -184,12 +186,13 @@ const HomeScreen = () => {
       getNewfeedPromise.abort();
     };
   }, []);
-  const isFirstLoadData = ()=>{
+  const isFirstLoadData = () => {
     return posts.length == 0 && currentPage === 1;
-  }
+  };
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <Header onPressToggle={toggleBottomSheet} />
+
       {isFirstLoadData() && (
         <>
           <SkeletonLoader />
@@ -200,6 +203,11 @@ const HomeScreen = () => {
       <View>
         {!isFirstLaunch && <Modal1 />}
         <FlatList
+          ListFooterComponent={() => {
+            console.log('isLastPage', isLastPage);
+            return isLastPage ? <FooterLastPageList /> : <FooterList />;
+          }}
+          onEndReachedThreshold={0.8}
           onEndReached={() => {
             appDispatch(NewfeedAction.fetchNewFeed(currentPage + 1));
           }}
@@ -207,6 +215,7 @@ const HomeScreen = () => {
           keyExtractor={item => {
             return item._id;
           }}
+          contentContainerStyle={{paddingBottom: 100}}
           showsVerticalScrollIndicator={false}
           renderItem={({item}) => (
             <CardView

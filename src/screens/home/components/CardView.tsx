@@ -1,12 +1,5 @@
-import {
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState, useEffect} from 'react';
-import {icons, images} from '@/assets';
 import {colors} from '@/theme';
 import SvgSwitch from '@/assets/icons/iconSVG/Switch';
 import SvgSend from '@/assets/icons/iconSVG/Send';
@@ -18,7 +11,7 @@ import AutoHeightImage from 'react-native-auto-height-image';
 import Share from 'react-native-share';
 import ListImageContent from '@/screens/home/components/ListImageContent';
 import {formatPostTime} from '@/utils/time';
-import { Media } from '@/type';
+import {Media} from '@/type';
 
 interface CardViewProps {
   avatar: string;
@@ -35,7 +28,6 @@ interface CardViewProps {
   onPressSwitch?: () => void;
   onPressDetail?: () => void;
   style?: any;
-
   showView?: boolean;
 }
 const CardView: React.FC<CardViewProps> = ({...props}) => {
@@ -43,7 +35,6 @@ const CardView: React.FC<CardViewProps> = ({...props}) => {
   const [like, setLike] = useState<Boolean>(false);
   const handleLike = () => {
     setLike(!like);
-    console.log(like);
   };
   const onSearch = () => {
     const options = {
@@ -77,28 +68,29 @@ const CardView: React.FC<CardViewProps> = ({...props}) => {
       ) : (
         <View style={{height: 0}} />
       )}
-      <View style={{flexDirection: 'row', padding: 20}}>
-        <Image style={styles.imgCar} source={{uri: props.avatar}} />
-        <View>
-          <View style={styles.containerTick}>
-            <Text
-              style={{fontSize: 16, fontWeight: '500', color: colors.black}}>
-              {props.title}
+      <View
+        style={{
+          flexDirection: 'row',
+          padding: 20,
+          justifyContent: 'space-between',
+        }}>
+        <View style={{flexDirection: 'row'}}>
+          <Image style={styles.imgCar} source={{uri: props.avatar}} />
+          <View>
+            <View style={styles.containerTick}>
+              <Text
+                style={{fontSize: 16, fontWeight: '500', color: colors.black}}>
+                {props.title}
+              </Text>
+            </View>
+            <Text style={{fontSize: 12, marginStart: 10, marginTop: 3}}>
+              {formatPostTime(props.hour)}
             </Text>
-            <Image
-              style={{width: 20, height: 20, marginStart: 4}}
-              source={icons.tick}
-            />
-            <TouchableOpacity
-              onPress={props.onPress}
-              style={{position: 'absolute', marginStart: 290}}>
-              <Svg3dot />
-            </TouchableOpacity>
           </View>
-          <Text style={{fontSize: 12, marginStart: 10, marginTop: 3}}>
-            {formatPostTime(props.hour)}
-          </Text>
         </View>
+        <TouchableOpacity onPress={props.onPress}>
+          <Svg3dot />
+        </TouchableOpacity>
       </View>
       {props.description ? (
         <Text style={styles.title}>{props.description}</Text>
@@ -181,6 +173,7 @@ const styles = StyleSheet.create({
   containerTick: {
     flexDirection: 'row',
     marginStart: 12,
+    justifyContent: 'space-between',
   },
   imgCar: {
     width: 46,
