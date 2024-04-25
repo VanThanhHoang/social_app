@@ -19,27 +19,33 @@ const useAsynsLanguage = () => {
 export default function AppNavigator() {
   const AppStack = createNativeStackNavigator<RootStackParamList>();
   const {isLoading} = useAppSelector(state => state.app);
-  const useInfo = localStorage.getString("userInfo");
+  const useInfo = localStorage.getString('userInfo');
   useAsynsLanguage();
   return (
     <>
-    <LoadingModal visible={isLoading}/>
-    <NavigationContainer>
-      <AppStack.Navigator
-      initialRouteName={useInfo ? AppStackNames.HomeBottomTab : AppStackNames.LoginNavigation}
-       screenOptions={{
-        headerShown: false
-      }}>
-        {AppStacks.map((stack, index) => {
-            return <AppStack.Screen
-              key={index}
-              name={stack.name}
-              component={stack.component}
-              options={stack.options}
-            />;
+      <LoadingModal visible={isLoading} />
+      <NavigationContainer>
+        <AppStack.Navigator
+          initialRouteName={
+            useInfo
+              ? AppStackNames.HomeBottomTab
+              : AppStackNames.LoginNavigation
+          }
+          screenOptions={{
+            headerShown: false,
+          }}>
+          {AppStacks.map((stack, index) => {
+            return (
+              <AppStack.Screen
+                key={index}
+                name={stack.name}
+                component={stack.component}
+                options={stack.options}
+              />
+            );
           })}
-      </AppStack.Navigator>
-    </NavigationContainer>
+        </AppStack.Navigator>
+      </NavigationContainer>
     </>
   );
 }

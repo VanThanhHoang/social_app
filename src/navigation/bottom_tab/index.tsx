@@ -55,16 +55,19 @@ function AppBottomTab() {
         tabBarInactiveTintColor: '#C8C8C8',
         tabBarHideOnKeyboard: true,
       }}>
-      {BottomTabs.map((tab, index) => (
-        <Tab.Screen
-          key={index}
-          name={tab.name}
-          component={tab.component}
-          options={{
-            tabBarIcon: ({color}) => <tab.icon color={color} />,
-          }}
-        />
-      ))}
+      {BottomTabs.map((tab, index) => {
+        return (
+          <Tab.Screen
+            key={index}
+            name={tab.name}
+            component={tab.component}
+            options={{
+              tabBarIcon: ({color}) => <tab.icon color={color} />,
+              tabBarHideOnKeyboard: true,
+            }}
+          />
+        );
+      })}
     </Tab.Navigator>
   );
 }

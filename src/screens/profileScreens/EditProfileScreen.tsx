@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, TouchableOpacity, View, Platform, PermissionsAndroid, Alert, Image, } from 'react-native'
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, Platform, PermissionsAndroid, Alert, Image, TouchableWithoutFeedback, Animated, } from 'react-native'
 import React, { useState, useEffect, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
@@ -26,6 +26,9 @@ const EditProfileCard = () => {
     const [userName, setUserName] = useState('');
     const originalUserName = useRef(userName); // Lưu trữ giá trị ban đầu của userName
     const [bio, setBio] = useState('');
+    const [account_type, setAccount_type] = useState(0);
+    const [isEnabled, setIsEnabled] = useState(false);
+    const animatedValue = useRef(new Animated.Value(0)).current;
     const [link, setLink] = useState('');
     const requestCameraPermission = async () => {
         if (Platform.OS === 'android') {
@@ -155,19 +158,20 @@ const EditProfileCard = () => {
         }
     };
     const { t } = useTranslation();
-
     const userInfo = useAppSelector(userInfoSelector);
     useEffect(() => {
         if (userInfo) {
-           getProfile();
+            getProfile();
         }
-    },  [userInfo._id]);
+
+    }, [userInfo._id]);
     const data = {
         userName: userName,
         fullName: fullName,
         avatar: selectedImage,
         bio: bio,
         links: [link],
+        account_type: account_type,
     };
     const getProfile = async () => {
         try {
@@ -178,6 +182,9 @@ const EditProfileCard = () => {
             setBio(response.data.bio);
             setLink(response.data.links.join(''));
             setSelectedImage(response.data.avatar);
+            setAccount_type(response.data.account_type);
+            setIsEnabled(response.data.account_type === 1); // Cập nhật trạng thái switch dựa trên account_type
+            animatedValue.setValue(response.data.account_type === 1 ? 1 : 0); // Đặt giá trị animatedValue phù hợp
             return response.data;
         } catch (error) {
             console.log(error);
@@ -198,6 +205,25 @@ const EditProfileCard = () => {
         }
 
     }
+    const toggleSwitch = () => {
+        setIsEnabled(previousState => {
+            const newState = !previousState;
+            setAccount_type(newState ? 1 : 0); // Cập nhật account_type dựa trên trạng thái mới của isEnabled
+            return newState;
+        });
+        Animated.timing(animatedValue, {
+            toValue: isEnabled ? 0 : 1,
+            duration: 250,
+            useNativeDriver: false,
+        }).start();
+    };
+
+    const switchTranslate = animatedValue.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0.5, 23], // Adjust these values according to the size of your switch
+    });
+    console.log(account_type);
+    console.log(isEnabled);
     return (
         <View style={styles.Container}>
             <View style={styles.HeaderContainer}>
@@ -241,7 +267,7 @@ const EditProfileCard = () => {
                         <View style={styles.NameTitleContainer}>
                             <TouchableOpacity>
                                 <Text style={styles.NameTitle}>User name</Text>
-                                <TextInput placeholder="+ User name" style={styles.TextInputStyle} value={userName} onChangeText={setUserName}/>
+                                <TextInput placeholder="+ User name" style={styles.TextInputStyle} value={userName} onChangeText={setUserName} />
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -250,7 +276,7 @@ const EditProfileCard = () => {
                         <View style={styles.NameTitleContainer}>
                             <TouchableOpacity>
                                 <Text style={styles.NameTitle}>Bio</Text>
-                                <TextInput placeholder="+ Bio" style={styles.TextInputStyle} value={bio} onChangeText={setBio}/>
+                                <TextInput placeholder="+ Bio" style={styles.TextInputStyle} value={bio} onChangeText={setBio} />
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -259,16 +285,35 @@ const EditProfileCard = () => {
                         <View style={styles.NameTitleContainer}>
                             <TouchableOpacity>
                                 <Text style={styles.NameTitle}>Link</Text>
-                                <TextInput placeholder="+ Link" style={styles.TextInputStyle} value={link}  onChangeText={setLink}/>
+                                <TextInput placeholder="+ Link" style={styles.TextInputStyle} value={link} onChangeText={setLink} />
                             </TouchableOpacity>
                         </View>
                     </View>
                     <View style={styles.line}></View>
-
                     <View>
-                        <ButtonSwitch title='Your profile is private' iconOn={<IconRinged />} iconOff={<IconPrivacy />} />
-                    </View>
+                        <View style={styles.ContainerSwitch}>
+                            {/* <Text style={styles.TextStyle}>Your profile is private </Text> */}
+                            {
+                                isEnabled ? (<Text style={styles.TextStyle}>Your profile is public </Text>) : (<Text style={styles.TextStyle}>Your profile is private </Text>)
+                            }
+                            <TouchableWithoutFeedback onPress={toggleSwitch}>
+                                <View style={styles.switchContainer}>
+                                    <Animated.View
+                                        style={[
+                                            styles.switchCircle,
+                                            { transform: [{ translateX: switchTranslate }] },
+                                            isEnabled && styles.switchEnabled,
+                                        ]}
+                                    >
+                                        <View style={styles.textContainer}>
+                                            {isEnabled ? (<IconRinged /> ? <IconRinged /> : <Text style={styles.switchText}>On</Text>) : (<IconPrivacy /> ? <IconPrivacy /> : <Text style={styles.switchText}>Off</Text>)}
+                                        </View>
+                                    </Animated.View>
+                                </View>
+                            </TouchableWithoutFeedback>
+                        </View>
 
+                    </View>
                 </View>
             </View>
         </View>
@@ -278,6 +323,68 @@ const EditProfileCard = () => {
 export default EditProfileCard
 
 const styles = StyleSheet.create({
+    ContainerSwitch: {
+        marginTop: 26,
+        marginHorizontal: 16,
+        paddingVertical: 12,
+        paddingHorizontal: 16,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        borderRadius: 12,
+        backgroundColor: '#fff',
+
+        // iOS bóng đổ
+        shadowColor: "#000",
+
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 12,
+
+        // Android bóng đổ
+        elevation: 5,
+    },
+    TextStyle: {
+        fontSize: 16,
+        fontFamily: 'Roboto',
+        fontWeight: '700',
+        color: '#2C2B2B',
+    },
+    textContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        // Đảm bảo rằng kích thước của View này đủ lớn để chứa Text
+        width: '100%', // Hoặc một giá trị cụ thể nếu cần
+        height: '100%', // Tương tự như trên
+    },
+    switchContainer: {
+        width: 72, // Kích thước của container switch
+        height: 38, // Chiều cao của container switch
+        borderRadius: 18, // Bo góc của container switch
+        backgroundColor: '#E9E9EA', // Màu nền của container switch
+        padding: 3.5, // Khoảng cách giữa viền và nội dung bên trong
+    },
+    switchCircle: {
+        width: 42.353, // Điều chỉnh chiều rộng của hình chữ nhật
+        height: 30, // Điều chỉnh chiều cao của hình chữ nhật để phù hợp với container
+        borderRadius: 16, // Bo góc của hình chữ nhật
+        backgroundColor: '#fff', // Màu nền của hình chữ nhật
+        justifyContent: 'center', // Căn giữa chữ theo chiều dọc
+        alignItems: 'center', // Căn giữa chữ theo chiều ngang
+    },
+    switchText: {
+        fontSize: 14, // Kích thước font chữ
+        color: '#767676', // Màu chữ
+        fontFamily: 'Roboto', // Font chữ
+        fontWeight: '700', // Độ đậm của chữ
+        alignItems: 'center', // Căn giữa chữ theo chiều dọc
+    },
+    switchEnabled: {
+
+    },
     Container: {
         flex: 1,
         backgroundColor: 'white',
