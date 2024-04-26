@@ -1,32 +1,33 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-
+import React from 'react';
+import {View, Text, StyleSheet} from 'react-native';
 
 interface HeaderForgotProps {
-  title: string,
-  title2: string
-}
-const HeaderForgot:React.FC<HeaderForgotProps> = ({...props}) => {
-  return (
-    <View>
-      <Text style={styles.title}>{props.title}</Text>
-      <Text style={styles.title2}>{props.title2}</Text>
-    </View>
-  )
+  title: string;
+  title2: string;
 }
 
-export default HeaderForgot
+const HeaderForgot: React.FC<HeaderForgotProps> = ({title, title2}) => {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.title2}>{title2}</Text>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
-    title: {
-        fontSize: 30,
-        fontWeight: '700',
-        color: '#000',
-        marginTop: 24,
-    },
-    title2: {
-        fontSize: 15,
-        color: '#7E7E7E',
-        marginTop: 8,
-    },
-})
+  container: {
+    padding: 20,
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  title2: {
+    fontSize: 16,
+    marginTop: 10,
+  },
+});
+
+export default HeaderForgot;
