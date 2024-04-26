@@ -27,6 +27,7 @@ const ProfileUser: React.FC<ProfileUserProps> = ({onPressEditProfile}) => {
     if (isFocused) getProfile();
   }, [userInfor._id, isFocused]);
 
+  console.log(userInfor._id);
   const getProfile = async () => {
     try {
       const response = await axios.get(`/user/${userInfor._id}`);
@@ -35,6 +36,7 @@ const ProfileUser: React.FC<ProfileUserProps> = ({onPressEditProfile}) => {
       setBio(response.data.bio);
       setLink(response.data.links.join(''));
       setAvatar(response.data.avatar);
+      console.log(response.data, "dataaaaaaa");
       return response.data;
     } catch (error) {
       console.log(error);
@@ -60,7 +62,7 @@ const ProfileUser: React.FC<ProfileUserProps> = ({onPressEditProfile}) => {
           />
         </View>
         <View style={styles.EditProfileContainer}>
-          <TouchableOpacity style={styles.ButtonEditProfileStyle}>
+          <TouchableOpacity style={styles.ButtonEditProfileStyle} onPress={onPressEditProfile}>
             <Text style={styles.EditProfileTextStyle}>{t('Edit profile')}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.ButtonShareStyle}>

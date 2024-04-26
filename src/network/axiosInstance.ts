@@ -10,9 +10,9 @@ const AxiosInstance = (contentType = 'application/json') => {
 
   axiosInstance.interceptors.request.use(
     async (config: any) => {
-      // const token = localStorage.getString('token');
-      const token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MjY5ZGY4NzI5OGM0Y2FmNjI0ZTNiMiIsImVtYWlsIjoiaG9hbmd2YW50aGFuaGRldkBnbWFpbCIsImlhdCI6MTcxMzk0NDkyOSwiZXhwIjoxNzE0NTQ5NzI5fQ.Qmb3oRyn9xvAPq9YKn0ZezkZDjbtMmyCpKF4-j8T7cw';
+      const token = localStorage.getString('token');
+      // const token =
+      //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MjY5ZGY4NzI5OGM0Y2FmNjI0ZTNiMiIsImVtYWlsIjoiaG9hbmd2YW50aGFuaGRldkBnbWFpbCIsImlhdCI6MTcxMzk0NDkyOSwiZXhwIjoxNzE0NTQ5NzI5fQ.Qmb3oRyn9xvAPq9YKn0ZezkZDjbtMmyCpKF4-j8T7cw';
       console.log('token', token);
       config.headers = {
         Authorization: `Bearer ${token}`,

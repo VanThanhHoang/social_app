@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, FlatList } from 'react-native'
-import React, {useState, useEffect} from 'react'
+import { StyleSheet, Text, View, FlatList, ActivityIndicator } from 'react-native'
+import React, { useState, useEffect } from 'react'
 import SearchComponent from './component/SearchComponent'
 import UserItemSearch from './component/UserItemSearch'
 import AxiosInstance from '@/network/axiosInstance'
@@ -22,7 +22,7 @@ const ResultSearch = () => {
   const [text, setText] = useState(searchText);
   useEffect(() => {
     setLoading(true);
-    const fetchData = async (text : string) => {
+    const fetchData = async (text: string) => {
       setLoading(true);
       const result = await axios.get(`/user/s/search?q=${text}`);
       setData(result.data);
@@ -41,15 +41,18 @@ const ResultSearch = () => {
     navigation.navigate(SearchStackNames.UserProfileDetail, { userId: userId, userName: userName });
     console.log('onPressResult');
   }
-  
+
   return (
     <View style={styles.Container}>
-      <View style={styles.SearchContainer}>
-        <SearchComponent searchText={text}
-          onChangeText={(text) => setText(text)}
-        />
-      </View>
-      <View style={styles.Line}></View>
+    <View style={styles.SearchContainer}>
+      <SearchComponent searchText={text} onChangeText={(text) => setText(text)} />
+    </View>
+    <View style={styles.Line}></View>
+    {loading ? (
+      <ActivityIndicator size="large" color="#0000ff" />
+    ) : data.length === 0 ? (
+      <Text style={styles.NoResultsText}>Không tìm thấy kết quả</Text>
+    ) : (
       <FlatList
         data={data}
         keyExtractor={(item) => item._id.toString()}
@@ -66,14 +69,20 @@ const ResultSearch = () => {
         )}
         contentContainerStyle={styles.UserItemContainer}
       />
-
-    </View>
+    )}
+  </View>
   )
 }
 
 export default ResultSearch
 
 const styles = StyleSheet.create({
+  NoResultsText: {
+    textAlign: 'center',
+    marginTop: 20,
+    fontSize: 16,
+    color: 'grey'
+  },
   UserItemContainer: {
     padding: 16,
   },

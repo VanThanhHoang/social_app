@@ -165,6 +165,7 @@ const EditProfileCard = () => {
         }
 
     }, [userInfo._id]);
+    console.log(userInfo._id);
     const data = {
         userName: userName,
         fullName: fullName,
@@ -183,6 +184,7 @@ const EditProfileCard = () => {
             setLink(response.data.links.join(''));
             setSelectedImage(response.data.avatar);
             setAccount_type(response.data.account_type);
+            console.log(response.data.account_type, 'account_type');
             setIsEnabled(response.data.account_type === 1); // Cập nhật trạng thái switch dựa trên account_type
             animatedValue.setValue(response.data.account_type === 1 ? 1 : 0); // Đặt giá trị animatedValue phù hợp
             return response.data;

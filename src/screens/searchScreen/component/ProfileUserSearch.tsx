@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import IconShare from '@/assets/icons/IconShare'
 import Icontick from '@/assets/icons/Icontick'
 import IconLink from '@/assets/icons/IconLink'
@@ -16,7 +16,7 @@ type ProfileUserProps = {
     onPressEditProfile?: () => void;
 }
 
-const ProfileUserSearch:React.FC<ProfileUserProps> = ({userId, onPressEditProfile}) => {
+const ProfileUserSearch: React.FC<ProfileUserProps> = ({ userId, onPressEditProfile }) => {
     console.log(userId, "ádadasdsadsadsadsd");
     const [fullName, setFullName] = useState('');
     const [userName, setUserName] = useState('');
@@ -24,10 +24,10 @@ const ProfileUserSearch:React.FC<ProfileUserProps> = ({userId, onPressEditProfil
     const [link, setLink] = useState('');
     const [avatar, setAvatar] = useState('');
     const isFocused = useIsFocused();
-    
-useEffect(() => {
-    getProfile();
-}, [isFocused]);
+
+    useEffect(() => {
+        getProfile();
+    }, [isFocused]);
     const getProfile = async () => {
         try {
             const response = await axios.get(`/user/${userId}`);
@@ -48,9 +48,12 @@ useEffect(() => {
             <View style={styles.AvatarContainer}>
                 <View>
                     <Image source={require('@/assets/images/backgroundavatarprofile.png')} style={styles.BackgroundAvatar} />
-                    <Image source={avatar ? {uri: avatar} : require('../../../assets/images/noAvatar.png')}  style={styles.AvatarStyle} />
+                    <Image source={avatar ? { uri: avatar } : require('../../../assets/images/noAvatar.png')} style={styles.AvatarStyle} />
                 </View>
                 <View style={styles.EditProfileContainer}>
+                    <TouchableOpacity style={styles.ButtonEditProfileStyle}>
+                        <Text style={styles.EditProfileTextStyle}>Follow</Text>
+                    </TouchableOpacity>
                     <TouchableOpacity style={styles.ButtonShareStyle}>
                         <IconShare />
                     </TouchableOpacity>
@@ -228,6 +231,6 @@ const styles = StyleSheet.create({
     },
     Container: {
         padding: 16,
-        
+
     }
 })

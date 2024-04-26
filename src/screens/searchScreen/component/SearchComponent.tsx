@@ -13,23 +13,31 @@ type SearchComponentProps = {
 const SearchComponent: React.FC<SearchComponentProps> = ({ searchText, onChangeText, onPress }) => {
 
     const [isFocused, setIsFocused] = useState(false); // Trạng thái để theo dõi sự focus
-
+    const [inputText, setInputText] = useState(searchText);
     const clearInput = () => {
 
         Keyboard.dismiss();
+        setInputText('');
         onChangeText('');
     };
 
+    const handleSearchPress = () => {
+        onChangeText(inputText); // Cập nhật trạng thái text khi nhấn nút tìm kiếm
+        if (onPress) {
+            onPress();
+        }
+    };
     return (
         <View style={styles.container}>
             <View style={[styles.searchContainer, isFocused ? styles.focusedSearchContainer : null]}>
-                <TouchableOpacity onPress={onPress}>
+                <TouchableOpacity onPress={handleSearchPress}>
                     <FontAwesomeIcon icon={faMagnifyingGlass} size={20} color="#9F9F9F" />
                 </TouchableOpacity>
                 <TextInput
                     placeholder="Search"
-                    value={searchText}
-                    onChangeText={onChangeText}
+                    value={inputText}
+                    onEndEditing={handleSearchPress}
+                    onChangeText={setInputText}
                     onFocus={() => setIsFocused(true)} // Cập nhật trạng thái khi được focus
                     onBlur={() => setIsFocused(false)} // Cập nhật trạng thái khi mất focus
                     style={styles.textInputStyle}

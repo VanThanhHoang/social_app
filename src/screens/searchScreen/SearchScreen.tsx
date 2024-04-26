@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native'
 import { SearchStackNames } from '@/navigation/SearchNavigator/config'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faMagnifyingGlass, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { useIsFocused } from '@react-navigation/native'
 import HistorySearch from './component/HistorySearch'
 import { formatTime } from './time'
 const axios = AxiosInstance();
@@ -20,8 +21,10 @@ const SearchScreen = () => {
   const [loading, setLoading] = useState(true);
   const [text, setText] = useState('');
   const [textInput, setTextInput] = useState('')
+  const isFocusedReLoad = useIsFocused();
   useEffect(() => {
-    setLoading(true);
+    if (isFocusedReLoad) {
+      setLoading(true);
     const fetchData = async (text : string) => {
       setLoading(true);
       const result = await axios.get(`/user/s/search/history`);
@@ -36,7 +39,9 @@ const SearchScreen = () => {
     } finally {
       setLoading(false);
     }
-  }, [text]);
+    }
+    
+  }, [text, isFocusedReLoad]);
   const [isFocused, setIsFocused] = useState(false); // Trạng thái để theo dõi sự focus
 
   const clearInput = () => {
@@ -72,6 +77,7 @@ const SearchScreen = () => {
             <TextInput
               placeholder="Search"
               value={textInput}
+              onEndEditing={() => onPressSearch(textInput)}
               onChangeText={(text) => setTextInput(text)}
               onFocus={() => setIsFocused(true)} // Cập nhật trạng thái khi được focus
               onBlur={() => setIsFocused(false)} // Cập nhật trạng thái khi mất focus
