@@ -174,6 +174,14 @@ const HomeScreen = () => {
       params: {post: item},
     });
   };
+
+  const handleCommentShow = (item: any) => {
+    navigation.navigate(AppStackNames.HomeNavigator, {
+      screen: HomeStackNames.CommentScreen,
+      params: {post: item},
+    });
+  };
+
   const {t} = useTranslation();
   // handle new feed
   const appDispatch = useAppDispatch();
@@ -233,6 +241,7 @@ const HomeScreen = () => {
               onPress={() => toggleBottomSheet1(item.body, item.author.avatar)}
               onPressSwitch={toggleBottomSheet2}
               onPressDetail={() => handleDetail(item)}
+              onPressCommentShow={() => handleCommentShow(item)}
               showView={true}
             />
           )}
@@ -243,7 +252,8 @@ const HomeScreen = () => {
           <TouchableOpacity
             style={styles.overlay}
             onPress={toggleBottomSheet}
-            activeOpacity={0.1}></TouchableOpacity>
+            activeOpacity={0.1}
+          />
         )}
         <BottomSheet
           ref={bottomSheetRef}
@@ -267,7 +277,8 @@ const HomeScreen = () => {
                 borderWidth: 0.2,
                 backgroundColor: colors.grey,
                 marginTop: 27,
-              }}></View>
+              }}
+            />
             <TouchableOpacity
               onPress={() => handleRadioSelect(1)}
               style={{flexDirection: 'row', marginTop: 30}}>
@@ -275,7 +286,7 @@ const HomeScreen = () => {
               <Text style={styles.textWorl}>{t('Worldwide')}</Text>
               <TouchableOpacity style={styles.radioButton}>
                 <View style={styles.radio}>
-                  {check == 1 ? <View style={styles.radio1}></View> : null}
+                  {check == 1 ? <View style={styles.radio1} /> : null}
                 </View>
               </TouchableOpacity>
             </TouchableOpacity>
@@ -286,7 +297,7 @@ const HomeScreen = () => {
               <Text style={styles.textWorl}>{t('Following')} </Text>
               <TouchableOpacity style={styles.radioButton2}>
                 <View style={styles.radio}>
-                  {check == 2 ? <View style={styles.radio1}></View> : null}
+                  {check == 2 ? <View style={styles.radio1} /> : null}
                 </View>
               </TouchableOpacity>
             </TouchableOpacity>
@@ -298,7 +309,8 @@ const HomeScreen = () => {
           <TouchableOpacity
             style={styles.overlay}
             onPress={() => toggleBottomSheet1('', '')}
-            activeOpacity={0.1}></TouchableOpacity>
+            activeOpacity={0.1}
+          />
         )}
         <BottomSheet
           ref={bottomSheet}
@@ -320,7 +332,8 @@ const HomeScreen = () => {
           <TouchableOpacity
             style={styles.overlay}
             onPress={toggleBottomSheet2}
-            activeOpacity={0.1}></TouchableOpacity>
+            activeOpacity={0.1}
+          />
         )}
         <BottomSheet
           ref={bottomSheet1}

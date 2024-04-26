@@ -97,7 +97,12 @@ const PostScreen = () => {
       }),
     };
     const response = await AxiosInstance().post('post/upload_post', data);
-    console.log(response.data);
+    if (response.data.status === 0) {
+      navigation.goBack();
+      setTextContent('');
+      setMedias([]);
+      console.log(response.data);
+    }
   };
 
   const uploadImages = async () => {

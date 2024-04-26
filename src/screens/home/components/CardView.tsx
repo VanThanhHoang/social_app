@@ -27,9 +27,11 @@ interface CardViewProps {
   onPress?: () => void;
   onPressSwitch?: () => void;
   onPressDetail?: () => void;
+  onPressCommentShow?: () => void;
   style?: any;
   showView?: boolean;
 }
+
 const CardView: React.FC<CardViewProps> = ({...props}) => {
   const [focus, setfocus] = useState<Boolean>(false);
   const [like, setLike] = useState<Boolean>(false);
@@ -117,7 +119,9 @@ const CardView: React.FC<CardViewProps> = ({...props}) => {
           {like ? <SvgStar2 /> : <SvgStar />}
         </TouchableOpacity>
         <Text style={styles.textAction}>{props.star}</Text>
-        <TouchableOpacity onPress={props.onPressDetail} style={styles.space}>
+        <TouchableOpacity
+          onPress={props.onPressCommentShow}
+          style={styles.space}>
           <SvgComponent />
         </TouchableOpacity>
         <Text style={styles.textAction}>{props.comment}</Text>
@@ -178,6 +182,6 @@ const styles = StyleSheet.create({
   imgCar: {
     width: 46,
     height: 46,
-    borderRadius: 20,
+    borderRadius: 23,
   },
 });
