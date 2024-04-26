@@ -13,8 +13,6 @@ export enum AppStackNames {
   LoginNavigation = 'LoginNavigation',
   HomeBottomTab = 'HomeBottomTab',
   HomeNavigator = 'HomeNavigator',
-  Screen1 = 'Screen1',
-  Screen2 = 'Screen2',
 }
 
 export type RootStackParamList = {
@@ -23,8 +21,6 @@ export type RootStackParamList = {
   [AppStackNames.HomeNavigator]:
     | NavigatorScreenParams<HomeStackParamList>
     | undefined;
-  [AppStackNames.Screen1]: undefined;
-  [AppStackNames.Screen2]: {userId: string};
 };
 
 interface StackProps {
