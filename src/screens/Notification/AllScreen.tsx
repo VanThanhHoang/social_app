@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -18,6 +18,9 @@ interface ListItem {
   imageUri: string;
   icon?: string;
   type?: number;
+  isFollow?: boolean;
+  isConfirmed?: boolean;
+  isCancel?: boolean;
 }
 
 const formatText = (text: string) => {
@@ -33,7 +36,7 @@ const AllScreen = () => {
       title: 'Leslielexander',
       follow: 'Follow request',
       time: '2s',
-      icon: 'https://scontent.fsgn5-11.fna.fbcdn.net/v/t39.30808-6/432783167_821826239776796_3320816307640071840_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=5f2048&_nc_ohc=FbH5GxF8_TIAb7d8FbV&_nc_ht=scontent.fsgn5-11.fna&oh=00_AfDY3Ildncoq75AbFZ4SOje8LEsy-GlUwfkNVnXuVWZV-Q&oe=661A620C',
+      icon: 'https://lh3.googleusercontent.com/-eKol7jffhIA/AAAAAAAAAAI/AAAAAAAAAAA/ALKGfkmrGrt3N80VTCfonwvlUE4RXRIjgg/s128-c/photo.jpg',
       type: 1,
     },
     {
@@ -43,7 +46,7 @@ const AllScreen = () => {
       title: 'quanhoang',
       follow: 'Follow request',
       time: '2s',
-      icon: 'https://scontent.fsgn5-11.fna.fbcdn.net/v/t39.30808-6/432783167_821826239776796_3320816307640071840_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=5f2048&_nc_ohc=FbH5GxF8_TIAb7d8FbV&_nc_ht=scontent.fsgn5-11.fna&oh=00_AfDY3Ildncoq75AbFZ4SOje8LEsy-GlUwfkNVnXuVWZV-Q&oe=661A620C',
+      icon: 'https://lh3.googleusercontent.com/-eKol7jffhIA/AAAAAAAAAAI/AAAAAAAAAAA/ALKGfkmrGrt3N80VTCfonwvlUE4RXRIjgg/s128-c/photo.jpg',
       type: 1,
     },
     {
@@ -53,7 +56,7 @@ const AllScreen = () => {
       title: 'Leslielexander',
       follow: 'follow you',
       time: '2s',
-      icon: 'https://scontent.fsgn5-11.fna.fbcdn.net/v/t39.30808-6/432783167_821826239776796_3320816307640071840_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=5f2048&_nc_ohc=FbH5GxF8_TIAb7d8FbV&_nc_ht=scontent.fsgn5-11.fna&oh=00_AfDY3Ildncoq75AbFZ4SOje8LEsy-GlUwfkNVnXuVWZV-Q&oe=661A620C',
+      icon: 'https://lh3.googleusercontent.com/-eKol7jffhIA/AAAAAAAAAAI/AAAAAAAAAAA/ALKGfkmrGrt3N80VTCfonwvlUE4RXRIjgg/s128-c/photo.jpg',
       type: 2,
     },
     {
@@ -63,7 +66,7 @@ const AllScreen = () => {
       title: 'Nickygote stared at your post',
       follow: 'Turn up the heat with my UTOPIA',
       time: '2d',
-      icon: 'https://scontent.fsgn5-11.fna.fbcdn.net/v/t39.30808-6/432783167_821826239776796_3320816307640071840_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=5f2048&_nc_ohc=FbH5GxF8_TIAb7d8FbV&_nc_ht=scontent.fsgn5-11.fna&oh=00_AfDY3Ildncoq75AbFZ4SOje8LEsy-GlUwfkNVnXuVWZV-Q&oe=661A620C',
+      icon: 'https://lh3.googleusercontent.com/-eKol7jffhIA/AAAAAAAAAAI/AAAAAAAAAAA/ALKGfkmrGrt3N80VTCfonwvlUE4RXRIjgg/s128-c/photo.jpg',
       type: 3,
     },
     {
@@ -73,7 +76,7 @@ const AllScreen = () => {
       title: 'Item 5',
       follow: 'follow',
       time: '2s',
-      icon: 'https://scontent.fsgn5-11.fna.fbcdn.net/v/t39.30808-6/432783167_821826239776796_3320816307640071840_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=5f2048&_nc_ohc=FbH5GxF8_TIAb7d8FbV&_nc_ht=scontent.fsgn5-11.fna&oh=00_AfDY3Ildncoq75AbFZ4SOje8LEsy-GlUwfkNVnXuVWZV-Q&oe=661A620C',
+      icon: 'https://lh3.googleusercontent.com/-eKol7jffhIA/AAAAAAAAAAI/AAAAAAAAAAA/ALKGfkmrGrt3N80VTCfonwvlUE4RXRIjgg/s128-c/photo.jpg',
       type: 1,
     },
     {
@@ -83,7 +86,7 @@ const AllScreen = () => {
       title: 'Item 5',
       follow: 'follow',
       time: '2s',
-      icon: 'https://scontent.fsgn5-11.fna.fbcdn.net/v/t39.30808-6/432783167_821826239776796_3320816307640071840_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=5f2048&_nc_ohc=FbH5GxF8_TIAb7d8FbV&_nc_ht=scontent.fsgn5-11.fna&oh=00_AfDY3Ildncoq75AbFZ4SOje8LEsy-GlUwfkNVnXuVWZV-Q&oe=661A620C',
+      icon: 'https://lh3.googleusercontent.com/-eKol7jffhIA/AAAAAAAAAAI/AAAAAAAAAAA/ALKGfkmrGrt3N80VTCfonwvlUE4RXRIjgg/s128-c/photo.jpg',
       type: 1,
     },
     {
@@ -137,14 +140,36 @@ const AllScreen = () => {
       type: 1,
     },
   ];
+  const [isData, setIsData] = useState(data);
   const handleConfirm = (item: ListItem) => {
     console.log(`Confirmed: ${item.title}`);
+    const newData = isData.map(dataItem => {
+      if (dataItem.id === item.id) {
+        return {...dataItem, isConfirmed: true, isFollow: true};
+      }
+      return dataItem;
+    });
+    setIsData(newData);
   };
   const handleCancel = (item: ListItem) => {
     console.log(`Cancelled: ${item.title}`);
+    const newData = isData.map(dataItem => {
+      if (dataItem.id === item.id) {
+        return {...dataItem, isCancel: true, isFollow: true};
+      }
+      return dataItem;
+    });
+    setIsData(newData);
   };
   const handleFollow = (item: ListItem) => {
     console.log(`Followed: ${item.title}`);
+    const newData = isData.map(dataItem => {
+      if (dataItem.id === item.id) {
+        return {...dataItem, isFollow: !dataItem.isFollow};
+      }
+      return dataItem;
+    });
+    setIsData(newData);
   };
   const renderItem: ListRenderItem<ListItem> = ({item}) => (
     <View style={styles.item}>
@@ -168,33 +193,56 @@ const AllScreen = () => {
           </View>
         </View>
         {item.type === 1 ? (
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              style={styles.buttonWrapper}
-              onPress={() => handleConfirm(item)}>
-              <Text style={styles.textButton}>{t('Confirm')}</Text>
-            </TouchableOpacity>
-            <View style={{width: 10}} />
-            <TouchableOpacity
-              style={styles.buttonWrapper}
-              onPress={() => handleCancel(item)}>
-              <Text style={styles.textButton}>{t('Cancel')}</Text>
-            </TouchableOpacity>
-          </View>
+          item.isConfirmed ? (
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                style={styles.buttonWrapper}
+                onPress={() => handleFollow(item)}>
+                <Text style={styles.textButton}>
+                  {item.isFollow ? t('Following') : t('Follow')}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          ) : item.isCancel ? (
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                style={styles.buttonWrapper}
+                onPress={() => handleFollow(item)}>
+                <Text style={styles.textButton}>
+                  {item.isFollow ? t('Follow') : t('Following')}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                style={styles.buttonWrapper}
+                onPress={() => handleConfirm(item)}>
+                <Text style={styles.textButton}>{t('Confirm')}</Text>
+              </TouchableOpacity>
+              <View style={{width: 10}} />
+              <TouchableOpacity
+                style={styles.buttonWrapper}
+                onPress={() => handleCancel(item)}>
+                <Text style={styles.textButton}>{t('Cancel')}</Text>
+              </TouchableOpacity>
+            </View>
+          )
         ) : item.type === 2 ? (
           <View style={styles.buttonContainer}>
-            <View style={{width: 10}} />
             <TouchableOpacity
               style={styles.buttonWrapper}
               onPress={() => handleFollow(item)}>
-              <Text style={styles.textButton}>{t('Follow')}</Text>
+              <Text style={styles.textButton}>
+                {item.isFollow ? t('Following') : t('Follow')}
+              </Text>
             </TouchableOpacity>
           </View>
-        ) : (
+        ) : item.type === 3 ? (
           <View style={styles.buttonContainer}>
             <Image style={styles.imageFollow} source={{uri: item.imageUri}} />
           </View>
-        )}
+        ) : null}
       </View>
       <View
         style={{
@@ -205,11 +253,11 @@ const AllScreen = () => {
       />
     </View>
   );
-  const { t} = useTranslation();
+  const {t} = useTranslation();
   return (
     <View style={styles.container}>
       <FlatList
-        data={data}
+        data={isData}
         renderItem={renderItem}
         keyExtractor={item => item.id.toString()}
         showsVerticalScrollIndicator={false}
