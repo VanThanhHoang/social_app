@@ -3,10 +3,14 @@ import {Alert, StyleSheet, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {useTranslation} from 'react-i18next';
+import {useDispatch, useSelector} from 'react-redux';
+import {setLoading} from '@/redux/slice/app.slice';
+import {RootState} from '@/redux/store';
 
 import HeaderBarEditProfile from '@/screens/createProfileScreen/component/HeaderBarEditProfile';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faChevronLeft} from '@fortawesome/free-solid-svg-icons';
+import {faSpinner} from '@fortawesome/free-solid-svg-icons';
 import OtpInput from './componnents/OtpInput';
 import TextInputSignIn2 from '@/screens/sign_up/components/TextInput';
 import Footer from './componnents/Footer';
@@ -21,6 +25,8 @@ const OtpCodeScreen = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [resetFlag, setResetFlag] = useState(false);
   const {t} = useTranslation();
+  const dispatch = useDispatch();
+  const isLoading = useSelector((state: RootState) => state.app.isLoading);
 
   const navigation =
     useNavigation<NativeStackNavigationProp<LoginStackParamList>>();
@@ -39,6 +45,8 @@ const OtpCodeScreen = () => {
       );
       return;
     }
+
+    dispatch(setLoading(true));
 
     try {
       const response: any = await Axios.post('auth/change_pass_otp', {
@@ -73,6 +81,8 @@ const OtpCodeScreen = () => {
           'An error occurred while verifying OTP. Please check your network connection and try again.',
         );
       }
+    } finally {
+      dispatch(setLoading(false));
     }
   };
   const resendOTP = async () => {
@@ -152,13 +162,20 @@ const OtpCodeScreen = () => {
         onChangeText={setConfirmPassword}
         value={confirmPassword}
       />
-      <View style={{marginTop: 200}}>
+      <View
+        style={{
+          marginTop: 180,
+          display: 'flex',
+        }}>
         <ButtonBottom
           title={t('Continue')}
           backgroundColor="#5E4EA0"
           color="#FFFFFF"
-          onPress={handleVerifyOTP}
-        />
+          onPress={handleVerifyOTP}>
+          {isLoading && (
+            <FontAwesomeIcon icon={faSpinner} size={24} color="#FFFFFF" />
+          )}
+        </ButtonBottom>
       </View>
     </View>
   );

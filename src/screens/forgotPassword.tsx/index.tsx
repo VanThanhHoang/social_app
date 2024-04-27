@@ -1,8 +1,9 @@
-import {Alert, StyleSheet, Text, View} from 'react-native';
+import {Alert, StyleSheet, Text, View, Image} from 'react-native';
 import React, {useState} from 'react';
 import HeaderBarEditProfile from '@/screens/createProfileScreen/component/HeaderBarEditProfile';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faChevronLeft} from '@fortawesome/free-solid-svg-icons';
+import {faSpinner} from '@fortawesome/free-solid-svg-icons';
 import {useTranslation} from 'react-i18next';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -11,14 +12,20 @@ import HeaderForgot from './componnents/header';
 import TextInputSignIn2 from '@/screens/sign_up/components/TextInput';
 import ButtonBottom from '@/screens/createProfileScreen/component/ButtonBottom';
 import AxiosInstance from '@/network/axiosInstance';
+import {useDispatch, useSelector} from 'react-redux';
+import {setLoading} from '@/redux/slice/app.slice';
+import {RootState} from '@/redux/store';
 
 const ForgotPass = () => {
   const [email, setEmail] = useState('');
   const {t} = useTranslation();
   const navigation =
     useNavigation<NativeStackNavigationProp<LoginStackParamList>>();
+  const dispatch = useDispatch();
+  const isLoading = useSelector((state: RootState) => state.app.isLoading);
 
   const handleSendOTP = async () => {
+    dispatch(setLoading(true));
     try {
       const response: any = await AxiosInstance().post('auth/send-otp', {
         email,
@@ -35,6 +42,8 @@ const ForgotPass = () => {
         'Error',
         'An error occurred while sending OTP. Please try again later.',
       );
+    } finally {
+      dispatch(setLoading(false));
     }
   };
 
@@ -54,7 +63,7 @@ const ForgotPass = () => {
       />
       <HeaderForgot
         title="Rest your password 🔑"
-        title2="Please enter your email and we wil send On OTP code in the next step to reset your password"
+        title2="Please enter your email and we wil send on OTP code in the next step to reset your password"
       />
       <TextInputSignIn2
         style={styles.Input}
@@ -65,13 +74,16 @@ const ForgotPass = () => {
         value={email}
         onChangeText={setEmail}
       />
-      <View style={{marginTop: 470}}>
+      <View style={{marginTop: 450}}>
         <ButtonBottom
           title={t('Continue')}
           backgroundColor="#5E4EA0"
           color="#FFFFFF"
-          onPress={handleSendOTP}
-        />
+          onPress={handleSendOTP}>
+          {isLoading && (
+            <FontAwesomeIcon icon={faSpinner} size={24} color="#FFFFFF" />
+          )}
+        </ButtonBottom>
       </View>
     </View>
   );
