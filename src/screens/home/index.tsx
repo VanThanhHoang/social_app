@@ -36,10 +36,9 @@ import {Post} from '@/type';
 import {NewFeedState} from '@/redux/slice/newfeed.slice';
 import FooterList from './components/FooterList';
 import FooterLastPageList from './components/FooterLastPageList';
+import AxiosInstance from '@/network/axiosInstance';
 const HomeScreen = () => {
-  console.log('HomeScreen');
-  const userInfo = useAppSelector(userInfoSelector);
-  console.log(userInfo);
+  const navigation = useNavigation();
   const [check, setcheck] = useState<number>(1);
   const [ischeck, setischeck] = useState<boolean>(false);
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -49,11 +48,12 @@ const HomeScreen = () => {
   const [isBottomSheet, setisBottomSheet] = useState<boolean>(false);
   const [isBottomSheet1, setisBottomSheet1] = useState<boolean>(false);
   const snapPoints = useMemo(() => [265], []);
-  const snapPoint = useMemo(() => [265], []);
+  const snapPoint = useMemo(() => [300], []);
   const snapPoint1 = useMemo(() => [176], []);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [selectedTitle, setSelectedTitle] = useState<string>('');
   const [selectedImage, setselectedImage] = useState<string | null>(null);
+  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
   const [ShowAlert, setShowAlert] = useState<boolean>(false);
 
   const toggleBottomSheet = () => {
@@ -72,9 +72,10 @@ const HomeScreen = () => {
     }
     setisBottomSheet1(!isBottomSheet1);
   };
-  const toggleBottomSheet1 = (title: string, logo: string) => {
-    setSelectedTitle(title);
+  const toggleBottomSheet1 = (item: Post, logo: string) => {
+    setSelectedTitle(item.body);
     setselectedImage(logo);
+    setSelectedPost(item);
     if (isBottomSheet) {
       bottomSheet.current?.close();
     } else {
@@ -101,6 +102,38 @@ const HomeScreen = () => {
       ),
     });
   };
+
+  const handleReport = async (post: Post | null) => {
+    const response = await AxiosInstance().post(`post/repost/${post?._id}`);
+    console.log(response);
+    setischeck(true);
+    bottomSheet.current?.close();
+    setIsBottomSheetOpen(false);
+    CustumToast({
+      type: 'success',
+      message: (
+        <Text>
+          {t('You have Report ')}
+          <Text style={{fontWeight: 'bold'}}>{post?.author.fullName}</Text>
+        </Text>
+      ),
+    });
+  };
+
+  const handleRemove = async (post: Post | null) => {
+    const response = await AxiosInstance().delete(
+      `post/delete_post/${post?._id}`,
+    );
+    console.log(response);
+    setischeck(true);
+    bottomSheet.current?.close();
+    setIsBottomSheetOpen(false);
+    CustumToast({
+      type: 'success',
+      message: <Text>{t('You have Remove Post')}</Text>,
+    });
+  };
+
   const handleFollow = (title: string) => {
     setischeck(true);
     bottomSheet.current?.close();
@@ -167,7 +200,6 @@ const HomeScreen = () => {
   };
   const isFirstLaunch = !localStorage.getBoolean('isFirstLaunch');
   localStorage.set('isFirstLaunch', false);
-  const navigation = useNavigation<any>();
   const handleDetail = (item: any) => {
     navigation.navigate(AppStackNames.HomeNavigator, {
       screen: HomeStackNames.PostDetail,
@@ -192,8 +224,9 @@ const HomeScreen = () => {
     const getNewfeedPromise = appDispatch(NewfeedAction.fetchNewFeed(1));
     return () => {
       getNewfeedPromise.abort();
+      setLoading(false);
     };
-  }, []);
+  }, [loading]);
   const isFirstLoadData = () => {
     return posts.length == 0 && currentPage === 1;
   };
@@ -211,6 +244,8 @@ const HomeScreen = () => {
       <View>
         {!isFirstLaunch && <Modal1 />}
         <FlatList
+          refreshing={loading}
+          onRefresh={() => setLoading(true)}
           ListFooterComponent={() => {
             console.log('isLastPage', isLastPage);
             return isLastPage ? <FooterLastPageList /> : <FooterList />;
@@ -231,14 +266,14 @@ const HomeScreen = () => {
               style={{marginTop: 10}}
               avatar={item.author.avatar}
               hour={item.createdAt}
-              title={item.author.userName}
+              title={item.author.fullName}
               description={item.body}
               tag={''}
               share={2}
               image={item.media}
               star={item.reactions.length}
               comment={item.comments.length}
-              onPress={() => toggleBottomSheet1(item.body, item.author.avatar)}
+              onPress={() => toggleBottomSheet1(item, item.author.avatar)}
               onPressSwitch={toggleBottomSheet2}
               onPressDetail={() => handleDetail(item)}
               onPressCommentShow={() => handleCommentShow(item)}
@@ -304,7 +339,8 @@ const HomeScreen = () => {
           </View>
         </BottomSheet>
       </View>
-      <View style={{width: 406, height: '100%', flex: 1, position: 'absolute'}}>
+      <View
+        style={{width: '100%', height: '100%', flex: 1, position: 'absolute'}}>
         {isBottomSheet && (
           <TouchableOpacity
             style={styles.overlay}
@@ -320,6 +356,16 @@ const HomeScreen = () => {
             setisBottomSheet(index !== -1);
           }}>
           <ViewBottomSheet
+            author={selectedPost?.author}
+            onPressEdit={() => {
+              navigation.navigate(AppStackNames.HomeNavigator, {
+                screen: HomeStackNames.EditPostScreen,
+                params: {post: selectedPost},
+              });
+              toggleBottomSheet1('', '');
+            }}
+            onPressReport={() => handleReport(selectedPost)}
+            onPressRemove={() => handleRemove(selectedPost)}
             onPressToggle={() => handleFollow(selectedTitle)}
             onPressMute={() => handleMute(selectedTitle)}
             onPressHide={() => handleHide(selectedTitle)}

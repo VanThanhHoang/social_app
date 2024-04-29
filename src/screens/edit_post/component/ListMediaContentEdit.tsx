@@ -1,9 +1,10 @@
-import {Dimensions, FlatList, Image, StyleSheet} from 'react-native';
+import {Dimensions, FlatList, StyleSheet} from 'react-native';
 import React from 'react';
-import {ImageOrVideo} from 'react-native-image-crop-picker';
+import {Media} from '@/type';
+import AutoHeightImage from 'react-native-auto-height-image';
 
 interface ListMediaContentProps {
-  medias: Array<ImageOrVideo>;
+  medias: Array<Media>;
 }
 
 const {width} = Dimensions.get('window');
@@ -26,11 +27,11 @@ const ListMediaContent = ({medias}: ListMediaContentProps) => {
       snapToAlignment={'center'}
       data={medias}
       renderItem={({item, index}) => (
-        <Image
-          source={{uri: item.path}}
+        <AutoHeightImage
+          source={{uri: item.link}}
+          width={itemWidth}
           style={[
             styles.image,
-            {height: itemWidth * (item.height / item.width)},
             index === 0
               ? {marginLeft: 16}
               : index === medias.length - 1

@@ -22,6 +22,7 @@ interface ToolBarProps {
   handlePresentModalPress: any;
   handlePresentImageModalPress: any;
   showBottomSheet: Dispatch<SetStateAction<boolean>>;
+  editMode: boolean;
 }
 
 const ToolBar = ({
@@ -29,6 +30,7 @@ const ToolBar = ({
   audienceType,
   handlePresentModalPress,
   handlePresentImageModalPress,
+  editMode,
 }: ToolBarProps) => {
   const onLayout = (event: LayoutChangeEvent) => {
     const {height} = event.nativeEvent.layout;
@@ -39,13 +41,17 @@ const ToolBar = ({
 
   return (
     <View style={styles.body} onLayout={onLayout}>
-      <TouchableOpacity onPress={handlePresentImageModalPress}>
-        <FontAwesomeIcon
-          icon={faPaperclip}
-          size={24}
-          color={colors.primaryColor}
-        />
-      </TouchableOpacity>
+      {editMode ? (
+        <View />
+      ) : (
+        <TouchableOpacity onPress={handlePresentImageModalPress}>
+          <FontAwesomeIcon
+            icon={faPaperclip}
+            size={24}
+            color={colors.primaryColor}
+          />
+        </TouchableOpacity>
+      )}
       <TouchableOpacity
         onPress={handlePresentModalPress}
         style={styles.audience}>
