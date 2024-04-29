@@ -47,6 +47,9 @@ const CommentScreen = () => {
         </TouchableOpacity>
         <ScrollView>
           <CardView
+            isLike={itemData.isLiked}
+            _id={itemData._id}
+            userId={itemData.author._id}
             avatar={itemData.author.avatar}
             hour={itemData.createdAt}
             title={itemData.author.userName}
@@ -55,7 +58,6 @@ const CommentScreen = () => {
             image={itemData.media}
             star={itemData.reactions.length}
             comment={itemData.comments.length}
-            share={0}
             url={''}
           />
           <View style={styles.divider} />

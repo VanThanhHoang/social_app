@@ -1,12 +1,4 @@
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  ImageSourcePropType,
-  Alert,
-} from 'react-native';
+import {StyleSheet, Text, View, FlatList, Alert} from 'react-native';
 import React from 'react';
 import Modal1 from './components/Modal';
 import Header from './components/Header';
@@ -14,7 +6,6 @@ import CardView from './components/CardView';
 import {useRef, useMemo, useState, useEffect} from 'react';
 import {Image, TouchableOpacity} from 'react-native';
 import BottomSheet from '@gorhom/bottom-sheet';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {icons, images} from '@/assets';
 import {colors} from '@/theme';
 import ViewBottomSheet from './components/ViewBottomSheet';
@@ -37,8 +28,9 @@ import {NewFeedState} from '@/redux/slice/newfeed.slice';
 import FooterList from './components/FooterList';
 import FooterLastPageList from './components/FooterLastPageList';
 import AxiosInstance from '@/network/axiosInstance';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 const HomeScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [check, setcheck] = useState<number>(1);
   const [ischeck, setischeck] = useState<boolean>(false);
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -233,7 +225,6 @@ const HomeScreen = () => {
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <Header onPressToggle={toggleBottomSheet} />
-
       {isFirstLoadData() && (
         <>
           <SkeletonLoader />
@@ -247,7 +238,6 @@ const HomeScreen = () => {
           refreshing={loading}
           onRefresh={() => setLoading(true)}
           ListFooterComponent={() => {
-            console.log('isLastPage', isLastPage);
             return isLastPage ? <FooterLastPageList /> : <FooterList />;
           }}
           onEndReachedThreshold={0.8}
@@ -262,6 +252,11 @@ const HomeScreen = () => {
           showsVerticalScrollIndicator={false}
           renderItem={({item}) => (
             <CardView
+            userName={item.author.userName}
+              resposter={item.reposter}
+              userId={item.author._id}
+              _id={item._id}
+              isLike={item.isLiked}
               key={item._id}
               style={{marginTop: 10}}
               avatar={item.author.avatar}
@@ -269,7 +264,6 @@ const HomeScreen = () => {
               title={item.author.fullName}
               description={item.body}
               tag={''}
-              share={2}
               image={item.media}
               star={item.reactions.length}
               comment={item.comments.length}

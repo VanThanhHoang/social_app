@@ -1,5 +1,4 @@
 import moment from 'moment';
-
 export function formatPostTime(postTime: Date) {
   const currentTime = moment();
   const diffMinutes = currentTime.diff(postTime, 'minutes');
@@ -13,6 +12,9 @@ export function formatPostTime(postTime: Date) {
   } else if (diffDays < 1) {
     return `${diffHours} giờ trước`;
   } else {
-    return moment(postTime).format('DD/MM/YYYY');
+    const formattedTime = moment(postTime).format('DD/MM/YYYY');
+    const formattedHour = moment(postTime).format('HH');
+    const formattedMinute = moment(postTime).format('mm');
+    return `${formattedTime} ${formattedHour}:${formattedMinute}`;
   }
 }

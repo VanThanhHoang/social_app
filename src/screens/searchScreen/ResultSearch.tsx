@@ -39,7 +39,6 @@ const ResultSearch = () => {
   }, [text]);
   const onPressResultSearch = (userId: string, userName: string) => {
     navigation.navigate(SearchStackNames.UserProfileDetail, { userId: userId, userName: userName });
-    console.log('onPressResult');
   }
 
   return (

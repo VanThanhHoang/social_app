@@ -43,6 +43,7 @@ export interface Comment {
 }
 
 export interface Post {
+  reposter: Reposter;
   _id: string;
   isRepost: boolean;
   body: string;
@@ -62,4 +63,10 @@ export interface PostResponse {
   posts: Post[];
   nextPage: number;
   prevPage: number;
+}
+export interface Reposter {
+  _id: string;
+  userName: string;
+  fullName: string;
+  avatar: string;
 }

@@ -9,15 +9,26 @@ const fetchNewFeed = createAsyncThunk(
       const response: PostResponse = await AxiosInstance().get(
         `post/new_feed?page=${page}`,
       );
-      console.log(response);
       return response; // Trả về dữ liệu để lưu vào store (nếu cần)
     } catch (error) {
       return thunkApi.rejectWithValue(error);
     }
   },
 );
-
+const likePost = createAsyncThunk(
+  'newFeed/likePost',
+  async (postId: string, thunkApi) => {
+    try {
+      const response: PostResponse = await AxiosInstance().put(
+        `post/reaction/${postId}`,
+      );
+      return response;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error);
+    }
+  },
+);
 // Sử dụng dispatch:
 // dispatch(fetchNewFeed(page))
 
-export const NewfeedAction = {fetchNewFeed};
+export const NewfeedAction = {fetchNewFeed,likePost};

@@ -29,7 +29,7 @@ const UserProfileDetail = () => {
   return (
     <View style={styles.container}>
       <View style={[styles.headerContainer]}>
-        <HeaderProfile    nameTitle={userName} iconTick={true} />
+        <HeaderProfile  isMine={false} nameTitle={userName} iconTick={false} />
       </View>
       <View style={{flex:1,}}>
         <Animated.View style={{ transform: [{ translateY }], marginTop: headerHeight }}>

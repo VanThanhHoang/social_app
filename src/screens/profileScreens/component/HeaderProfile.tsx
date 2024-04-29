@@ -4,17 +4,25 @@ import IconRinged from '@/assets/icons/IconRinged';
 import IconMenu from '@/assets/icons/IconMenu';
 import Icontick from '@/assets/icons/Icontick';
 import { icon } from '@fortawesome/fontawesome-svg-core';
+import Svgback from '@/assets/icons/iconSVG/Back';
+import { useNavigation } from '@react-navigation/native';
 interface HeaderProfileProps {
+    isMine: boolean;
     nameTitle?: string;
     iconTick?: boolean;
     onPressMenu?: () => void,
 }
 
-const HeaderProfile: React.FC<HeaderProfileProps> = ({ nameTitle, iconTick, onPressMenu }) => {
+const HeaderProfile: React.FC<HeaderProfileProps> = ({ nameTitle, iconTick, isMine,onPressMenu }) => {
+    const navigation = useNavigation();
     return (
         <View style={styles.Container}>
-            <TouchableOpacity>
-                <IconRinged />
+            <TouchableOpacity onPress={()=>{
+                navigation.goBack();
+            }}>
+               {
+                     isMine ? <IconRinged /> : <Svgback/>
+               }
             </TouchableOpacity>
             <View style={styles.NameTitleContainer}>
                 <Text style={styles.NameTitle}>{nameTitle}</Text>

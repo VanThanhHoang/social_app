@@ -2,7 +2,9 @@ import axios from 'axios';
 import {localStorage} from '@/utils';
 
 const AxiosInstance = (contentType = 'application/json') => {
-  const BASE_URL = 'https://sever-social-media-app.onrender.com/';
+
+  //const BASE_URL = 'https://sever-social-media-app.onrender.com/';
+  const BASE_URL = 'http://192.168.1.3:8000/';
   const axiosInstance = axios.create({
     baseURL: BASE_URL,
     timeout: 10000, // có tác dụng khi gọi api lâu quá thì sẽ báo lỗi

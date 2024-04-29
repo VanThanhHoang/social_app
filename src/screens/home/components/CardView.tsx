@@ -11,35 +11,60 @@ import AutoHeightImage from 'react-native-auto-height-image';
 import Share from 'react-native-share';
 import ListImageContent from '@/screens/home/components/ListImageContent';
 import {formatPostTime} from '@/utils/time';
-import {Media} from '@/type';
-import {useAppSelector} from '@/redux/store';
-import {userInfoSelector} from '@/redux/test/userStore';
+import {Media, Reposter} from '@/type';
+import {useAppDispatch} from '@/redux/store';
+import {NewfeedAction} from '@/redux/action/newfeed.action';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {SearchStackNames} from '@/navigation/SearchNavigator/config';
+import {HomeStackNames} from '@/navigation/HomeNavigator/config';
+import {AppStackNames} from '@/navigation/config';
 
 interface CardViewProps {
+  userName: string;
+  rootPostId?: string;
+  resposter?: Reposter;
+  _id: string;
   avatar: string;
   hour: Date;
+  userId: string;
   title: string;
   description: string;
   tag?: string;
   image: Media[];
   star: number;
   comment: number;
-  share: number;
   url?: string;
   onPress?: () => void;
   onPressSwitch?: () => void;
   onPressDetail?: () => void;
   onPressCommentShow?: () => void;
   style?: any;
+  isLike: boolean;
   showView?: boolean;
 }
 
 const CardView: React.FC<CardViewProps> = ({...props}) => {
+  console.log('props', props.resposter);
   const [focus, setfocus] = useState<Boolean>(false);
-  const [like, setLike] = useState<Boolean>(false);
-
-  const handleLike = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  const [like, setLike] = useState<Boolean>(props.isLike);
+  const [likeCount, setLikeCount] = useState<number>(props.star);
+  const appDispatch = useAppDispatch();
+  const handleLike = (id: string) => {
     setLike(!like);
+    if (like) {
+      setLikeCount(likeCount - 1);
+    } else {
+      setLikeCount(likeCount + 1);
+    }
+    appDispatch(NewfeedAction.likePost(id));
+  };
+  const onUserNamePress = (userId: string, userName: string): void => {
+    navigation.navigate(AppStackNames.HomeNavigator, {
+      screen: HomeStackNames.UserProfileDetail,
+      params: {userId: userId, userName: userName},
+    });
   };
   const onSearch = () => {
     const options = {
@@ -73,6 +98,14 @@ const CardView: React.FC<CardViewProps> = ({...props}) => {
       ) : (
         <View style={{height: 0}} />
       )}
+      {props.resposter ? (
+        <RepostHeader
+          reposter={props.resposter}
+          onUserNamePress={onUserNamePress}
+        />
+      ) : (
+        <View style={{height: 0}} />
+      )}
       <View
         style={{
           flexDirection: 'row',
@@ -82,12 +115,16 @@ const CardView: React.FC<CardViewProps> = ({...props}) => {
         <View style={{flexDirection: 'row'}}>
           <Image style={styles.imgCar} source={{uri: props.avatar}} />
           <View>
-            <View style={styles.containerTick}>
+            <TouchableOpacity
+              onPress={() => {
+                onUserNamePress(props.userId, props.title);
+              }}
+              style={styles.containerTick}>
               <Text
                 style={{fontSize: 16, fontWeight: '500', color: colors.black}}>
-                {props.title}
+                {props.title ? props.title : props.userName}
               </Text>
-            </View>
+            </TouchableOpacity>
             <Text style={{fontSize: 12, marginStart: 10, marginTop: 3}}>
               {formatPostTime(props.hour)}
             </Text>
@@ -116,12 +153,14 @@ const CardView: React.FC<CardViewProps> = ({...props}) => {
       ) : (
         <View style={{height: 0}} />
       )}
-
       <View style={styles.containerAction}>
-        <TouchableOpacity onPress={handleLike}>
+        <TouchableOpacity
+          onPress={() => {
+            handleLike(props._id);
+          }}>
           {like ? <SvgStar2 /> : <SvgStar />}
         </TouchableOpacity>
-        <Text style={styles.textAction}>{props.star}</Text>
+        <Text style={styles.textAction}>{likeCount}</Text>
         <TouchableOpacity
           onPress={props.onPressCommentShow}
           style={styles.space}>
@@ -131,7 +170,6 @@ const CardView: React.FC<CardViewProps> = ({...props}) => {
         <TouchableOpacity onPress={props.onPressSwitch} style={styles.space}>
           <SvgSwitch />
         </TouchableOpacity>
-        <Text style={styles.textAction}>{props.share}</Text>
         <TouchableOpacity onPress={onSearch} style={styles.space}>
           <SvgSend />
         </TouchableOpacity>
@@ -141,7 +179,62 @@ const CardView: React.FC<CardViewProps> = ({...props}) => {
 };
 
 export default React.memo(CardView);
-
+const RepostHeader = ({
+  reposter,
+  onUserNamePress,
+}: {reposter: Reposter} & {
+  onUserNamePress: (userId: string, userName: string) => void;
+}) => {
+  const name = reposter.fullName ? reposter.fullName : reposter.userName;
+  return (
+    <View>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingHorizontal: 25,
+          paddingVertical: 10,
+        }}>
+        <Image
+          style={{...styles.imgCar, width: 35, height: 35}}
+          source={{uri: reposter.avatar}}
+        />
+        <View
+          style={{
+            flexDirection: 'column',
+          }}>
+          <TouchableOpacity
+            onPress={() => {
+              onUserNamePress(reposter._id, reposter.userName);
+            }}
+            style={{...styles.containerTick}}>
+            <Text
+              style={{
+                fontSize: 14,
+                fontWeight: '500',
+                color: colors.black,
+                marginEnd: 10,
+              }}>
+              {name + ' '}
+              <Text style={{color: colors.primaryColor, marginLeft: 10}}>
+                đã đăng lại
+              </Text>
+            </Text>
+            <SvgSwitch color={colors.primaryColor} />
+          </TouchableOpacity>
+        </View>
+      </View>
+      <View
+        style={{
+          width: 450,
+          height: 1,
+          borderWidth: 0.1,
+          backgroundColor: '#E3E3E3',
+        }}
+      />
+    </View>
+  );
+};
 const styles = StyleSheet.create({
   space: {
     marginStart: 20,
@@ -176,6 +269,7 @@ const styles = StyleSheet.create({
     color: colors.black,
     marginStart: 20,
     width: 359,
+    marginBottom: 10,
   },
   containerTick: {
     flexDirection: 'row',
