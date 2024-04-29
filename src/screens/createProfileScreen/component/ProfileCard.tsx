@@ -22,7 +22,8 @@ import { useAppSelector } from '@/redux/store';
 import { userInfoSelector } from '@/redux/test/userStore';
 import AxiosInstance from '@/network/axiosInstance';
 import ButtonBottom from './ButtonBottom';
-
+import { useDispatch } from 'react-redux';
+import { setLoading} from '@/redux/slice/app.slice';
 
 const axios = AxiosInstance();
 
@@ -32,6 +33,7 @@ const ProfileCard  = () => {
   const [selectedImage, setSelectedImage] = useState<string | null | undefined>(
     null,
   );
+  const dispatch = useDispatch();
   const [fullName, setFullName] = useState('');
   const [bio, setBio] = useState('');
   const [link, setLink] = useState('');
@@ -189,8 +191,10 @@ const ProfileCard  = () => {
     links: [link],
   };
   const onPressNext = async (data: any) => {
+    dispatch(setLoading(true));
     try {
       const response = await axios.patch('user/update_info', data);
+      dispatch(setLoading(false));
       console.log('Update success', response);
       navigation.navigate(LoginStackEnum.PrivacyProfileScreen);
       return response;

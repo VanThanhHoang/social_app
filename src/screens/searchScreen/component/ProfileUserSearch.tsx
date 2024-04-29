@@ -8,6 +8,8 @@ import { useAppSelector } from '@/redux/store'
 import { userInfoSelector } from '@/redux/test/userStore'
 import AxiosInstance from '@/network/axiosInstance'
 import { useIsFocused } from '@react-navigation/native'
+import { useDispatch } from 'react-redux'
+import { setLoading } from '@/redux/slice/app.slice'
 import { use } from 'i18next'
 
 const axios = AxiosInstance();
@@ -24,11 +26,12 @@ const ProfileUserSearch: React.FC<ProfileUserProps> = ({ userId, onPressEditProf
     const [link, setLink] = useState('');
     const [avatar, setAvatar] = useState('');
     const isFocused = useIsFocused();
-
+    const dispatch = useDispatch();
     useEffect(() => {
         getProfile();
     }, [isFocused]);
     const getProfile = async () => {
+        dispatch(setLoading(true));
         try {
             const response = await axios.get(`/user/${userId}`);
             setFullName(response.data.fullName);
@@ -39,6 +42,9 @@ const ProfileUserSearch: React.FC<ProfileUserProps> = ({ userId, onPressEditProf
             return response.data;
         } catch (error) {
             console.log(error);
+        }
+        finally {
+            dispatch(setLoading(false));
         }
     };
     console.log(link);

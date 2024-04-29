@@ -13,7 +13,8 @@ import AxiosInstance from '@/network/axiosInstance'
 import { useTranslation } from 'react-i18next'
 import { useAppSelector } from '@/redux/store'
 import { userInfoSelector } from '@/redux/test/userStore'
-
+import { useDispatch } from 'react-redux'
+import { setLoading } from '@/redux/slice/app.slice'
 
 const axios = AxiosInstance();
 
@@ -30,6 +31,7 @@ const EditProfileCard = () => {
     const [isEnabled, setIsEnabled] = useState(false);
     const animatedValue = useRef(new Animated.Value(0)).current;
     const [link, setLink] = useState('');
+    const dispatch = useDispatch();
     const requestCameraPermission = async () => {
         if (Platform.OS === 'android') {
             try {
@@ -165,7 +167,6 @@ const EditProfileCard = () => {
         }
 
     }, [userInfo._id]);
-    console.log(userInfo._id);
     const data = {
         userName: userName,
         fullName: fullName,
@@ -175,6 +176,7 @@ const EditProfileCard = () => {
         account_type: account_type,
     };
     const getProfile = async () => {
+        dispatch(setLoading(true));
         try {
             const response = await axios.get(`/user/${userInfo._id}`);
             setFullName(response.data.fullName);
@@ -184,19 +186,21 @@ const EditProfileCard = () => {
             setLink(response.data.links.join(''));
             setSelectedImage(response.data.avatar);
             setAccount_type(response.data.account_type);
-            console.log(response.data.account_type, 'account_type');
             setIsEnabled(response.data.account_type === 1); // Cập nhật trạng thái switch dựa trên account_type
             animatedValue.setValue(response.data.account_type === 1 ? 1 : 0); // Đặt giá trị animatedValue phù hợp
             return response.data;
         } catch (error) {
             console.log(error);
+        }finally{
+            dispatch(setLoading(false));
         }
-    };
+    }
     const onPressNext = async (data: any) => {
         // Kiểm tra xem userName có thay đổi so với giá trị ban đầu không
         if (userName === originalUserName.current) {
             delete data.userName; // Nếu không thay đổi, loại bỏ userName khỏi dữ liệu được gửi đi
         }
+        dispatch(setLoading(true));
         try {
             const response = await axios.patch('user/update_info', data);
             navigation.goBack();
@@ -204,6 +208,8 @@ const EditProfileCard = () => {
             return response;
         } catch (error) {
             console.error('Error update', JSON.stringify(error));
+        }finally{
+            dispatch(setLoading(false));
         }
 
     }
@@ -224,8 +230,6 @@ const EditProfileCard = () => {
         inputRange: [0, 1],
         outputRange: [0.5, 23], // Adjust these values according to the size of your switch
     });
-    console.log(account_type);
-    console.log(isEnabled);
     return (
         <View style={styles.Container}>
             <View style={styles.HeaderContainer}>

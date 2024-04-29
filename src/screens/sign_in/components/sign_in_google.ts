@@ -7,6 +7,7 @@ import {LoginStackParamList, LoginStackEnum} from '@/navigation/login';
 import messaging from '@react-native-firebase/messaging';
 import AxiosInstance from '@/network/axiosInstance';
 import {localStorage} from '@/utils';
+import { setLoading } from '@/redux/slice/app.slice';
 import {
   HomeStackNames,
   HomeStackParamList,
@@ -20,6 +21,7 @@ export const signInWithGoole = async (
   navigation: any,
   dispatch: AppDispatch,
 ) => {
+  dispatch(setLoading(true));
   const axios = AxiosInstance();
 
   try {
@@ -51,6 +53,8 @@ export const signInWithGoole = async (
       // console.log(response.status, "ádasdas");
     } catch (error) {
       console.log(error, 'ádasdas');
+    }finally{
+      dispatch(setLoading(false));
     }
     // const data: ILogin = {
     //   idToken: idToken,
@@ -61,6 +65,7 @@ export const signInWithGoole = async (
     return idToken;
   } catch (error) {
     logger({error});
+    dispatch(setLoading(false));
   }
 };
 async function setUpNotification() {

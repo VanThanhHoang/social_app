@@ -11,6 +11,8 @@ import { faMagnifyingGlass, faCircleXmark } from '@fortawesome/free-solid-svg-ic
 import { useIsFocused } from '@react-navigation/native'
 import HistorySearch from './component/HistorySearch'
 import { formatTime } from './time'
+import { useDispatch } from 'react-redux'
+import { setLoading } from '@/redux/slice/app.slice'
 const axios = AxiosInstance();
 
 
@@ -18,18 +20,18 @@ const axios = AxiosInstance();
 const SearchScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [data, setData] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
   const [text, setText] = useState('');
   const [textInput, setTextInput] = useState('')
   const isFocusedReLoad = useIsFocused();
+  const dispatch = useDispatch();
   useEffect(() => {
     if (isFocusedReLoad) {
-      setLoading(true);
+      dispatch(setLoading(true));
     const fetchData = async (text : string) => {
-      setLoading(true);
+      dispatch(setLoading(true));
       const result = await axios.get(`/user/s/search/history`);
       setData(result.data);
-      setLoading(false);
+      dispatch(setLoading(false));
       console.log('result: ', result);
     };
     try {
@@ -37,7 +39,7 @@ const SearchScreen = () => {
     } catch (error) {
       console.log('Error: ', error);
     } finally {
-      setLoading(false);
+      dispatch(setLoading(false));
     }
     }
     

@@ -79,7 +79,7 @@ const FollowerScreen = () => {
     return (
         <View style={styles.Container}>
             <View style={styles.SearchContainer}>
-                <SearchComponent onChangeText={(text) => setSearchQuery(text)} />
+                <SearchComponent onChangeText={(text) => setSearchQuery(text) }  searchText={searchQuery} />
             </View>
             <View style = {styles.UserContainer}>
                 {listData.map((item, index) => {

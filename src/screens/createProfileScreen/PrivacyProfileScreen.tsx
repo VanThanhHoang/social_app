@@ -11,6 +11,8 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { LoginStackEnum, LoginStackParamList } from '@/navigation/login';
 import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import { setLoading } from '@/redux/slice/app.slice';
 import AxiosInstance from '@/network/axiosInstance';
 
 const axios = AxiosInstance();
@@ -18,14 +20,16 @@ const PrivacyProfileScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<LoginStackParamList>>();
   const { t } = useTranslation()
   const [selectedPrivacyOption, setSelectedPrivacyOption] = useState(1)
-
+  const dispatch = useDispatch();
   const data = {
     account_type: 0
   }
 
   const handleNext  = async(data: any) => {
+    dispatch(setLoading(true));
     try {
       const response = await axios.patch('user/update_info', data);
+      dispatch(setLoading(false));
       console.log('response', response)
       navigation.navigate(LoginStackEnum.FollowAccountScreen);
       return response;

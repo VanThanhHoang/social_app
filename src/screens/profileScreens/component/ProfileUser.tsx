@@ -9,6 +9,8 @@ import {userInfoSelector} from '@/redux/test/userStore';
 import AxiosInstance from '@/network/axiosInstance';
 import {useIsFocused} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
+import {useDispatch} from 'react-redux';
+import {setLoading} from '@/redux/slice/app.slice';
 const axios = AxiosInstance();
 type ProfileUserProps = {
   onPressEditProfile: () => void;
@@ -23,12 +25,12 @@ const ProfileUser: React.FC<ProfileUserProps> = ({onPressEditProfile}) => {
   const [link, setLink] = useState('');
   const [avatar, setAvatar] = useState('');
   const isFocused = useIsFocused();
+  const dispatch = useDispatch();
   useEffect(() => {
     if (isFocused) getProfile();
   }, [userInfor._id, isFocused]);
-
-  console.log(userInfor._id);
   const getProfile = async () => {
+    dispatch(setLoading(true));
     try {
       const response = await axios.get(`/user/${userInfor._id}`);
       setFullName(response.data.fullName);
@@ -36,14 +38,13 @@ const ProfileUser: React.FC<ProfileUserProps> = ({onPressEditProfile}) => {
       setBio(response.data.bio);
       setLink(response.data.links.join(''));
       setAvatar(response.data.avatar);
-      console.log(response.data, "dataaaaaaa");
       return response.data;
     } catch (error) {
       console.log(error);
+    }finally{
+      dispatch(setLoading(false));
     }
   };
-  console.log(link);
-  console.log(avatar);
   return (
     <View style={styles.Container}>
       <View style={styles.AvatarContainer}>

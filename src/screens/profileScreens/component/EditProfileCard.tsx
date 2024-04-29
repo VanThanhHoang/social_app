@@ -142,7 +142,7 @@ const EditProfileCard = () => {
             <View style={styles.line}></View>
             <View style={styles.NameContainer}>
                 <View style={styles.NameTitleContainer}>
-                    <TouchableOpacity onPress={() => navigation.navigate(LoginStackEnum.EditBioScreen)}>
+                    <TouchableOpacity >
                         <Text style={styles.NameTitle}>Bio</Text>
                         <TextInput placeholder="+ Bio" style={styles.TextInputStyle}  editable = {false}/>
                     </TouchableOpacity>
@@ -151,7 +151,7 @@ const EditProfileCard = () => {
             <View style={styles.line}></View>
             <View style={styles.NameContainer}>
                 <View style={styles.NameTitleContainer}>
-                <TouchableOpacity onPress={() => navigation.navigate(LoginStackEnum.EditLinkScreen)}>
+                <TouchableOpacity>
                     <Text style={styles.NameTitle}>Link</Text>
                     <TextInput placeholder="+ Link" style={styles.TextInputStyle} editable = {false}/>
                     </TouchableOpacity>
