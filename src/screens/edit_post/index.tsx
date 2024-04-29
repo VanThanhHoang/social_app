@@ -15,19 +15,29 @@ import {colors} from '@/theme';
 import UserInfo from '@/screens/post/components/userInfo';
 import ToolBar from '@/screens/post/components/toolBar';
 import ImagePicker, {ImageOrVideo} from 'react-native-image-crop-picker';
-import MediaContent from '@/screens/post/components/mediaContent';
 import ListMediaContent from '@/screens/post/components/listMediaContent';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import BottomSheet from '@gorhom/bottom-sheet';
 import {icons} from '@/assets';
 import {useTranslation} from 'react-i18next';
 import AxiosInstance from '@/network/axiosInstance';
-import {useNavigation} from '@react-navigation/native';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {LoginStackParamList} from '@/navigation/login';
-import {HomeStackParamList} from '@/navigation/HomeNavigator/config';
+import {
+  HomeStackNames,
+  HomeStackParamList,
+} from '@/navigation/HomeNavigator/config';
+import MediaContentEdit from '@/screens/edit_post/component/MediaContentEdit';
+import ListMediaContentEdit from '@/screens/edit_post/component/ListMediaContentEdit';
 
-const PostScreen = () => {
+type EditPostRouteProp = RouteProp<
+  HomeStackParamList,
+  HomeStackNames.EditPostScreen
+>;
+
+const EditPostScreen = () => {
+  const route = useRoute<EditPostRouteProp>();
+  const itemData = route.params.post;
   const navigation =
     useNavigation<NativeStackNavigationProp<HomeStackParamList>>();
   const [medias, setMedias] = useState<Array<ImageOrVideo>>([]);
@@ -37,7 +47,7 @@ const PostScreen = () => {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
   const [audienceType, setAudienceType] = useState<number>(0);
   const {t} = useTranslation();
-  const [textContent, setTextContent] = useState<string>('');
+  const [textContent, setTextContent] = useState<string>(itemData.body);
   const imagesPath: Array<string> = [];
   const [isBottomSheetImageOpen, setIsBottomSheetImageOpen] =
     useState<boolean>(false);
@@ -184,15 +194,16 @@ const PostScreen = () => {
             />
           </View>
           <View style={{paddingBottom: toolBarHeight, alignItems: 'center'}}>
-            {medias.length === 0 ? null : medias.length === 1 ? (
-              <MediaContent media={medias[0]} />
+            {itemData.media.length === 0 ? null : itemData.media.length ===
+              1 ? (
+              <MediaContentEdit media={itemData.media[0]} />
             ) : (
-              <ListMediaContent medias={medias} />
+              <ListMediaContentEdit medias={itemData.media} />
             )}
           </View>
         </ScrollView>
         <ToolBar
-          editMode={false}
+          editMode={true}
           showBottomSheet={setIsBottomSheetImageOpen}
           handlePresentModalPress={handlePresentModalPress}
           handlePresentImageModalPress={handlePresentImageModalPress}
@@ -454,4 +465,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PostScreen;
+export default EditPostScreen;

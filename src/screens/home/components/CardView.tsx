@@ -12,6 +12,8 @@ import Share from 'react-native-share';
 import ListImageContent from '@/screens/home/components/ListImageContent';
 import {formatPostTime} from '@/utils/time';
 import {Media} from '@/type';
+import {useAppSelector} from '@/redux/store';
+import {userInfoSelector} from '@/redux/test/userStore';
 
 interface CardViewProps {
   avatar: string;
@@ -35,6 +37,7 @@ interface CardViewProps {
 const CardView: React.FC<CardViewProps> = ({...props}) => {
   const [focus, setfocus] = useState<Boolean>(false);
   const [like, setLike] = useState<Boolean>(false);
+
   const handleLike = () => {
     setLike(!like);
   };

@@ -8,4 +8,7 @@ export const icons = {
   logo_vnpic: require('../icons/logo_vnpic.png'),
   ic_camera: require('../icons/ic_camera.png'),
   ic_gallery: require('../icons/ic_gallery.png'),
+  ic_edit: require('../icons/ic_edit.png'),
+  ic_report: require('../icons/ic_report.png'),
+  ic_remove: require('../icons/ic_remove.png'),
 };
