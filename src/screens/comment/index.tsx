@@ -3,7 +3,6 @@ import {
   Dimensions,
   FlatList,
   Image,
-  Keyboard,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -13,7 +12,7 @@ import {
   View,
 } from 'react-native';
 import {colors} from '@/theme';
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {
   HomeStackNames,
@@ -25,6 +24,7 @@ import {LoginStackParamList} from '@/navigation/login';
 import CardView from '@/screens/home/components/CardView';
 import {icons} from '@/assets';
 import AxiosInstance from '@/network/axiosInstance';
+import {Comment} from '@/type';
 
 type PostDetailRouteProp = RouteProp<
   HomeStackParamList,
@@ -38,16 +38,25 @@ const CommentScreen = () => {
     useNavigation<NativeStackNavigationProp<LoginStackParamList>>();
   const screenWidth = Dimensions.get('window').width;
   const [textInput, setTextInput] = useState<string>('');
+  const inputRef = useRef<TextInput>(null);
+  const [reply, setReply] = useState<string>('');
 
   const handlePushComment = async (postId: string) => {
     if (textInput !== '') {
-      const data = {body: textInput};
+      inputRef.current?.blur();
+      const data =
+        reply === '' ? {body: textInput} : {body: textInput, repply_to: reply};
       setTextInput('');
+      setReply('');
       await AxiosInstance().post(`post/comment/${postId}`, data);
     }
   };
 
-  console.log(itemData.comments[0].repplies);
+  const handleReply = (item: Comment) => {
+    inputRef.current?.focus();
+    setReply(item._id);
+    setTextInput(`${item.create_by.fullName}: `);
+  };
 
   return (
     <GestureHandlerRootView style={styles.container}>
@@ -81,18 +90,58 @@ const CommentScreen = () => {
             scrollEnabled={false}
             data={itemData.comments}
             renderItem={({item}) => (
-              <View
-                style={[styles.commentContainer, {width: screenWidth - 48}]}>
-                <Image
-                  style={styles.avatar}
-                  source={{uri: item.create_by.avatar}}
-                />
-                <View style={styles.commentBG}>
-                  <Text style={styles.usernameComment}>
-                    {item.create_by.fullName}
-                  </Text>
-                  <Text style={styles.contentComment}>{item.comment}</Text>
+              <View>
+                <View
+                  style={[styles.commentContainer, {width: screenWidth - 48}]}>
+                  <Image
+                    style={styles.avatar}
+                    source={{uri: item.create_by.avatar}}
+                  />
+                  <View>
+                    <View style={styles.commentBG}>
+                      <Text style={styles.usernameComment}>
+                        {item.create_by.fullName}
+                      </Text>
+                      <Text style={styles.contentComment}>{item.comment}</Text>
+                    </View>
+                    <TouchableOpacity
+                      onPress={() => handleReply(item)}
+                      style={{marginLeft: 36}}>
+                      <Text
+                        style={{
+                          fontSize: 14,
+                          fontWeight: '600',
+                          color: colors.neutralWhite1,
+                        }}>
+                        Reply
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
+                <FlatList
+                  scrollEnabled={false}
+                  data={item.repplies}
+                  renderItem={({item}) => (
+                    <View
+                      style={[
+                        styles.commentReplyContainer,
+                        {width: screenWidth - 48},
+                      ]}>
+                      <Image
+                        style={styles.avatarReply}
+                        source={{uri: item.create_by.avatar}}
+                      />
+                      <View style={styles.commentBG}>
+                        <Text style={styles.usernameComment}>
+                          {item.create_by.fullName}
+                        </Text>
+                        <Text style={styles.contentComment}>
+                          {item.comment}
+                        </Text>
+                      </View>
+                    </View>
+                  )}
+                />
               </View>
             )}
           />
@@ -104,7 +153,7 @@ const CommentScreen = () => {
             alignItems: 'center',
           }}>
           <TextInput
-            onSubmitEditing={Keyboard.dismiss}
+            ref={inputRef}
             multiline={true}
             placeholder="Comment"
             value={textInput}
@@ -145,10 +194,20 @@ const styles = StyleSheet.create({
     height: 46,
     borderRadius: 32,
   },
+  avatarReply: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+  },
   commentContainer: {
     flexDirection: 'row',
     paddingHorizontal: 18,
     paddingTop: 18,
+  },
+  commentReplyContainer: {
+    flexDirection: 'row',
+    paddingLeft: 84,
+    paddingTop: 12,
   },
   divider: {
     marginHorizontal: 18,
