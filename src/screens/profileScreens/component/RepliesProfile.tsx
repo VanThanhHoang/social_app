@@ -1,24 +1,19 @@
-  import { StyleSheet, Text, View, FlatList, Animated } from 'react-native'
-  import React from 'react'
-import { MyPostState } from '@/redux/slice/mypost.slice';
-import { useAppSelector } from '@/redux/store';
+import {StyleSheet, Text, View, FlatList, Animated} from 'react-native';
+import React from 'react';
+import {MyPostState} from '@/redux/slice/mypost.slice';
+import {useAppSelector} from '@/redux/store';
 import CardView from '@/screens/home/components/CardView';
-import { colors } from '@/theme';
+import {colors} from '@/theme';
 
-  interface Props {
-    scrollY: any; // hoặc thay any bằng kiểu dữ liệu phù hợp nếu có
-  
-  }
+interface Props {
+  scrollY: any; // hoặc thay any bằng kiểu dữ liệu phù hợp nếu có
+}
 
-  const RepliesProfile:React.FC<Props> = ({ scrollY }) => {
-
-    const { myRepost}: MyPostState = useAppSelector(
-      state => state.myPost,
-    );
-    console.log('myRepost',myRepost[0].reactions.length )
-    return (
-      <View style={styles.container}>
-     <Animated.FlatList
+const RepliesProfile: React.FC<Props> = ({scrollY}) => {
+  const {myRepost}: MyPostState = useAppSelector(state => state.myPost);
+  return (
+    <View style={styles.container}>
+      <Animated.FlatList
         contentContainerStyle={{paddingBottom: 500}}
         ListFooterComponent={
           <View
@@ -34,25 +29,27 @@ import { colors } from '@/theme';
         }
         data={myRepost}
         renderItem={({item}) => (
-          console.log('item',item.reactions), 
-          <CardView
-            userName={item.author.userName}
-            resposter={item.reposter}
-            userId={item.author._id}
-            _id={item._id}
-            isLike={item.isLiked}
-            key={item._id}
-            style={{marginTop: 10}}
-            avatar={item.author.avatar}
-            hour={item.createdAt}
-            title={item.author.fullName}
-            description={item.body}
-            tag={''}
-            image={item.media}
-            star={item.reactions.length}
-            comment={item.comments.length}
-            showView={true}
-          />
+          console.log('item', item.reactions),
+          (
+            <CardView
+              userName={item.author.userName}
+              resposter={item.reposter}
+              userId={item.author._id}
+              _id={item._id}
+              isLike={item.isLiked}
+              key={item._id}
+              style={{marginTop: 10}}
+              avatar={item.author.avatar}
+              hour={item.createdAt}
+              title={item.author.fullName}
+              description={item.body}
+              tag={''}
+              image={item.media}
+              star={item.reactions.length}
+              comment={item.comments.length}
+              showView={true}
+            />
+          )
         )}
         keyExtractor={item => item._id}
         onScroll={Animated.event(
@@ -61,20 +58,20 @@ import { colors } from '@/theme';
         )}
         scrollEventThrottle={16} // Adjust based on your needs
       />
-  </View>
-    );
-  }
+    </View>
+  );
+};
 
-  export default RepliesProfile
+export default RepliesProfile;
 
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor : 'white'
-    },
-    item: {
-      padding: 20,
-      borderBottomWidth: 1,
-      borderBottomColor: '#cccccc',
-    },
-  })
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+  },
+  item: {
+    padding: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#cccccc',
+  },
+});

@@ -211,7 +211,7 @@ const HomeScreen = () => {
     state => state.newFeed,
   );
   useEffect(() => {
-    appDispatch(NewfeedAction.fetchMyPost())
+    appDispatch(NewfeedAction.fetchMyPost());
     const getNewfeedPromise = appDispatch(NewfeedAction.fetchNewFeed(1));
     return () => {
       getNewfeedPromise.abort();
@@ -252,6 +252,7 @@ const HomeScreen = () => {
           renderItem={({item}) => (
             <CardView
               userName={item.author.userName}
+              fullName={item.author.fullName}
               resposter={item.reposter}
               userId={item.author._id}
               _id={item._id}
