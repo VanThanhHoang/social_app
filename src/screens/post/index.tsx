@@ -46,9 +46,9 @@ const PostScreen = () => {
   const [uploading, setUploading] = useState<boolean>(false);
 
   function handleOpenGallery() {
-    ImagePicker.openPicker({multiple: true})
-      .then(images => {
-        setMedias(images);
+    ImagePicker.openPicker({})
+      .then(image => {
+        setMedias([image, ...medias]);
       })
       .catch(() => {
         console.log('Cancel');
@@ -58,7 +58,8 @@ const PostScreen = () => {
 
   function handleOpenCamera() {
     ImagePicker.openCamera({}).then(image => {
-      setMedias([image]);
+        setMedias([image, ...medias]);
+
     });
     toggleBottomSheetImage();
   }
@@ -117,34 +118,43 @@ const PostScreen = () => {
         setUploading(true);
         await createPost();
       } else {
-        setUploading(true);
-        medias.map(async value => {
-          const formData = new FormData();
-          formData.append('image', {
-            uri:
-              Platform.OS === 'android'
-                ? value.path
-                : value.path.replace('file://', ''),
-            type: value.mime,
-            name: 'image',
-          });
-          const response = await AxiosInstance('multipart/form-data').post(
-            'upload',
-            formData,
-          );
-          if (response.status === 200) {
-            imagesPath.push(response.data.link);
-            if (imagesPath.length === medias.length) {
-              await createPost();
+        try {
+          setUploading(true);
+          const uploadPromises = medias.map(async value => {
+            const formData = new FormData();
+            formData.append('image', {
+              uri:
+                Platform.OS === 'android'
+                  ? value.path
+                  : value.path.replace('file://', ''),
+              type: value.mime,
+              name: 'image',
+            });
+            const response = await AxiosInstance('multipart/form-data').post('upload',formData);
+            if (response.status === 200) {
+              return response.data.link;
+            } else {
+              throw new Error('Upload image error');
             }
-          } else {
-            console.log('upload image error');
-          }
-        });
+          });
+          // Chờ tất cả các promise từ việc tải ảnh được giải quyết
+          const imageLinks = await Promise.all(uploadPromises);
+          console.log('imageLinks', imageLinks);
+          imagesPath = [...imageLinks]
+          await createPost();
+        } catch (error) {
+          console.error('Error uploading images:', error);
+        } finally {
+          setUploading(false);
+        }
       }
     }
   };
-
+  
+  const handleRemoveImage = (index: number) => {
+    const newMedias = medias.filter((_, i) => i !== index);
+    setMedias(newMedias);
+  };
   return (
     <GestureHandlerRootView style={styles.container}>
       <SafeAreaView style={styles.container}>
@@ -183,13 +193,31 @@ const PostScreen = () => {
               style={styles.inputContent}
             />
           </View>
-          <View style={{paddingBottom: toolBarHeight, alignItems: 'center'}}>
-            {medias.length === 0 ? null : medias.length === 1 ? (
-              <MediaContent media={medias[0]} />
-            ) : (
-              <ListMediaContent medias={medias} />
-            )}
-          </View>
+          <ScrollView
+            contentContainerStyle={{padding: 25}}
+            horizontal
+            style={{paddingBottom: toolBarHeight}}>
+            {medias.map((media, index) => {
+              return (
+                <View
+                  style={{
+                    width: 400,
+                    height: 500,
+                    margin: 10,
+                  }}>
+                  <Image
+                    source={{uri: media.path}}
+                    style={{
+                    borderRadius: 30,
+                      resizeMode: 'cover',
+                      width: 400,
+                      height: 500,
+                    }}
+                  />
+                </View>
+              );
+            })}
+          </ScrollView>
         </ScrollView>
         <ToolBar
           editMode={false}
