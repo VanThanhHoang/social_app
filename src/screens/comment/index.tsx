@@ -107,13 +107,13 @@ const CommentScreen = () => {
     if (textInput !== '') {
       inputRef.current?.blur();
       const data = {body: textInput};
+      setTextInput('');
       const response = await AxiosInstance().put(
         `post/edit_comment/${selectComment?._id}`,
         data,
       );
       console.log(response);
       setSelectComment(null);
-      setTextInput('');
     }
   };
 
@@ -211,34 +211,41 @@ const CommentScreen = () => {
                         style={styles.avatarReply}
                         source={{uri: item.create_by.avatar}}
                       />
-                      <View>
-                        <View style={styles.commentBG}>
-                          <TouchableOpacity
-                            onPress={() =>
-                              onUserNamePress(
-                                item.create_by._id,
-                                item.create_by.fullName,
-                              )
-                            }>
-                            <Text style={styles.usernameComment}>
-                              {item.create_by.fullName}
+                      <TouchableOpacity
+                        onLongPress={() => {
+                          item.create_by._id === userInfo._id
+                            ? toggleBottomSheet(item)
+                            : null;
+                        }}>
+                        <View>
+                          <View style={styles.commentBG}>
+                            <TouchableOpacity
+                              onPress={() =>
+                                onUserNamePress(
+                                  item.create_by._id,
+                                  item.create_by.fullName,
+                                )
+                              }>
+                              <Text style={styles.usernameComment}>
+                                {item.create_by.fullName}
+                              </Text>
+                            </TouchableOpacity>
+                            <Text style={styles.contentComment}>
+                              {item.comment}
                             </Text>
-                          </TouchableOpacity>
-                          <Text style={styles.contentComment}>
-                            {item.comment}
-                          </Text>
+                          </View>
+                          <View
+                            style={{
+                              flexDirection: 'row',
+                              marginLeft: 18,
+                              marginTop: 6,
+                            }}>
+                            <Text style={{fontSize: 13}}>
+                              {formatTime(Date.parse(item.createdAt))}
+                            </Text>
+                          </View>
                         </View>
-                        <View
-                          style={{
-                            flexDirection: 'row',
-                            marginLeft: 18,
-                            marginTop: 6,
-                          }}>
-                          <Text style={{fontSize: 13}}>
-                            {formatTime(Date.parse(item.createdAt))}
-                          </Text>
-                        </View>
-                      </View>
+                      </TouchableOpacity>
                     </View>
                   )}
                 />
@@ -288,28 +295,24 @@ const CommentScreen = () => {
           onChange={index => {
             setIsBottomSheet(index !== -1);
           }}>
-          {selectComment?.isMine ? (
-            <View style={styles.containerBottomSheet}>
-              <TouchableOpacity
-                onPress={() => {
-                  handleEditComment();
-                }}
-                style={styles.follow}>
-                <Text style={styles.textFollow}>Edit</Text>
-                <Image source={icons.ic_edit} style={styles.img} />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  handleDeleteComment();
-                }}
-                style={[styles.follow, {marginTop: 16}]}>
-                <Text style={styles.textFollow}>Delete</Text>
-                <Image source={icons.ic_remove} style={styles.img} />
-              </TouchableOpacity>
-            </View>
-          ) : (
-            <View />
-          )}
+          <View style={styles.containerBottomSheet}>
+            <TouchableOpacity
+              onPress={() => {
+                handleEditComment();
+              }}
+              style={styles.follow}>
+              <Text style={styles.textFollow}>Edit</Text>
+              <Image source={icons.ic_edit} style={styles.img} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                handleDeleteComment();
+              }}
+              style={[styles.follow, {marginTop: 16}]}>
+              <Text style={styles.textFollow}>Delete</Text>
+              <Image source={icons.ic_remove} style={styles.img} />
+            </TouchableOpacity>
+          </View>
         </BottomSheet>
       </View>
     </GestureHandlerRootView>
@@ -371,6 +374,7 @@ const styles = StyleSheet.create({
   contentComment: {
     color: colors.black,
     fontSize: 16,
+    marginTop: 6,
   },
   usernameComment: {
     fontSize: 16,
