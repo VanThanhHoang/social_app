@@ -63,5 +63,8 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
+    height:400,
+    resizeMode: 'cover',
+    aspectRatio: 4/6,
   },
 });
