@@ -21,20 +21,24 @@ const ResultSearch = () => {
   const [loading, setLoading] = useState(true);
   const [text, setText] = useState(searchText);
   useEffect(() => {
-    setLoading(true);
-    const fetchData = async (text: string) => {
+    if (text === '') {
+      navigation.goBack();
+    } else {
       setLoading(true);
-      const result = await axios.get(`/user/s/search?q=${text}`);
-      setData(result.data);
-      setLoading(false);
-      console.log('result: ', result);
-    };
-    try {
-      fetchData(text);
-    } catch (error) {
-      console.log('Error: ', error);
-    } finally {
-      setLoading(false);
+      const fetchData = async (text: string) => {
+        setLoading(true);
+        const result = await axios.get(`/user/s/search?q=${text}`);
+        setData(result.data);
+        setLoading(false);
+        console.log('result: ', result);
+      };
+      try {
+        fetchData(text);
+      } catch (error) {
+        console.log('Error: ', error);
+      } finally {
+        setLoading(false);
+      }
     }
   }, [text]);
   const onPressResultSearch = (userId: string, userName: string) => {
@@ -43,33 +47,33 @@ const ResultSearch = () => {
 
   return (
     <View style={styles.Container}>
-    <View style={styles.SearchContainer}>
-      <SearchComponent searchText={text} onChangeText={(text) => setText(text)} />
+      <View style={styles.SearchContainer}>
+        <SearchComponent searchText={text} onChangeText={(text) => setText(text)} navigation={navigation} />
+      </View>
+      <View style={styles.Line}></View>
+      {loading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : data.length === 0 ? (
+        <Text style={styles.NoResultsText}>Không tìm thấy kết quả</Text>
+      ) : (
+        <FlatList
+          data={data}
+          keyExtractor={(item) => item._id.toString()}
+          renderItem={({ item }) => (
+            <UserItemSearch
+              key={item.id}
+              nameUser={item.userName}
+              fullName={item.fullName}
+              icontick={item.icontick}
+              avatar={item.avatar}
+              followersCount={item.following_status}
+              onPress={() => onPressResultSearch(item._id, item.userName)}
+            />
+          )}
+          contentContainerStyle={styles.UserItemContainer}
+        />
+      )}
     </View>
-    <View style={styles.Line}></View>
-    {loading ? (
-      <ActivityIndicator size="large" color="#0000ff" />
-    ) : data.length === 0 ? (
-      <Text style={styles.NoResultsText}>Không tìm thấy kết quả</Text>
-    ) : (
-      <FlatList
-        data={data}
-        keyExtractor={(item) => item._id.toString()}
-        renderItem={({ item }) => (
-          <UserItemSearch
-            key={item.id}
-            nameUser={item.userName}
-            fullName={item.fullName}
-            icontick={item.icontick}
-            avatar={item.avatar}
-            followersCount={item.following_status}
-            onPress={() => onPressResultSearch(item._id, item.userName)}
-          />
-        )}
-        contentContainerStyle={styles.UserItemContainer}
-      />
-    )}
-  </View>
   )
 }
 

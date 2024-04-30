@@ -2,15 +2,17 @@ import { StyleSheet, Text, TextInput, TouchableOpacity, View, Keyboard } from 'r
 import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faMagnifyingGlass, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
 type SearchComponentProps = {
     searchText: string;
     onChangeText: (text: string) => void;
     onPress?: () => void;
+    navigation: NativeStackNavigationProp<any>;
 };
 
 
-const SearchComponent: React.FC<SearchComponentProps> = ({ searchText, onChangeText, onPress }) => {
+const SearchComponent: React.FC<SearchComponentProps> = ({ searchText, onChangeText, onPress, navigation }) => {
 
     const [isFocused, setIsFocused] = useState(false); // Trạng thái để theo dõi sự focus
     const [inputText, setInputText] = useState(searchText);
@@ -22,9 +24,13 @@ const SearchComponent: React.FC<SearchComponentProps> = ({ searchText, onChangeT
     };
 
     const handleSearchPress = () => {
-        onChangeText(inputText); // Cập nhật trạng thái text khi nhấn nút tìm kiếm
-        if (onPress) {
-            onPress();
+        if (inputText.trim() === '') {
+            navigation.goBack(); // Quay lại màn hình trước nếu ô tìm kiếm rỗng
+        } else {
+            onChangeText(inputText); // Cập nhật trạng thái text khi nhấn nút tìm kiếm
+            if (onPress) {
+                onPress();
+            }
         }
     };
     return (

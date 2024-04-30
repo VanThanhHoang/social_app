@@ -20,6 +20,11 @@ import {SearchStackNames} from '@/navigation/SearchNavigator/config';
 import {HomeStackNames} from '@/navigation/HomeNavigator/config';
 import {AppStackNames} from '@/navigation/config';
 import {use} from 'i18next';
+import { useAppSelector } from '@/redux/store';
+import { userInfoSelector } from '@/redux/test/userStore';
+import ProfileScreen from '@/screens/profileScreens/ProfileScreen';
+import { ProfileStackNames } from '@/navigation/ProfileNavigator/config';
+
 
 interface CardViewProps {
   userName: string;
@@ -46,17 +51,28 @@ interface CardViewProps {
 }
 
 const CardView: React.FC<CardViewProps> = ({...props}) => {
+  const userInfor = useAppSelector(userInfoSelector);
   const [focus, setfocus] = useState<Boolean>(false);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const appDispatch = useAppDispatch();
   const handleLike = (id: string) => {
     appDispatch(NewfeedAction.likePost(id));
   };
-  const onUserNamePress = (userId: string, userName: string): void => {
-    navigation.navigate(AppStackNames.HomeNavigator, {
+  const onUserNamePress = (userId: string, userName: string,): void => {
+    console.log('userId1', userId);
+    if (userId === userInfor._id) {
+      console.log('userId2', userId);
+       navigation.navigate(AppStackNames.HomeNavigator, {
+      screen: HomeStackNames.ProfileNavigator,
+      params: {userId: userId, userName: userName},
+    });
+    }else{
+      console.log('userId2', userId);
+      navigation.navigate(AppStackNames.HomeNavigator, {
       screen: HomeStackNames.UserProfileDetail,
       params: {userId: userId, userName: userName},
     });
+    }
   };
   const onSearch = () => {
     const options = {

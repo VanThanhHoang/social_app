@@ -15,7 +15,7 @@ import { colors } from '@/theme';
     const { myRepost}: MyPostState = useAppSelector(
       state => state.myPost,
     );
-    console.log('myRepost',myRepost[0].reactions.length )
+    // console.log('myRepost',myRepost[0].reactions.length )
     return (
       <View style={styles.container}>
      <Animated.FlatList

@@ -1,4 +1,4 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View, Linking, Alert} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import IconShare from '@/assets/icons/IconShare';
 import Icontick from '@/assets/icons/Icontick';
@@ -45,6 +45,23 @@ const ProfileUser: React.FC<ProfileUserProps> = ({onPressEditProfile}) => {
       dispatch(setLoading(false));
     }
   };
+  const openLink = () => {
+    console.log("Đang cố gắng mở URL:", link); // Ghi nhật ký để gỡ lỗi
+    Linking.canOpenURL(link)
+      .then(supported => {
+        if (supported) {
+          Linking.openURL(link);
+        } else {
+          console.log("Không biết cách mở URI:", link);
+          // Tùy chọn, thông báo cho người dùng hoặc xử lý khác
+          Alert.alert("Lỗi", "Không thể mở liên kết. Vui lòng kiểm tra URL hoặc thử lại sau.");
+        }
+      })
+      .catch(err => {
+        console.error("Đã xảy ra lỗi", err);
+        Alert.alert("Lỗi", "Đã xảy ra lỗi bất ngờ. Vui lòng thử lại sau.");
+      });
+  };
   return (
     <View style={styles.Container}>
       <View style={styles.AvatarContainer}>
@@ -73,16 +90,14 @@ const ProfileUser: React.FC<ProfileUserProps> = ({onPressEditProfile}) => {
       </View>
       <View style={styles.NameContainer}>
         <Text style={styles.NameTextStyle}>{fullName}</Text>
-        <Icontick />
       </View>
       <View style={styles.StoryContainer}>
         <Text style={styles.StoryTextStyle}>{userName}</Text>
         <Text style={styles.StoryTextStyle}>{bio}</Text>
-        <Text style={styles.StoryTextStyle}>{link}</Text>
-        <View style={styles.LinkContainer}>
+        <TouchableOpacity style={styles.LinkContainer} onPress={openLink}>
           <IconLink />
-          <Text style={styles.LinkTextStyle}>youtube/travisscott.com</Text>
-        </View>
+          <Text style={styles.LinkTextStyle}>{link}</Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.FollowerContainer}>
         <View style={styles.FollowerItemContainer}>
@@ -178,7 +193,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto',
     fontWeight: '400',
     color: '#5E4EA0',
-    marginLeft: 8,
+    marginLeft: 4,
   },
   LinkContainer: {
     flexDirection: 'row',

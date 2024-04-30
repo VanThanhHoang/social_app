@@ -5,7 +5,7 @@ import ProfileUser from './component/ProfileUser';
 import TopTabProfile from './component/TopTabProfile';
 import { useNavigation } from '@react-navigation/native';
 import { ProfileNavigatorProps } from '@/navigation/ProfileNavigator/config';
-import { ProfileStackNames, ProfileStackParamList } from '@/navigation/ProfileNavigator/config';
+import { ProfileStackNames } from '@/navigation/ProfileNavigator/config';
 import { useTranslation } from 'react-i18next';
 const ProfileScreen = () => {
   const {t} = useTranslation();
