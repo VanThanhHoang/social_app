@@ -22,6 +22,7 @@ import {AppStackNames} from '@/navigation/config';
 
 interface CardViewProps {
   userName: string;
+  fullName: string;
   rootPostId?: string;
   resposter?: Reposter;
   _id: string;
@@ -122,7 +123,7 @@ const CardView: React.FC<CardViewProps> = ({...props}) => {
               style={styles.containerTick}>
               <Text
                 style={{fontSize: 16, fontWeight: '500', color: colors.black}}>
-                {props.title ? props.title : props.userName}
+                {props.fullName}
               </Text>
             </TouchableOpacity>
             <Text style={{fontSize: 12, marginStart: 10, marginTop: 3}}>

@@ -11,4 +11,6 @@ export const icons = {
   ic_edit: require('../icons/ic_edit.png'),
   ic_report: require('../icons/ic_report.png'),
   ic_remove: require('../icons/ic_remove.png'),
+  ic_nocomment: require('../icons/ic_nocomment.png'),
+  ic_send: require('../icons/ic_send.png'),
 };

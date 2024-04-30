@@ -252,7 +252,8 @@ const HomeScreen = () => {
           showsVerticalScrollIndicator={false}
           renderItem={({item}) => (
             <CardView
-            userName={item.author.userName}
+              userName={item.author.userName}
+              fullName={item.author.fullName}
               resposter={item.reposter}
               userId={item.author._id}
               _id={item._id}

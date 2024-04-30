@@ -3,15 +3,17 @@ import {
   Dimensions,
   FlatList,
   Image,
+  Keyboard,
   SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
 import {colors} from '@/theme';
-import React from 'react';
+import React, {useState} from 'react';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {
   HomeStackNames,
@@ -21,6 +23,8 @@ import Svgback from '@/assets/icons/iconSVG/Back';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {LoginStackParamList} from '@/navigation/login';
 import CardView from '@/screens/home/components/CardView';
+import {icons} from '@/assets';
+import AxiosInstance from '@/network/axiosInstance';
 
 type PostDetailRouteProp = RouteProp<
   HomeStackParamList,
@@ -33,6 +37,17 @@ const CommentScreen = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<LoginStackParamList>>();
   const screenWidth = Dimensions.get('window').width;
+  const [textInput, setTextInput] = useState<string>('');
+
+  const handlePushComment = async (postId: string) => {
+    if (textInput !== '') {
+      const data = {body: textInput};
+      setTextInput('');
+      await AxiosInstance().post(`post/comment/${postId}`, data);
+    }
+  };
+
+  console.log(itemData.comments[0].repplies);
 
   return (
     <GestureHandlerRootView style={styles.container}>
@@ -47,6 +62,7 @@ const CommentScreen = () => {
         </TouchableOpacity>
         <ScrollView>
           <CardView
+            fullName={itemData.author.fullName}
             isLike={itemData.isLiked}
             _id={itemData._id}
             userId={itemData.author._id}
@@ -73,7 +89,7 @@ const CommentScreen = () => {
                 />
                 <View style={styles.commentBG}>
                   <Text style={styles.usernameComment}>
-                    {item.create_by.userName}
+                    {item.create_by.fullName}
                   </Text>
                   <Text style={styles.contentComment}>{item.comment}</Text>
                 </View>
@@ -81,6 +97,24 @@ const CommentScreen = () => {
             )}
           />
         </ScrollView>
+        <View
+          style={{
+            paddingHorizontal: 16,
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}>
+          <TextInput
+            onSubmitEditing={Keyboard.dismiss}
+            multiline={true}
+            placeholder="Comment"
+            value={textInput}
+            onChangeText={text => setTextInput(text)}
+            style={styles.textInputStyle}
+          />
+          <TouchableOpacity onPress={() => handlePushComment(itemData._id)}>
+            <Image source={icons.ic_send} style={{width: 24, height: 24}} />
+          </TouchableOpacity>
+        </View>
       </SafeAreaView>
     </GestureHandlerRootView>
   );
@@ -123,7 +157,7 @@ const styles = StyleSheet.create({
   },
   commentBG: {
     marginLeft: 12,
-    backgroundColor: colors.greyLight,
+    backgroundColor: colors.neutralWhite5,
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 16,
@@ -133,8 +167,19 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   usernameComment: {
+    fontSize: 16,
+    fontWeight: '500',
     color: colors.black,
-    fontSize: 18,
-    fontWeight: '700',
+  },
+  textInputStyle: {
+    flex: 1,
+    fontSize: 15,
+    fontWeight: '400',
+    backgroundColor: colors.neutralWhite5,
+    paddingHorizontal: 16,
+    borderRadius: 16,
+    marginRight: 16,
+    marginTop: 8,
+    marginBottom: 8,
   },
 });
