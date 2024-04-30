@@ -6,13 +6,13 @@ export interface NewFeedState {
   posts: Post[];
   currentPage: number;
   status: 'idle' | 'loading' | 'failed';
-  isLastPage:boolean;
+  isLastPage: boolean;
 }
 const initialState: NewFeedState = {
   posts: [],
   currentPage: 1,
   status: 'idle',
-  isLastPage:false,
+  isLastPage: false,
 };
 const newfeedSate = createSlice({
   name: 'newFeedSate',
@@ -24,10 +24,10 @@ const newfeedSate = createSlice({
         state.status = 'idle';
         const page = action.meta.arg;
         state.currentPage = page;
-        if(!action.payload.nextPage){
+        if (!action.payload.nextPage) {
           state.isLastPage = true;
         }
-        if(action.payload.posts.length === 0){
+        if (action.payload.posts.length === 0) {
           return;
         }
         if (page === 1) {
@@ -41,6 +41,15 @@ const newfeedSate = createSlice({
       })
       .addCase(NewfeedAction.fetchNewFeed.rejected, (state, action) => {
         state.status = 'failed';
+      })
+      .addCase(NewfeedAction.likePost.fulfilled, (state, action) => {
+        const reaction = action.payload;
+        console.log('reaction*****', reaction);
+        const postId = action.meta.arg;
+        const postIndex = state.posts.findIndex(post => post._id === postId);
+        state.posts[postIndex].isLiked = !state.posts[postIndex].isLiked;
+        state.posts[postIndex].reactions = reaction;
+
       });
   },
 });

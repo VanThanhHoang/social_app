@@ -19,6 +19,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {SearchStackNames} from '@/navigation/SearchNavigator/config';
 import {HomeStackNames} from '@/navigation/HomeNavigator/config';
 import {AppStackNames} from '@/navigation/config';
+import {use} from 'i18next';
 
 interface CardViewProps {
   userName: string;
@@ -45,19 +46,10 @@ interface CardViewProps {
 }
 
 const CardView: React.FC<CardViewProps> = ({...props}) => {
-  console.log('props', props.resposter);
   const [focus, setfocus] = useState<Boolean>(false);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-  const [like, setLike] = useState<Boolean>(props.isLike);
-  const [likeCount, setLikeCount] = useState<number>(props.star);
   const appDispatch = useAppDispatch();
   const handleLike = (id: string) => {
-    setLike(!like);
-    if (like) {
-      setLikeCount(likeCount - 1);
-    } else {
-      setLikeCount(likeCount + 1);
-    }
     appDispatch(NewfeedAction.likePost(id));
   };
   const onUserNamePress = (userId: string, userName: string): void => {
@@ -68,8 +60,8 @@ const CardView: React.FC<CardViewProps> = ({...props}) => {
   };
   const onSearch = () => {
     const options = {
-      message: 'tesst',
-      url: 'https://www.google.com/',
+      message: `VNPIC * Bài viết của ${props.title}`,
+      url: 'https://sever-social-media-app.onrender.com/web/post/' + props._id,
       // email: "thp010620@gmail.com",
       // suject: "test",
       // recipient: "0981649752",
@@ -158,9 +150,9 @@ const CardView: React.FC<CardViewProps> = ({...props}) => {
           onPress={() => {
             handleLike(props._id);
           }}>
-          {like ? <SvgStar2 /> : <SvgStar />}
+          {props.isLike ? <SvgStar2 /> : <SvgStar />}
         </TouchableOpacity>
-        <Text style={styles.textAction}>{likeCount}</Text>
+        <Text style={styles.textAction}>{props.star}</Text>
         <TouchableOpacity
           onPress={props.onPressCommentShow}
           style={styles.space}>
@@ -178,7 +170,7 @@ const CardView: React.FC<CardViewProps> = ({...props}) => {
   );
 };
 
-export default React.memo(CardView);
+export default CardView;
 const RepostHeader = ({
   reposter,
   onUserNamePress,

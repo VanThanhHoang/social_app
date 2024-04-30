@@ -6,7 +6,7 @@ import CardView from './components/CardView';
 import {useRef, useMemo, useState, useEffect} from 'react';
 import {Image, TouchableOpacity} from 'react-native';
 import BottomSheet from '@gorhom/bottom-sheet';
-import {icons, images} from '@/assets';
+import {icons} from '@/assets';
 import {colors} from '@/theme';
 import ViewBottomSheet from './components/ViewBottomSheet';
 import Toast from 'react-native-toast-message';
@@ -213,6 +213,7 @@ const HomeScreen = () => {
     state => state.newFeed,
   );
   useEffect(() => {
+    appDispatch(NewfeedAction.fetchMyPost())
     const getNewfeedPromise = appDispatch(NewfeedAction.fetchNewFeed(1));
     return () => {
       getNewfeedPromise.abort();
@@ -252,7 +253,7 @@ const HomeScreen = () => {
           showsVerticalScrollIndicator={false}
           renderItem={({item}) => (
             <CardView
-            userName={item.author.userName}
+              userName={item.author.userName}
               resposter={item.reposter}
               userId={item.author._id}
               _id={item._id}
@@ -401,7 +402,7 @@ const HomeScreen = () => {
 
 export default HomeScreen;
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   CustumToast2: {
     backgroundColor: colors.white,
     padding: 16,

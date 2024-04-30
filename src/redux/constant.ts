@@ -3,4 +3,5 @@ export enum SliceName {
   LANGUAGE = 'language',
   USER = 'user',
   NEW_FEED = 'newFeed',
+  MY_POST = 'myPost',
 }
