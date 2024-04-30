@@ -13,6 +13,9 @@ export const colors = {
   neutralBlack: '#2C2B2B',
   neutralWhite: '#767676',
   neutralWhite4: '#E3E3E3',
+  neutralWhite2: '#9F9F9F',
+  neutralWhite1: '#767676',
   certificationColor: '#3897F0',
-  gray:"#9c9e9e"
+  gray: '#9c9e9e',
+  neutralWhite5: '#F1F1F1',
 };

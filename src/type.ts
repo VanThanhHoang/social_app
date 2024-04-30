@@ -39,7 +39,7 @@ export interface Comment {
   reply_to: string | null;
   status: number;
   __v: number;
-  repplies: this[]; // Chưa biết cụ thể kiểu dữ liệu của mảng này
+  repplies: Comment[]; // Chưa biết cụ thể kiểu dữ liệu của mảng này
 }
 
 export interface Post {
