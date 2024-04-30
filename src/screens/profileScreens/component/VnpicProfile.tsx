@@ -39,6 +39,8 @@ const VnpicProfile: React.FC<Props> = ({scrollY}) => {
         data={myPosts}
         renderItem={({item}) => (
           <CardView
+            fullName={item.author.fullName}
+          
             userName={item.author.userName}
             resposter={item.reposter}
             userId={item.author._id}

@@ -1,6 +1,7 @@
 import React, {useCallback, useMemo, useRef, useState} from 'react';
 import {
   ActivityIndicator,
+  Alert,
   Image,
   Platform,
   SafeAreaView,
@@ -26,6 +27,10 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {LoginStackParamList} from '@/navigation/login';
 import {HomeStackParamList} from '@/navigation/HomeNavigator/config';
+import {Media} from '@/type';
+import {useAppDispatch} from '@/redux/store';
+import {upLoadPost} from '@/redux/action/post.action';
+import UnpinIcon from '@/assets/icons/UnPint';
 
 const PostScreen = () => {
   const navigation =
@@ -39,6 +44,7 @@ const PostScreen = () => {
   const {t} = useTranslation();
   const [textContent, setTextContent] = useState<string>('');
   const imagesPath: Array<string> = [];
+  const mediaUploaded: Media[] = [];
   const [isBottomSheetImageOpen, setIsBottomSheetImageOpen] =
     useState<boolean>(false);
   const bottomSheetImageRef = useRef<BottomSheet>(null);
@@ -58,8 +64,7 @@ const PostScreen = () => {
 
   function handleOpenCamera() {
     ImagePicker.openCamera({}).then(image => {
-        setMedias([image, ...medias]);
-
+      setMedias([image, ...medias]);
     });
     toggleBottomSheetImage();
   }
@@ -89,58 +94,56 @@ const PostScreen = () => {
   const handlePresentImageModalPress = useCallback(() => {
     bottomSheetImageRef.current?.expand();
   }, []);
-
+  const dispatch = useAppDispatch();
   const createPost = async () => {
+    const media = imagesPath.map(value => {
+      return {
+        link: value,
+      };
+    });
     const data = {
       body: textContent,
       privacy: audienceType,
-      media: imagesPath.map(value => {
-        return {
-          link: value,
-        };
-      }),
+      media: media,
     };
-    const response = await AxiosInstance().post('post/upload_post', data);
-    if (response.data.status === 0) {
-      navigation.goBack();
-      setTextContent('');
-      setMedias([]);
-      console.log(response.data);
-      setUploading(false);
-    }
+    await dispatch(upLoadPost(data));
+    navigation.goBack();
+    setTextContent('');
+    setMedias([]);
+    setUploading(false);
   };
 
   const uploadImages = async () => {
     if (!uploading) {
       if (textContent === '' && medias.length === 0) {
-        console.log('null');
       } else if (medias.length === 0) {
         setUploading(true);
         await createPost();
       } else {
         try {
           setUploading(true);
-          const uploadPromises = medias.map(async value => {
+          for (let i = 0; i < medias.length; i++) {
             const formData = new FormData();
             formData.append('image', {
               uri:
                 Platform.OS === 'android'
-                  ? value.path
-                  : value.path.replace('file://', ''),
-              type: value.mime,
+                  ? medias[i].path
+                  : medias[i].path.replace('file://', ''),
+              type: medias[i].mime,
               name: 'image',
             });
-            const response = await AxiosInstance('multipart/form-data').post('upload',formData);
+
+            const response = await AxiosInstance('multipart/form-data').post(
+              'upload',
+              formData,
+            );
             if (response.status === 200) {
-              return response.data.link;
+              imagesPath.push(response.data.link);
             } else {
+              Alert.alert('Upload image error');
               throw new Error('Upload image error');
             }
-          });
-          // Chờ tất cả các promise từ việc tải ảnh được giải quyết
-          const imageLinks = await Promise.all(uploadPromises);
-          console.log('imageLinks', imageLinks);
-          imagesPath = [...imageLinks]
+          }
           await createPost();
         } catch (error) {
           console.error('Error uploading images:', error);
@@ -150,7 +153,7 @@ const PostScreen = () => {
       }
     }
   };
-  
+
   const handleRemoveImage = (index: number) => {
     const newMedias = medias.filter((_, i) => i !== index);
     setMedias(newMedias);
@@ -200,15 +203,34 @@ const PostScreen = () => {
             {medias.map((media, index) => {
               return (
                 <View
+                  key={index}
                   style={{
                     width: 400,
                     height: 500,
                     margin: 10,
                   }}>
+                    <TouchableOpacity
+                    onPress={() => {
+                      handleRemoveImage(index);
+                    }}
+                    style={{
+                      position: 'absolute',
+                      top: 20,
+                      right: 20,
+                      zIndex: 1,
+                      height: 40,
+                      width: 40,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      borderRadius: 25,
+                      backgroundColor:'rgba(0,0,0,0.5)',
+                    }}>
+                      <UnpinIcon/>
+                    </TouchableOpacity>
                   <Image
                     source={{uri: media.path}}
                     style={{
-                    borderRadius: 30,
+                      borderRadius: 30,
                       resizeMode: 'cover',
                       width: 400,
                       height: 500,

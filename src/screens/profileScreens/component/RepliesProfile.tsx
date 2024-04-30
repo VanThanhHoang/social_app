@@ -32,6 +32,7 @@ const RepliesProfile: React.FC<Props> = ({scrollY}) => {
           console.log('item', item.reactions),
           (
             <CardView
+            fullName={item.author.fullName}
               userName={item.author.userName}
               resposter={item.reposter}
               userId={item.author._id}

@@ -1,6 +1,8 @@
 import {Post, PostResponse} from '@/type';
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {NewfeedAction} from '../action/newfeed.action';
+import { upLoadPost } from '../action/post.action';
+import { ToastAndroid } from 'react-native';
 
 export interface NewFeedState {
   posts: Post[];
@@ -50,7 +52,11 @@ const newfeedSate = createSlice({
         state.posts[postIndex].isLiked = !state.posts[postIndex].isLiked;
         state.posts[postIndex].reactions = reaction;
 
-      });
+      })      .addCase(upLoadPost.fulfilled, (state, action) => {
+        const post = action.payload;
+        state.posts.unshift(post);
+        ToastAndroid.show('Đã đăng pic của bạn', ToastAndroid.LONG);
+      });;
   },
 });
 export const newFeedReducer = newfeedSate.reducer;

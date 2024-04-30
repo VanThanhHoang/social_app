@@ -2,6 +2,7 @@ import {Post, PostResponse} from '@/type';
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {NewfeedAction} from '../action/newfeed.action';
 import {useLogger} from '@/utils';
+import {upLoadPost} from '../action/post.action';
 
 export interface MyPostState {
   posts: Post[];
@@ -45,7 +46,6 @@ const myPostSlice = createSlice({
       })
       .addCase(NewfeedAction.likePost.fulfilled, (state, action) => {
         const postId = action.meta.arg;
-        console.log('action.payload', action.payload);
         if (state.myPosts.length > 0) {
           const postIndex = state.myPosts.findIndex(
             post => post._id === postId,
@@ -60,12 +60,16 @@ const myPostSlice = createSlice({
           const postIndex = state.myRepost.findIndex(
             post => post._id === postId,
           );
-          if (postIndex != -1) {  
+          if (postIndex != -1) {
             state.myRepost[postIndex].isLiked =
               !state.myRepost[postIndex].isLiked;
             state.myRepost[postIndex].reactions = action.payload;
           }
         }
+      })
+      .addCase(upLoadPost.fulfilled, (state, action) => {
+        const post = action.payload;
+        state.myPosts.unshift(post);
       });
   },
 });
