@@ -12,7 +12,7 @@ import Share from 'react-native-share';
 import ListImageContent from '@/screens/home/components/ListImageContent';
 import {formatPostTime} from '@/utils/time';
 import {Media, Reposter} from '@/type';
-import {useAppDispatch} from '@/redux/store';
+import {useAppDispatch, useAppSelector} from '@/redux/store';
 import {NewfeedAction} from '@/redux/action/newfeed.action';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -20,6 +20,7 @@ import {SearchStackNames} from '@/navigation/SearchNavigator/config';
 import {HomeStackNames} from '@/navigation/HomeNavigator/config';
 import {AppStackNames} from '@/navigation/config';
 import {use} from 'i18next';
+import {userInfoSelector} from '@/redux/test/userStore';
 
 interface CardViewProps {
   userName: string;
@@ -50,14 +51,20 @@ const CardView: React.FC<CardViewProps> = ({...props}) => {
   const [focus, setfocus] = useState<Boolean>(false);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const appDispatch = useAppDispatch();
+  const userInfo = useAppSelector(userInfoSelector);
+
   const handleLike = (id: string) => {
     appDispatch(NewfeedAction.likePost(id));
   };
   const onUserNamePress = (userId: string, userName: string): void => {
-    navigation.navigate(AppStackNames.HomeNavigator, {
-      screen: HomeStackNames.UserProfileDetail,
-      params: {userId: userId, userName: userName},
-    });
+    console.log(userId);
+    console.log(userInfo);
+    if (userId !== userInfo._id) {
+      navigation.navigate(AppStackNames.HomeNavigator, {
+        screen: HomeStackNames.UserProfileDetail,
+        params: {userId: userId, userName: userName},
+      });
+    }
   };
   const onSearch = () => {
     const options = {
@@ -110,7 +117,7 @@ const CardView: React.FC<CardViewProps> = ({...props}) => {
           <View>
             <TouchableOpacity
               onPress={() => {
-                onUserNamePress(props.userId, props.title);
+                onUserNamePress(props.userId, props.fullName);
               }}
               style={styles.containerTick}>
               <Text

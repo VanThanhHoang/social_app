@@ -20,11 +20,13 @@ import {
 } from '@/navigation/HomeNavigator/config';
 import Svgback from '@/assets/icons/iconSVG/Back';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {LoginStackParamList} from '@/navigation/login';
 import CardView from '@/screens/home/components/CardView';
 import {icons} from '@/assets';
 import AxiosInstance from '@/network/axiosInstance';
 import {Comment} from '@/type';
+import {AppStackNames} from '@/navigation/config';
+import {useAppDispatch, useAppSelector} from '@/redux/store';
+import {userInfoSelector} from '@/redux/test/userStore';
 
 type PostDetailRouteProp = RouteProp<
   HomeStackParamList,
@@ -32,10 +34,11 @@ type PostDetailRouteProp = RouteProp<
 >;
 
 const CommentScreen = () => {
+  const userInfo = useAppSelector(userInfoSelector);
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  const appDispatch = useAppDispatch();
   const route = useRoute<PostDetailRouteProp>();
   const itemData = route.params.post;
-  const navigation =
-    useNavigation<NativeStackNavigationProp<LoginStackParamList>>();
   const screenWidth = Dimensions.get('window').width;
   const [textInput, setTextInput] = useState<string>('');
   const inputRef = useRef<TextInput>(null);
@@ -49,6 +52,15 @@ const CommentScreen = () => {
       setTextInput('');
       setReply('');
       await AxiosInstance().post(`post/comment/${postId}`, data);
+    }
+  };
+
+  const onUserNamePress = (userId: string, userName: string): void => {
+    if (userId !== userInfo._id) {
+      navigation.navigate(AppStackNames.HomeNavigator, {
+        screen: HomeStackNames.UserProfileDetail,
+        params: {userId: userId, userName: userName},
+      });
     }
   };
 
@@ -99,9 +111,17 @@ const CommentScreen = () => {
                   />
                   <View>
                     <View style={styles.commentBG}>
-                      <Text style={styles.usernameComment}>
-                        {item.create_by.fullName}
-                      </Text>
+                      <TouchableOpacity
+                        onPress={() =>
+                          onUserNamePress(
+                            item.create_by._id,
+                            item.create_by.fullName,
+                          )
+                        }>
+                        <Text style={styles.usernameComment}>
+                          {item.create_by.fullName}
+                        </Text>
+                      </TouchableOpacity>
                       <Text style={styles.contentComment}>{item.comment}</Text>
                     </View>
                     <TouchableOpacity
@@ -132,9 +152,17 @@ const CommentScreen = () => {
                         source={{uri: item.create_by.avatar}}
                       />
                       <View style={styles.commentBG}>
-                        <Text style={styles.usernameComment}>
-                          {item.create_by.fullName}
-                        </Text>
+                        <TouchableOpacity
+                          onPress={() =>
+                            onUserNamePress(
+                              item.create_by._id,
+                              item.create_by.fullName,
+                            )
+                          }>
+                          <Text style={styles.usernameComment}>
+                            {item.create_by.fullName}
+                          </Text>
+                        </TouchableOpacity>
                         <Text style={styles.contentComment}>
                           {item.comment}
                         </Text>
