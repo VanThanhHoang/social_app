@@ -90,15 +90,11 @@ const CommentScreen = () => {
   };
 
   const handleDeleteComment = async () => {
-    if (textInput !== '') {
-      inputRef.current?.blur();
-      const response = await AxiosInstance().delete(
-        `post/delete_comment/${selectComment?._id}`,
-      );
-      console.log(response);
-      toggleBottomSheet(null);
-      setTextInput('');
-    }
+    const response = await AxiosInstance().delete(
+      `post/delete_comment/${selectComment?._id}`,
+    );
+    console.log(response);
+    toggleBottomSheet(null);
   };
 
   const handleEditComment = () => {
@@ -108,13 +104,17 @@ const CommentScreen = () => {
   };
 
   const pushEditComment = async () => {
-    const data = {body: textInput};
-    const response = await AxiosInstance().put(
-      `post/edit_comment/${selectComment?._id}`,
-      data,
-    );
-    console.log(response);
-    setSelectComment(null);
+    if (textInput !== '') {
+      inputRef.current?.blur();
+      const data = {body: textInput};
+      const response = await AxiosInstance().put(
+        `post/edit_comment/${selectComment?._id}`,
+        data,
+      );
+      console.log(response);
+      setSelectComment(null);
+      setTextInput('');
+    }
   };
 
   return (
@@ -158,7 +158,7 @@ const CommentScreen = () => {
                   />
                   <TouchableOpacity
                     onLongPress={() => {
-                      toggleBottomSheet(item);
+                      item.isMine ? toggleBottomSheet(item) : null;
                     }}>
                     <View style={styles.commentBG}>
                       <TouchableOpacity
