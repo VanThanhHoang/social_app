@@ -58,8 +58,7 @@ const PostScreen = () => {
 
   function handleOpenCamera() {
     ImagePicker.openCamera({}).then(image => {
-        setMedias([image, ...medias]);
-
+      setMedias([image, ...medias]);
     });
     toggleBottomSheetImage();
   }
@@ -130,7 +129,10 @@ const PostScreen = () => {
               type: value.mime,
               name: 'image',
             });
-            const response = await AxiosInstance('multipart/form-data').post('upload',formData);
+            const response = await AxiosInstance('multipart/form-data').post(
+              'upload',
+              formData,
+            );
             if (response.status === 200) {
               return response.data.link;
             } else {
@@ -140,7 +142,7 @@ const PostScreen = () => {
           // Chờ tất cả các promise từ việc tải ảnh được giải quyết
           const imageLinks = await Promise.all(uploadPromises);
           console.log('imageLinks', imageLinks);
-          imagesPath = [...imageLinks]
+          imagesPath = [...imageLinks];
           await createPost();
         } catch (error) {
           console.error('Error uploading images:', error);
@@ -150,7 +152,7 @@ const PostScreen = () => {
       }
     }
   };
-  
+
   const handleRemoveImage = (index: number) => {
     const newMedias = medias.filter((_, i) => i !== index);
     setMedias(newMedias);
@@ -208,7 +210,7 @@ const PostScreen = () => {
                   <Image
                     source={{uri: media.path}}
                     style={{
-                    borderRadius: 30,
+                      borderRadius: 30,
                       resizeMode: 'cover',
                       width: 400,
                       height: 500,
