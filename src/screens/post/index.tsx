@@ -132,7 +132,6 @@ const PostScreen = () => {
               type: medias[i].mime,
               name: 'image',
             });
-
             const response = await AxiosInstance('multipart/form-data').post(
               'upload',
               formData,
@@ -209,7 +208,7 @@ const PostScreen = () => {
                     height: 500,
                     margin: 10,
                   }}>
-                    <TouchableOpacity
+                  <TouchableOpacity
                     onPress={() => {
                       handleRemoveImage(index);
                     }}
@@ -223,10 +222,10 @@ const PostScreen = () => {
                       justifyContent: 'center',
                       alignItems: 'center',
                       borderRadius: 25,
-                      backgroundColor:'rgba(0,0,0,0.5)',
+                      backgroundColor: 'rgba(0,0,0,0.5)',
                     }}>
-                      <UnpinIcon/>
-                    </TouchableOpacity>
+                    <UnpinIcon />
+                  </TouchableOpacity>
                   <Image
                     source={{uri: media.path}}
                     style={{
