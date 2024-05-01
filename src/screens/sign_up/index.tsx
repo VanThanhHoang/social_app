@@ -106,8 +106,17 @@ const SigninScreen = () => {
           }
         } else {
        
-          // console.log('Login failed with response:', response);
+          console.log('Login failed with response:', response);
+          CustomToast({
+            type: 'error',
+            message: 'Login failed 😢',
+          });
         }
+      }else{
+        CustomToast({
+          type: 'error',
+          message: 'Login failed 😢',
+        });
       }
     } catch (error) {
         CustomToast({
@@ -170,7 +179,7 @@ const SigninScreen = () => {
         }}
       />
       <TextSignUp />
-      <View style={{marginTop: 200}}>
+      <View style={{marginTop: 190}}>
         <ButtonBottom
           title={t('Sign in')}
           backgroundColor="#5E4EA0"

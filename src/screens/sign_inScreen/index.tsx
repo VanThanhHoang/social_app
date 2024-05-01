@@ -19,7 +19,7 @@ import {LoginStackEnum, LoginStackParamList} from '@/navigation/login';
 import {SelectList} from 'react-native-dropdown-select-list';
 import {faVenusMars} from '@fortawesome/free-solid-svg-icons';
 import CustomToast from '@/components/Toast/CutomToast';
-import {set, useForm} from 'react-hook-form';
+import { useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import Toast from 'react-native-toast-message';
@@ -29,6 +29,7 @@ import {AppStackNames} from '@/navigation/config';
 import {useAppDispatch} from '@/redux/store';
 import {setUser} from '@/redux/slice/user.slice';
 import {localStorage} from '@/utils';
+import {setLoading} from '@/redux';
 
 const SignUpScreen = () => {
   const dispatch = useAppDispatch();
@@ -64,6 +65,7 @@ const SignUpScreen = () => {
   ];
 
   const handleSignUp = async (data: any) => {
+    dispatch(setLoading(true));
     const {email, password, selectedGender} = data;
     try {
       const response: any = await registerUser(
@@ -78,6 +80,7 @@ const SignUpScreen = () => {
           type: 'success',
           message: t('Sign up success'),
         });
+        navigation.navigate(LoginStackEnum.SignInScren);
         } else {
           // console.log('Sign up failed:', response);
           CustomToast({
@@ -93,6 +96,8 @@ const SignUpScreen = () => {
         type: 'error',
         message: t('Sign up failed'),
       });
+    }finally {
+      dispatch(setLoading(false));
     }
   };
   const toastConfig = {
