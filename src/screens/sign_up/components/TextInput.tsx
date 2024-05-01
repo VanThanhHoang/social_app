@@ -1,89 +1,51 @@
-import React, {useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {colors} from '@/theme';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {
-  faEnvelope,
-  faLock,
-  faEye,
-  faEyeSlash,
-} from '@fortawesome/free-solid-svg-icons';
+import React, { useState } from 'react';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { colors } from '@/theme';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faEnvelope, faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 interface TextInputSignInProps {
-  placeholder: string;
-  title: string;
-  iconType?: 'email' | 'password';
-  showIcon?: boolean;
-  style?: any;
-  value?: string;
-  onChangeText?: (text: string) => void;
+    placeholder: string,
+    title: string,
+    iconType?: 'email' | 'password',
+    showIcon?: boolean,
+    style ?: any,
+    onChangText ?: any,
+    value ?: string
 }
 
-const TextInputSignIn2: React.FC<TextInputSignInProps> = ({
-  placeholder,
-  title,
-  iconType,
-  showIcon = true,
-  style,
-  value,
-  onChangeText,
-}) => {
+const TextInputSignIn2: React.FC<TextInputSignInProps> = ({ placeholder, title, iconType, showIcon = true, style, onChangText, value }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <View style={[styles.textInputContainer, style]}>
+    <View style={[styles.textInputContainer,style]}>
       <Text style={[styles.title]}>{title}</Text>
       {showIcon && iconType === 'email' && (
-        <FontAwesomeIcon
-          icon={faEnvelope}
-          size={15}
-          color="#000"
-          style={styles.icon}
-        />
+        <FontAwesomeIcon icon={faEnvelope} size={15} color="#000" style={styles.icon} />
       )}
       {showIcon && iconType === 'password' && (
-        <FontAwesomeIcon
-          icon={faLock}
-          size={15}
-          color="#000"
-          style={styles.icon}
-        />
+        <FontAwesomeIcon icon={faLock} size={15} color="#000" style={styles.icon} />
       )}
       <TextInput
         secureTextEntry={iconType === 'password' && !showPassword}
-        style={{
-          height: 60,
-          backgroundColor: colors.greyLight,
-          borderRadius: 10,
-          marginTop: 10,
-          paddingLeft: 40,
-        }}
+        style={{ height: 60, backgroundColor: colors.greyLight, borderRadius: 10, marginTop: 10, paddingLeft: 40 }}
         placeholder={placeholder}
+        onChangeText={onChangText}
         value={value}
-        onChangeText={onChangeText}
       />
       {iconType === 'password' && (
         <TouchableOpacity
           style={styles.eyeIcon}
-          onPress={() => setShowPassword(!showPassword)}>
-          <FontAwesomeIcon
-            icon={showPassword ? faEye : faEyeSlash}
-            size={15}
-            color="#000"
-          />
+          onPress={() => setShowPassword(!showPassword)}
+        >
+          <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} size={15} color="#000" />
         </TouchableOpacity>
       )}
     </View>
-  );
-};
+  )
+}
 
-export default TextInputSignIn2;
+export default TextInputSignIn2
 
 const styles = StyleSheet.create({
   icon: {

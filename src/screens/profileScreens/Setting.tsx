@@ -59,6 +59,10 @@ const dataOptionSetting = [
     },
 ]
 
+const handleLogout = () => {
+    console.log('Logout')
+}
+
 const Setting = () => {
     const navigation = useNavigation<any>();
     const dispatch = useDispatch();

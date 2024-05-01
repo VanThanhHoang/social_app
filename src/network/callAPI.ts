@@ -19,3 +19,25 @@ export const loginWithGoogle = async (data: ILogin) => {
         return error;
     }
 }
+
+
+//auth/login
+export const login = async (email : string, password : string) => {
+    try {
+        const response = await axios.post("auth/login", {email, password});
+        return response;
+    } catch (error) {
+        return error;
+    }
+}
+
+//auth/register
+
+export const registerUser = async ( email: string, password: string, gender: any, account_type: number) => {
+    try {
+        const response = await axios.post("auth/register", {email, password,gender, account_type});
+        return response;
+    } catch (error) {
+        return error;
+    }
+}

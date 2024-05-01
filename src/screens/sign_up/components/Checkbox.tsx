@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faSquare, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
@@ -6,21 +6,36 @@ import { colors } from '@/theme';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { LoginStackEnum, LoginStackParamList } from '@/navigation/login';
+import reduxStorage from '@/redux/store/reduxStorage';
 
 interface CheckboxProps {
     label?: string;
     initialChecked?: boolean;
     onCheckChange?: (isChecked: boolean) => void;
+    email?: string;
+    password?: string;
 }
 
-const Checkbox: React.FC<CheckboxProps> = ({ label, initialChecked = false, onCheckChange }) => {
+const Checkbox: React.FC<CheckboxProps> = ({ label, initialChecked = false, onCheckChange, email, password }) => {
     const navigation = useNavigation<NativeStackNavigationProp<LoginStackParamList>>();
     const [isChecked, setIsChecked] = useState(initialChecked);
+    useEffect(() => {
+        setIsChecked(initialChecked);
+    }, [initialChecked]);
     const toggleCheckbox = () => {
         const newState = !isChecked;
         setIsChecked(newState);
         if (onCheckChange) {
             onCheckChange(newState);
+        }
+        if(newState) {
+            reduxStorage.setItem('email', email);
+            reduxStorage.setItem('password', password);
+            reduxStorage.setItem('rememberMe', 'true'); 
+        } else {
+            reduxStorage.removeItem('email');
+            reduxStorage.removeItem('password');
+            reduxStorage.setItem('rememberMe', 'false');
         }
     };
 
