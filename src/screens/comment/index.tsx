@@ -32,6 +32,9 @@ import {formatTime} from '@/screens/searchScreen/time';
 import BottomSheet from '@gorhom/bottom-sheet';
 import SvgSwitchBlack from '@/assets/icons/iconSVG/SwitchBlack';
 import Svg99 from '@/assets/icons/iconSVG/99';
+import {setLoading} from '@/redux';
+import {NewfeedAction} from '@/redux/action/newfeed.action';
+import {upDateComment} from '@/redux/slice/newfeed.slice';
 
 type PostDetailRouteProp = RouteProp<
   HomeStackParamList,
@@ -42,8 +45,10 @@ const CommentScreen = () => {
   const userInfo = useAppSelector(userInfoSelector);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const appDispatch = useAppDispatch();
+  const flatListRef = useRef<ScrollView>(null);
   const route = useRoute<PostDetailRouteProp>();
   const itemData = route.params.post;
+  const [comments, setComments] = useState<Comment[]>(itemData.comments);
   const screenWidth = Dimensions.get('window').width;
   const [textInput, setTextInput] = useState<string>('');
   const inputRef = useRef<TextInput>(null);
@@ -52,15 +57,30 @@ const CommentScreen = () => {
   const [isBottomSheet, setIsBottomSheet] = useState<boolean>(false);
   const snapPoints = useMemo(() => [200], []);
   const [selectComment, setSelectComment] = useState<Comment | null>(null);
-
+  const dispatch = useAppDispatch();
   const handlePushComment = async (postId: string) => {
     if (textInput !== '') {
-      inputRef.current?.blur();
-      const data =
-        reply === '' ? {body: textInput} : {body: textInput, repply_to: reply};
-      setTextInput('');
-      setReply('');
-      await AxiosInstance().post(`post/comment/${postId}`, data);
+      try {
+        appDispatch(setLoading(true));
+        inputRef.current?.blur();
+        const data =
+          reply === ''
+            ? {body: textInput}
+            : {body: textInput, repply_to: reply};
+        setTextInput('');
+        setReply('');
+        const resData = await AxiosInstance().post(
+          `post/comment/${postId}`,
+          data,
+        );
+        setComments(resData.data.postComment);
+        flatListRef.current?.scrollToEnd({animated: true});
+        appDispatch(upDateComment({postId, comment: resData.data.postComment}));
+      } catch (e) {
+        console.log(e);
+      } finally {
+        appDispatch(setLoading(false));
+      }
     }
   };
 
@@ -90,10 +110,13 @@ const CommentScreen = () => {
   };
 
   const handleDeleteComment = async () => {
-    const response = await AxiosInstance().delete(
+    const resData= await AxiosInstance().delete(
       `post/delete_comment/${selectComment?._id}`,
     );
-    console.log(response);
+    setComments(resData.data.postComment);
+    flatListRef.current?.scrollToEnd({animated: true});
+    const postId = selectComment?._id ?? '';
+    appDispatch(upDateComment({postId, comment: resData.data.postComment}));
     toggleBottomSheet(null);
   };
 
@@ -105,15 +128,23 @@ const CommentScreen = () => {
 
   const pushEditComment = async () => {
     if (textInput !== '') {
-      inputRef.current?.blur();
-      const data = {body: textInput};
-      setTextInput('');
-      const response = await AxiosInstance().put(
-        `post/edit_comment/${selectComment?._id}`,
-        data,
-      );
-      console.log(response);
-      setSelectComment(null);
+      console.log('edit');
+      try {
+        inputRef.current?.blur();
+        const data = {body: textInput};
+        setTextInput('');
+        const resData = await AxiosInstance().put(
+          `post/edit_comment/${selectComment?._id}`,
+          data,
+        );
+        setComments(resData.data.postComment);
+        flatListRef.current?.scrollToEnd({animated: true});
+        const postId = selectComment?._id ?? '';
+        appDispatch(upDateComment({postId, comment: resData.data.postComment}));
+        setSelectComment(null);
+      } catch (e) {
+        console.log(e);
+      }
     }
   };
 
@@ -128,7 +159,7 @@ const CommentScreen = () => {
           <Svgback />
           <Text style={styles.Back}>Back</Text>
         </TouchableOpacity>
-        <ScrollView>
+        <ScrollView ref={flatListRef}>
           <CardView
             fullName={itemData.author.fullName}
             isLike={itemData.isLiked}
@@ -141,13 +172,13 @@ const CommentScreen = () => {
             tag={''}
             image={itemData.media}
             star={itemData.reactions.length}
-            comment={itemData.comments.length}
+            comment={comments.length}
             url={''}
           />
           <View style={styles.divider} />
           <FlatList
             scrollEnabled={false}
-            data={itemData.comments}
+            data={comments}
             renderItem={({item}) => (
               <View>
                 <View

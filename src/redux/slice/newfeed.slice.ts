@@ -19,7 +19,17 @@ const initialState: NewFeedState = {
 const newfeedSate = createSlice({
   name: 'newFeedSate',
   initialState,
-  reducers: {},
+  reducers: {
+    upDateComment: (state, action:PayloadAction<any>) => {
+      const {postId, comment} = action.payload;
+      console.log('postId',comment);
+      const postIndex = state.posts.findIndex(post => post._id === postId);
+      console.log('postIndex', postIndex);
+     if(postIndex !== -1){
+      state.posts[postIndex].comments =  comment
+     }
+    }
+  },
   extraReducers: builder => {
     builder
       .addCase(NewfeedAction.fetchNewFeed.fulfilled, (state, action) => {
@@ -60,3 +70,4 @@ const newfeedSate = createSlice({
   },
 });
 export const newFeedReducer = newfeedSate.reducer;
+export const {upDateComment} = newfeedSate.actions;
