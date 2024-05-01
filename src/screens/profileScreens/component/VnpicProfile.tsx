@@ -11,19 +11,21 @@ import {useAppSelector} from '@/redux/store';
 import {MyPostState} from '@/redux/slice/mypost.slice';
 import CardView from '@/screens/home/components/CardView';
 import {colors} from '@/theme';
+import { Post } from '@/type';
 
 interface Props {
-  scrollY: any; // hoặc thay any bằng kiểu dữ liệu phù hợp nếu có
+  post?: Post[];
+ scrollY: any; // hoặc thay any bằng kiểu dữ liệu phù hợp nếu có
 }
 
-const VnpicProfile: React.FC<Props> = ({scrollY}) => {
+const VnpicProfile: React.FC<Props> = ({scrollY,post}) => {
   const {myPosts, myRepost}: MyPostState = useAppSelector(
     state => state.myPost,
   );
   return (
     <View style={styles.container}>
       <Animated.FlatList
-        contentContainerStyle={{paddingBottom: 500}}
+        contentContainerStyle={{paddingBottom: 1000}}
         ListFooterComponent={
           <View
             style={{
@@ -36,7 +38,7 @@ const VnpicProfile: React.FC<Props> = ({scrollY}) => {
             }}
           />
         }
-        data={myPosts}
+        data={post ?? myPosts}
         renderItem={({item}) => (
           <CardView
             fullName={item.author.fullName}

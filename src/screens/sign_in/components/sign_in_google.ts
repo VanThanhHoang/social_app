@@ -29,6 +29,7 @@ export const signInWithGoole = async (
     const {idToken} = await GoogleSignin.signIn();
     const token_FCM = await setUpNotification();
     localStorage.set('FCM', token_FCM);
+    console.log('idToken', token_FCM);
     try {
       const response: any = await loginWithGoogle({
         idToken,

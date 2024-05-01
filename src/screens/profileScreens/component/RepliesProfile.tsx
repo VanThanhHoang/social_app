@@ -1,16 +1,17 @@
 import {StyleSheet, Text, View, FlatList, Animated} from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import {MyPostState} from '@/redux/slice/mypost.slice';
 import {useAppSelector} from '@/redux/store';
 import CardView from '@/screens/home/components/CardView';
 import {colors} from '@/theme';
+import { Post } from '@/type';
 
 interface Props {
+  post?:Post[]
   scrollY: any; // hoặc thay any bằng kiểu dữ liệu phù hợp nếu có
 }
 
-  const RepliesProfile:React.FC<Props> = ({ scrollY }) => {
-
+  const RepliesProfile:React.FC<Props> = ({ scrollY ,post}) => {
     const { myRepost}: MyPostState = useAppSelector(
       state => state.myPost,
     );
@@ -18,7 +19,7 @@ interface Props {
     return (
       <View style={styles.container}>
      <Animated.FlatList
-        contentContainerStyle={{paddingBottom: 500}}
+  contentContainerStyle={{paddingBottom: 1000}}
         ListFooterComponent={
           <View
             style={{
@@ -31,7 +32,7 @@ interface Props {
             }}
           />
         }
-        data={myRepost}
+        data={post ?? myRepost}
         renderItem={({item}) => (
           console.log('item', item.reactions),
           (

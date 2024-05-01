@@ -1,43 +1,51 @@
-import { ScrollView, Animated, StyleSheet, View, Text } from 'react-native';
-import React, { useRef, useState, useEffect } from 'react';
+import {ScrollView, Animated, StyleSheet, View, Text} from 'react-native';
+import React, {useRef, useState, useEffect} from 'react';
 import HeaderProfile from '../profileScreens/component/HeaderProfile';
 import ProfileUserSearch from './component/ProfileUserSearch';
 import TopTabProfile from '../profileScreens/component/TopTabProfile';
-import { useTranslation } from 'react-i18next';
-import { useRoute } from '@react-navigation/native';
-import { SearchStackParamList, SearchStackNames } from '@/navigation/SearchNavigator/config';
-import { RouteProp } from '@react-navigation/native';
+import {useTranslation} from 'react-i18next';
+import {useRoute} from '@react-navigation/native';
+import {
+  SearchStackParamList,
+  SearchStackNames,
+} from '@/navigation/SearchNavigator/config';
+import {RouteProp} from '@react-navigation/native';
 import AxiosInstance from '@/network/axiosInstance';
-import { useDispatch } from 'react-redux';
-import { setLoading } from '@/redux/slice/app.slice';
+import {useDispatch} from 'react-redux';
+import {setLoading} from '@/redux/slice/app.slice';
 import IconPrivacy from '@/assets/icons/IconPrivacy';
+import { Post } from '@/type';
 const axios = AxiosInstance();
-type UserProfileDetailRouteProp = RouteProp<SearchStackParamList, SearchStackNames.UserProfileDetail>;
+type UserProfileDetailRouteProp = RouteProp<
+  SearchStackParamList,
+  SearchStackNames.UserProfileDetail
+>;
 const UserProfileDetail = () => {
   const route = useRoute<UserProfileDetailRouteProp>();
-  const { userId } = route.params;
-  const { userName } = route.params;
-  const [accountType, setAccountType] = useState(Number);
+  const {userId} = route.params;
+  const {userName} = route.params;
+  const [accountType, setAccountType] = useState<Number>(-1);
+  const [isFollowed, setIsFollowed] = useState(false);
   const dispatch = useDispatch();
   console.log('userId: ', userId);
   console.log('userName: ', userName);
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const scrollY = useRef(new Animated.Value(0)).current;
   const translateY = scrollY.interpolate({
     inputRange: [0, 550],
     outputRange: [0, -373],
     extrapolate: 'clamp',
   });
-
-
+  const [post, setPost] = useState<Post[]>([]);
   // Giả sử chiều cao của HeaderProfile là 60
   const headerHeight = 50;
   const getProfile = async () => {
     dispatch(setLoading(true));
     try {
-      const response = await axios.get(`/user/${userId}`);
+      const response:any = await axios.get(`/user/${userId}`);
       setAccountType(response.data.account_type);
       console.log('accountType: ', response.data.account_type);
+      setPost(response.myPost);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -53,22 +61,31 @@ const UserProfileDetail = () => {
       <View style={[styles.headerContainer]}>
         <HeaderProfile isMine={false} nameTitle={userName} iconTick={false} />
       </View>
-      <View style={{ flex: 1, }}>
-        <Animated.View style={{ transform: [{ translateY }], marginTop: headerHeight }}>
+      <View style={{flex: 1}}>
+        <Animated.View
+          style={{transform: [{translateY}], marginTop: headerHeight}}>
           <View style={styles.profileUserContainer}>
             <ProfileUserSearch userId={userId} />
           </View>
-          {
-            accountType === 0 ? 
-            <View style = {styles.PrivateStyleContainer}>
+          {accountType == 0 && (
+            <View style={styles.PrivateStyleContainer}>
               <IconPrivacy />
-              <Text style = {styles.PrivateStyleText}>This account is private</Text>
-              </View> :
-
-              <View style={{ height: "100%" }}>
-                <TopTabProfile scrollY={scrollY} />
-              </View>
-          }
+              <Text style={styles.PrivateStyleText}>
+                This account is private
+              </Text>
+            </View>
+          )}
+          {accountType == 1 && (
+            <View style={{height: '100%'}}>
+              <TopTabProfile
+              repost={post.filter(item=>{
+                return item.isRepost 
+              })}
+              post={post.filter(item=>{
+                return !item.isRepost
+              })}  scrollY={scrollY} />
+            </View>
+          )}
         </Animated.View>
       </View>
     </View>
@@ -77,7 +94,7 @@ const UserProfileDetail = () => {
 export default UserProfileDetail;
 
 const styles = StyleSheet.create({
-  PrivateStyleText:{
+  PrivateStyleText: {
     fontSize: 16,
     fontWeight: '400',
     fontFamily: 'Roboto',

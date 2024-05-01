@@ -4,13 +4,16 @@ import VnpicProfile from './VnpicProfile';
 import RepliesProfile from './RepliesProfile';
 import { NavigationContainer } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
+import { Post } from '@/type';
 
 const Tab = createMaterialTopTabNavigator();
 interface Props {
+  post?:Post[];
+  repost?:Post[];
   scrollY: any; // hoặc thay any bằng kiểu dữ liệu phù hợp nếu có
 }
 
-const TopTabProfile:React.FC<Props> = ({ scrollY }) => {
+const TopTabProfile:React.FC<Props> = ({ scrollY,post,repost }) => {
   const {t} = useTranslation();
   return (
       <Tab.Navigator
@@ -28,10 +31,10 @@ const TopTabProfile:React.FC<Props> = ({ scrollY }) => {
           },
         }}>
         <Tab.Screen name="Vnpic">
-          {() => <VnpicProfile scrollY={scrollY} />}
+          {() => <VnpicProfile post={post} scrollY={scrollY} />}
         </Tab.Screen>
         <Tab.Screen name={t('Replies')}>
-          {() => <RepliesProfile scrollY={scrollY} />}
+          {() => <RepliesProfile post={repost} scrollY={scrollY} />}
         </Tab.Screen>
       </Tab.Navigator>
   );

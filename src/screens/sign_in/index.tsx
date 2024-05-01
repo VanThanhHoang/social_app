@@ -11,7 +11,6 @@ import {AppDispatch, useAppDispatch, useAppSelector} from '@/redux/store';
 import {useLogger} from '@/utils';
 import {fetchUserById} from '@/redux/action';
 import {signInWithGoole} from './components/sign_in_google';
-import HomeIcon from '@/assets/icons/HomeIcon';
 import LinearGradient from 'react-native-linear-gradient';
 import IconGoogle from '@/assets/icons/IconGoogle';
 import IconFacebook from '@/assets/icons/IconFacebook';
