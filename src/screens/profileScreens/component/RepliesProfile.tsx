@@ -19,7 +19,7 @@ interface Props {
     return (
       <View style={styles.container}>
      <Animated.FlatList
-  contentContainerStyle={{paddingBottom: 1000}}
+    contentContainerStyle={{paddingBottom: 1000}}
         ListFooterComponent={
           <View
             style={{

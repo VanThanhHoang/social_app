@@ -7,7 +7,7 @@ import {LoginStackParamList, LoginStackEnum} from '@/navigation/login';
 import messaging from '@react-native-firebase/messaging';
 import AxiosInstance from '@/network/axiosInstance';
 import {localStorage} from '@/utils';
-import { setLoading } from '@/redux/slice/app.slice';
+import {setLoading} from '@/redux/slice/app.slice';
 import {
   HomeStackNames,
   HomeStackParamList,
@@ -38,23 +38,24 @@ export const signInWithGoole = async (
       dispatch(setUser(response.data));
       localStorage.set('userInfo', response.data.toString());
       if ((response.status as any) === 'success') {
-        if (response.data.isFirstTimeLogin) {
+        console.log('response', response.data);
+        if (!response.data.isFirstTimeLogin) {
           // reset navigation
           navigation.reset({
             index: 0,
             routes: [{name: AppStackNames.HomeBottomTab}],
           });
           return;
+        } else {
+          navigation.reset({
+            index: 0,
+            routes: [{name: LoginStackEnum.CreateProfileScreen}],
+          });
         }
-        navigation.reset({
-          index: 0,
-          routes: [{name: LoginStackEnum.CreateProfileScreen}],
-        });
       }
-      // console.log(response.status, "ádasdas");
     } catch (error) {
       console.log(error, 'ádasdas');
-    }finally{
+    } finally {
       dispatch(setLoading(false));
     }
     // const data: ILogin = {
