@@ -27,6 +27,8 @@ import FooterList from './components/FooterList';
 import FooterLastPageList from './components/FooterLastPageList';
 import AxiosInstance from '@/network/axiosInstance';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import { BackHandler } from 'react-native';
+import { use } from 'i18next';
 const HomeScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [check, setcheck] = useState<number>(1);
@@ -221,6 +223,26 @@ const HomeScreen = () => {
   const isFirstLoadData = () => {
     return posts.length == 0 && currentPage === 1;
   };
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+    Alert.alert(
+      'Exit App',
+      'Exiting the application?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => null,
+          style: 'cancel',
+        },
+        {text: 'YES', onPress: () => BackHandler.exitApp()},
+      ],
+      {cancelable: false},
+    );
+    return true;
+  }
+  );
+    return () => backHandler.remove();
+  }, []);
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <Header onPressToggle={toggleBottomSheet} />

@@ -7,7 +7,7 @@ import { icon } from '@fortawesome/fontawesome-svg-core';
 import Svgback from '@/assets/icons/iconSVG/Back';
 import { useNavigation } from '@react-navigation/native';
 interface HeaderProfileProps {
-    isMine: boolean;
+    isMine?: boolean;
     nameTitle?: string;
     iconTick?: boolean;
     onPressMenu?: () => void,
@@ -26,7 +26,6 @@ const HeaderProfile: React.FC<HeaderProfileProps> = ({ nameTitle, iconTick, isMi
             </TouchableOpacity>
             <View style={styles.NameTitleContainer}>
                 <Text style={styles.NameTitle}>{nameTitle}</Text>
-                {iconTick && <Icontick style = {styles.IconStyle} />}
             </View>
             <TouchableOpacity onPress={onPressMenu} >
                 <IconMenu />

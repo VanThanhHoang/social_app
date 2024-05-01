@@ -9,11 +9,15 @@ interface Props {
   scrollY: any; // hoặc thay any bằng kiểu dữ liệu phù hợp nếu có
 }
 
-const RepliesProfile: React.FC<Props> = ({scrollY}) => {
-  const {myRepost}: MyPostState = useAppSelector(state => state.myPost);
-  return (
-    <View style={styles.container}>
-      <Animated.FlatList
+  const RepliesProfile:React.FC<Props> = ({ scrollY }) => {
+
+    const { myRepost}: MyPostState = useAppSelector(
+      state => state.myPost,
+    );
+    // console.log('myRepost',myRepost[0].reactions.length )
+    return (
+      <View style={styles.container}>
+     <Animated.FlatList
         contentContainerStyle={{paddingBottom: 500}}
         ListFooterComponent={
           <View

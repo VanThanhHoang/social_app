@@ -67,15 +67,13 @@ const ProfileUserSearch: React.FC<ProfileUserProps> = ({ userId, onPressEditProf
             </View>
             <View style={styles.NameContainer}>
                 <Text style={styles.NameTextStyle}>{fullName}</Text>
-                <Icontick />
             </View>
             <View style={styles.StoryContainer}>
                 <Text style={styles.StoryTextStyle}>{userName}</Text>
                 <Text style={styles.StoryTextStyle}>{bio}</Text>
-                <Text style={styles.StoryTextStyle}>{link}</Text>
                 <View style={styles.LinkContainer}>
                     <IconLink />
-                    <Text style={styles.LinkTextStyle}>youtube/travisscott.com</Text>
+                    <Text style={styles.LinkTextStyle}>{link}</Text>
                 </View>
             </View>
             <View style={styles.FollowerContainer}>
