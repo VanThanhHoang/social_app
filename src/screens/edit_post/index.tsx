@@ -99,59 +99,22 @@ const EditPostScreen = () => {
     bottomSheetImageRef.current?.expand();
   }, []);
 
-  const createPost = async () => {
+  const updatePost = async () => {
     const data = {
       body: textContent,
       privacy: audienceType,
-      media: imagesPath.map(value => {
-        return {
-          link: value,
-        };
-      }),
+      mediaDelete: [],
     };
-    const response = await AxiosInstance().post('post/upload_post', data);
+    const response = await AxiosInstance().patch(
+      `post/update_post/${itemData._id}`,
+      data,
+    );
     if (response.data.status === 0) {
       navigation.goBack();
       setTextContent('');
       setMedias([]);
       console.log(response.data);
       setUploading(false);
-    }
-  };
-
-  const uploadImages = async () => {
-    if (!uploading) {
-      if (textContent === '' && medias.length === 0) {
-        console.log('null');
-      } else if (medias.length === 0) {
-        setUploading(true);
-        await createPost();
-      } else {
-        setUploading(true);
-        medias.map(async value => {
-          const formData = new FormData();
-          formData.append('image', {
-            uri:
-              Platform.OS === 'android'
-                ? value.path
-                : value.path.replace('file://', ''),
-            type: value.mime,
-            name: 'image',
-          });
-          const response = await AxiosInstance('multipart/form-data').post(
-            'upload',
-            formData,
-          );
-          if (response.status === 200) {
-            imagesPath.push(response.data.link);
-            if (imagesPath.length === medias.length) {
-              await createPost();
-            }
-          } else {
-            console.log('upload image error');
-          }
-        });
-      }
     }
   };
 
@@ -168,7 +131,9 @@ const EditPostScreen = () => {
             <Text style={styles.cancelForeground}>{t('Cancel')}</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={uploadImages}
+            onPress={() => {
+              updatePost();
+            }}
             disabled={uploading}
             style={styles.postBackground}>
             <Text style={styles.postForeground}>
