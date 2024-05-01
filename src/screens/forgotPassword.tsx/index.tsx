@@ -9,12 +9,12 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {LoginStackEnum, LoginStackParamList} from '@/navigation/login';
 import HeaderForgot from './componnents/header';
-import TextInputSignIn2 from '@/screens/sign_up/components/TextInput';
 import ButtonBottom from '@/screens/createProfileScreen/component/ButtonBottom';
 import AxiosInstance from '@/network/axiosInstance';
 import {useDispatch, useSelector} from 'react-redux';
 import {setLoading} from '@/redux/slice/app.slice';
 import {RootState} from '@/redux/store';
+import TextInputForgot from './componnents/TextInputForgot';
 
 const ForgotPass = () => {
   const [email, setEmail] = useState('');
@@ -65,7 +65,7 @@ const ForgotPass = () => {
         title="Rest your password 🔑"
         title2="Please enter your email and we wil send on OTP code in the next step to reset your password"
       />
-      <TextInputSignIn2
+      <TextInputForgot
         style={styles.Input}
         placeholder="Email"
         title="Email"

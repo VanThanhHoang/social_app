@@ -12,7 +12,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faChevronLeft} from '@fortawesome/free-solid-svg-icons';
 import {faSpinner} from '@fortawesome/free-solid-svg-icons';
 import OtpInput from './componnents/OtpInput';
-import TextInputSignIn2 from '@/screens/sign_up/components/TextInput';
+import TextInputForgot from './componnents/TextInputForgot';
 import Footer from './componnents/Footer';
 import ButtonBottom from '@/screens/createProfileScreen/component/ButtonBottom';
 import {LoginStackParamList, LoginStackEnum} from '@/navigation/login';
@@ -146,7 +146,7 @@ const OtpCodeScreen = () => {
       />
       <OtpInput onOtpComplete={setOtp} resetFlag={resetFlag} />
       <Footer resendOTP={resendOTP} />
-      <TextInputSignIn2
+      <TextInputForgot
         placeholder="Password"
         title="New Password"
         showIcon
@@ -154,7 +154,7 @@ const OtpCodeScreen = () => {
         onChangeText={setNewPassword}
         value={newPassword}
       />
-      <TextInputSignIn2
+      <TextInputForgot
         placeholder="Confirm Password"
         title="Confirm New Password"
         showIcon
