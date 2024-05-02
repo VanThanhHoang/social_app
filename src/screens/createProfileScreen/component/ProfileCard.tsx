@@ -262,7 +262,7 @@ const ProfileCard  = () => {
         </View>
         <View style={styles.line}></View>
       </View>
-      <View style = {{marginTop:200}}>
+      <View style = {{marginTop:150}}>
         <ButtonBottom title={t('Next')} backgroundColor='#5E4EA0' color='#FFFFFF' onPress={() =>onPressNext(data)} />
       </View>
 
