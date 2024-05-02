@@ -47,7 +47,7 @@ const dataOptionSetting = [
     },
     {
         id: 5,
-        title: 'Help',
+        title: 'Change password',
         icon: <IconHelp />,
         screenName: "HelpScreen"
     },
