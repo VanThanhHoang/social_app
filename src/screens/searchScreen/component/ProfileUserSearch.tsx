@@ -126,25 +126,6 @@ const ProfileUserSearch: React.FC<ProfileUserProps> = ({
           <Text style={styles.FollowTextStyle}>following</Text>
         </View>
       </View>
-      <View style={styles.PeopleFollowerContainer}>
-        <View style={styles.ImagePeopleContainer}>
-          <Image
-            source={require('@/assets/images/nytao.png')}
-            style={styles.AvatarPeopleStyle}
-          />
-          <Image
-            source={require('@/assets/images/nytao.png')}
-            style={[styles.AvatarPeopleStyle, styles.OverlapAvatar]}
-          />
-          <Image
-            source={require('@/assets/images/nytao.png')}
-            style={[styles.AvatarPeopleStyle, styles.OverlapAvatar]}
-          />
-        </View>
-        <Text style={styles.FollowPeopleTextStyle}>
-          Followed by Quan Hoang, lanhhni, Everyday Astronaut, Pewdiepie
-        </Text>
-      </View>
     </View>
   );
 };

@@ -7,14 +7,17 @@ import messaging from '@react-native-firebase/messaging';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {Alert} from 'react-native';
 import CustomToast from './components/Toast/CutomToast';
-import { use } from 'i18next';
+import {use} from 'i18next';
+import {PermissionsAndroid} from 'react-native';
 const App = () => {
-
   useEffect(() => {
+    PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
+    );
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       CustomToast({
         type: 'success',
-        message: remoteMessage.notification?.body ,
+        message: remoteMessage.notification?.body,
       });
     });
     return unsubscribe;

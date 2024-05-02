@@ -57,6 +57,18 @@ const UserProfileDetail = () => {
   const handleSetFollow = (isFollow: boolean) => {
     setIsFollowed(isFollow);
   };
+  const isShowPost = ()=>{
+    if(accountType == 1){
+      return true
+    }
+    if(accountType == 0 && isFollowed == true){
+      return true
+    }
+    if(accountType == 0){
+      return false
+    }
+
+  }
   return (
     <View style={styles.container}>
       <View style={[styles.headerContainer]}>
@@ -77,7 +89,7 @@ const UserProfileDetail = () => {
               userId={userId}
             />
           </View>
-          {accountType == 0 && (
+          {!isShowPost() && (
             <View style={styles.PrivateStyleContainer}>
               <IconPrivacy />
               <Text style={styles.PrivateStyleText}>
@@ -85,7 +97,7 @@ const UserProfileDetail = () => {
               </Text>
             </View>
           )}
-          {accountType == 1 && (
+          {isShowPost() && (
             <View style={{height: '100%'}}>
               <TopTabProfile
                 repost={post.filter(item => {
