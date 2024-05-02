@@ -25,6 +25,8 @@ import { userInfoSelector } from '@/redux/test/userStore';
 import ProfileScreen from '@/screens/profileScreens/ProfileScreen';
 import { ProfileStackNames } from '@/navigation/ProfileNavigator/config';
 import AxiosInstance from '@/network/axiosInstance';
+import CustomToast from '@/components/Toast/CutomToast';
+import { setLoading } from '@/redux';
 
 const axios = AxiosInstance();
 
@@ -57,9 +59,25 @@ interface CardViewProps {
 const CardView: React.FC<CardViewProps> = ({ ...props }) => {
   const userInfor = useAppSelector(userInfoSelector);
   const [focus, setfocus] = useState<Boolean>(false);
+  const dispatch = useAppDispatch();
   const [showLikesModal, setShowLikesModal] = useState(false);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [modalVisible, setModalVisible] = useState(false);
+  const handleRepost = async () => {
+    dispatch(setLoading(true))
+    try{
+      await AxiosInstance().post(`post/repost/${props._id}`)
+      dispatch(NewfeedAction.fetchMyPost())
+      CustomToast({
+        type: 'success',
+        message: 'Đã đăng lại',
+      });
+    }catch(err){
+      console.log('err', err);
+    }finally{
+      dispatch(setLoading(false))
+    }
+  }
   interface LikedUser {
     userName: string;
     fullName: string;
@@ -74,7 +92,6 @@ const CardView: React.FC<CardViewProps> = ({ ...props }) => {
     appDispatch(NewfeedAction.likePost(id));
   };
   const onUserNamePress = (userId: string, userName: string,): void => {
-    console.log('userId1', userId);
     if (userId === userInfor._id) {
       console.log('userId2', userId);
       navigation.navigate(AppStackNames.HomeNavigator, {
@@ -82,7 +99,6 @@ const CardView: React.FC<CardViewProps> = ({ ...props }) => {
         params: { userId: userId, userName: userName },
       });
     } else {
-      console.log('userId2', userId);
       navigation.navigate(AppStackNames.HomeNavigator, {
         screen: HomeStackNames.UserProfileDetail,
         params: { userId: userId, userName: userName },
@@ -243,7 +259,7 @@ const CardView: React.FC<CardViewProps> = ({ ...props }) => {
           <SvgComponent />
         </TouchableOpacity>
         <Text style={styles.textAction}>{props.comment}</Text>
-        <TouchableOpacity onPress={props.onPressSwitch} style={styles.space}>
+        <TouchableOpacity onPress={handleRepost} style={styles.space}>
           <SvgSwitch />
         </TouchableOpacity>
         <TouchableOpacity onPress={onSearch} style={styles.space}>
