@@ -1,12 +1,17 @@
-import * as React from 'react';
-import Svg, {SvgProps, Rect, Path} from 'react-native-svg';
-const IconStar2= (props: SvgProps) => (
-  <Svg width={20} height={20} fill="none" {...props}>
-    <Rect width={20} height={20} fill="#5E4EA0" rx={10} />
+import * as React from "react"
+import Svg, { SvgProps, Rect, Path } from "react-native-svg"
+const IconShare= (props: SvgProps) => (
+  <Svg
+    width={20}
+    height={20}
+    fill="none"
+    {...props}
+  >
+    <Rect width={20} height={20} fill="#475BFF" rx={10} />
     <Path
       fill="#fff"
-      d="M10.653 4.422A.724.724 0 0 0 9.998 4a.727.727 0 0 0-.654.422l-1.461 3.1-3.264.497a.732.732 0 0 0-.584.509.77.77 0 0 0 .18.766l2.368 2.416-.56 3.414a.763.763 0 0 0 .294.734.714.714 0 0 0 .768.054l2.916-1.605 2.915 1.605a.709.709 0 0 0 .768-.054.765.765 0 0 0 .293-.734l-.56-3.414 2.367-2.416a.765.765 0 0 0 .18-.766.735.735 0 0 0-.584-.509l-3.266-.497-1.461-3.1Z"
+      d="M11.195 5.066a.751.751 0 0 0-.445.684v1.5H8.125A4.125 4.125 0 0 0 4 11.376a4.596 4.596 0 0 0 2.348 4.08.383.383 0 0 0 .19.045.463.463 0 0 0 .462-.462c0-.176-.1-.338-.23-.457-.22-.209-.52-.619-.52-1.332A2.25 2.25 0 0 1 8.5 11h2.25v1.5a.753.753 0 0 0 1.252.558l3.75-3.375A.755.755 0 0 0 16 9.125a.746.746 0 0 0-.248-.557l-3.75-3.375a.744.744 0 0 0-.807-.127Z"
     />
   </Svg>
-);
-export default IconStar2;
+)
+export default IconShare

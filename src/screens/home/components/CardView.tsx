@@ -232,7 +232,7 @@ const CardView: React.FC<CardViewProps> = ({...props}) => {
               style={styles.containerTick}>
               <Text
                 style={{fontSize: 16, fontWeight: '500', color: colors.black}}>
-                {props.title ? props.title : props.userName}
+                {props.fullName ?? props.userName}
               </Text>
             </TouchableOpacity>
             <Text style={{fontSize: 12, marginStart: 10, marginTop: 3}}>

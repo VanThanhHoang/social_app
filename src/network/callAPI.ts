@@ -22,9 +22,9 @@ export const loginWithGoogle = async (data: ILogin) => {
 
 
 //auth/login
-export const login = async (email : string, password : string) => {
+export const login = async (email : string, password : string,fcm:string) => {
     try {
-        const response = await axios.post("auth/login", {email, password});
+        const response = await axios.post("auth/login", {email, password,fcm});
         return response;
     } catch (error) {
         return error;

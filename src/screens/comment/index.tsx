@@ -157,7 +157,8 @@ const CommentScreen = () => {
         </TouchableOpacity>
         <ScrollView ref={flatListRef}>
           <CardView
-            fullName={itemData.author.fullName ?? itemData.author.userName  }
+             userName={itemData.author.userName}
+            fullName={itemData.author.fullName }
             isLike={itemData.isLiked}
             _id={itemData._id}
             userId={itemData.author._id}

@@ -21,6 +21,7 @@ import {localStorage} from '@/utils';
 import {useAppDispatch} from '@/redux/store';
 import {setUser} from '@/redux/slice/user.slice';
 import {setLoading} from '@/redux';
+import messaging from '@react-native-firebase/messaging';
 
 const SigninScreen = () => {
   const {t} = useTranslation();
@@ -77,7 +78,8 @@ const SigninScreen = () => {
   const handleLogin = async () => {
     try {
       dispatch(setLoading(true));
-      const response: any = await login(email, password);
+      const fcm = await messaging().getToken();
+      const response: any = await login(email, password,);
       if (response?.status === 'success') {
         dispatch(setUser(response.data));
         localStorage.set('userInfo', JSON.stringify(response.data)  );
