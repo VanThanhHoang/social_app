@@ -8,11 +8,14 @@ const fetchNewFeed = createAsyncThunk(
   'newFeed/fetchPost',
   async (page: number, thunkApi) => {
     try {
-      const response: PostResponse = await AxiosInstance().get(
-        `post/new_feed?page=${page}`,
-      );
+      const isFollowing = localStorage.getBoolean('isFollowing') || false;
+      let url = `post/new_feed?page=${page}`;
+      isFollowing && (url = `post/new_feed?page=${page}?&isFollowing=${isFollowing}`);
+      console.log('url', url);
+      const response: PostResponse = await AxiosInstance().get(url);
       return response; // Trả về dữ liệu để lưu vào store (nếu cần)
     } catch (error) {
+      console.log('error', error);
       return thunkApi.rejectWithValue(error);
     }
   },
@@ -42,7 +45,6 @@ const fetchMyPost = createAsyncThunk(
       );
       return response; // Trả về dữ liệu để lưu vào store (nếu cần)
     } catch (error) {
-      console.log('error', error);
       return thunkApi.rejectWithValue(error);
     }
   },

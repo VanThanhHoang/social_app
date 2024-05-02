@@ -22,7 +22,7 @@ import {useTranslation} from 'react-i18next';
 import {localStorage} from '@/utils';
 import {NewfeedAction, fetchNoti} from '@/redux/action/newfeed.action';
 import {Post} from '@/type';
-import {NewFeedState} from '@/redux/slice/newfeed.slice';
+import {NewFeedState, setFollowing} from '@/redux/slice/newfeed.slice';
 import FooterList from './components/FooterList';
 import FooterLastPageList from './components/FooterLastPageList';
 import AxiosInstance from '@/network/axiosInstance';
@@ -32,7 +32,8 @@ import {use} from 'i18next';
 import {deletePost} from '@/redux/action/post.action';
 const HomeScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-  const [check, setcheck] = useState<number>(1);
+  const isFollowing = useAppSelector(state => state.newFeed.isFollowing);
+  const [check, setcheck] = useState<number>(isFollowing ? 2 : 1);
   const [ischeck, setischeck] = useState<boolean>(false);
   const bottomSheetRef = useRef<BottomSheet>(null);
   const bottomSheet = useRef<BottomSheet>(null);
@@ -58,8 +59,8 @@ const HomeScreen = () => {
     setIsBottomSheetOpen(!isBottomSheetOpen);
   };
   useEffect(() => {
-    dispatch(fetchNoti())
-  },[])
+    dispatch(fetchNoti());
+  }, []);
   const toggleBottomSheet2 = () => {
     if (isBottomSheet1) {
       bottomSheet1.current?.close();
@@ -213,6 +214,7 @@ const HomeScreen = () => {
   const {posts, currentPage, status, isLastPage}: NewFeedState = useAppSelector(
     state => state.newFeed,
   );
+  console.log('posts', posts);
   useEffect(() => {
     appDispatch(NewfeedAction.fetchMyPost());
     const getNewfeedPromise = appDispatch(NewfeedAction.fetchNewFeed(1));
@@ -333,18 +335,27 @@ const HomeScreen = () => {
               }}
             />
             <TouchableOpacity
-              onPress={() => handleRadioSelect(1)}
+              onPress={() => {
+                dispatch(setFollowing(false))
+                handleRadioSelect(1);
+                dispatch(NewfeedAction.fetchNewFeed(1));
+              }}
               style={{flexDirection: 'row', marginTop: 30}}>
               <Image style={{width: 34, height: 24}} source={icons.planet} />
               <Text style={styles.textWorl}>{t('Worldwide')}</Text>
-              <TouchableOpacity style={styles.radioButton}>
+              <TouchableOpacity onPress={() => {}} style={styles.radioButton}>
                 <View style={styles.radio}>
                   {check == 1 ? <View style={styles.radio1} /> : null}
                 </View>
               </TouchableOpacity>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => handleRadioSelect(2)}
+              onPress={() => {
+                dispatch(setFollowing(true))
+                handleRadioSelect(2);
+                dispatch(NewfeedAction.fetchNewFeed(1));
+                console.log('follow');
+              }}
               style={{flexDirection: 'row', marginTop: 20}}>
               <Image style={{width: 34, height: 24}} source={icons.frame} />
               <Text style={styles.textWorl}>{t('Following')} </Text>

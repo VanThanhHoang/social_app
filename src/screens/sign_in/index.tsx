@@ -47,16 +47,6 @@ const LoginScreen = () => {
           <IconGoogle />
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.ButtonLogin}
-          onPress={() =>
-            navigation.navigate(LoginStackEnum.CreateProfileScreen)
-          }>
-          <Text style={styles.ButtonLoginTitle}>
-            {t('Login with Facebook')}
-          </Text>
-          <IconFacebook />
-        </TouchableOpacity>
-        <TouchableOpacity
           style={styles.ButtonLogin2}
           onPress={() => navigation.navigate(LoginStackEnum.SignInScren)}>
           <Text style={styles.ButtonLoginTitle2}>
