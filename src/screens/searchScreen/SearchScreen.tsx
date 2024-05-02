@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faMagnifyingGlass, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { useIsFocused } from '@react-navigation/native'
 import HistorySearch from './component/HistorySearch'
-import { formatTime } from './time'
+import { formatPostTime } from '@/utils/time';
 import { useDispatch } from 'react-redux'
 import { setLoading } from '@/redux/slice/app.slice'
 import { useTranslation } from 'react-i18next'
@@ -107,7 +107,7 @@ const SearchScreen = () => {
           renderItem={({ item }) => (
             <HistorySearch
               titleSearch={item.search}
-              timeHistory= {formatTime(item.createdAt)}
+              timeHistory= {formatPostTime(item.createdAt)}
               onPressDelete={() => onPressDelete(item._id)}
               onPressSearch={() => onPressSearch(item.search)}
             />

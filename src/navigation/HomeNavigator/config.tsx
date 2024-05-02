@@ -6,6 +6,7 @@ import EditPostScreen from '@/screens/edit_post';
 import UserProfileDetail from '@/screens/searchScreen/UserProfileDetail';
 import ProfileScreen from '@/screens/profileScreens/ProfileScreen';
 import ProfileNavigator from '../ProfileNavigator';
+import CommentNoti from '@/screens/comment/ComnentNoti';
 export enum HomeStackNames {
   ImageDetail = 'ImageDetail',
   PostDetail = 'PostDetail',
@@ -14,6 +15,7 @@ export enum HomeStackNames {
   UserProfileDetail = 'UserProfileDetail',
   ProfileScreen = 'ProfileScreen',
   ProfileNavigator = 'ProfileNavigator',
+  CommentNoti = 'CommentNoti',
 }
 export type HomeStackParamList = {
   [HomeStackNames.UserProfileDetail]: {userId: string, userName: string};
@@ -23,6 +25,7 @@ export type HomeStackParamList = {
   [HomeStackNames.EditPostScreen]: {post: Post};
   [HomeStackNames.ProfileScreen]: undefined;
   [HomeStackNames.ProfileNavigator]: undefined;
+  [HomeStackNames.CommentNoti]: {post: Post};
 };
 interface StackProps {
   name: HomeStackNames;
@@ -63,6 +66,11 @@ export const HomeStacks: StackProps[] = [
   {
     name: HomeStackNames.ProfileNavigator,
     component: ProfileNavigator,
+    options: {},
+  },
+  {
+    name: HomeStackNames.CommentNoti,
+    component: CommentNoti,
     options: {},
   },
 ];

@@ -74,6 +74,8 @@ const ProfileUserSearch: React.FC<ProfileUserProps> = ({
       setIsLoading(true);
       const response = await AxiosInstance().patch(`/user/follow/${id}`);
       setIsFollowed && setIsFollowed(!isFollow);
+      await getFollowers();
+      await getFollowings();
     } catch (error) {
       console.log(error);
     } finally {
