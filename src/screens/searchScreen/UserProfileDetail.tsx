@@ -14,7 +14,7 @@ import AxiosInstance from '@/network/axiosInstance';
 import {useDispatch} from 'react-redux';
 import {setLoading} from '@/redux/slice/app.slice';
 import IconPrivacy from '@/assets/icons/IconPrivacy';
-import { Post } from '@/type';
+import {Post} from '@/type';
 const axios = AxiosInstance();
 type UserProfileDetailRouteProp = RouteProp<
   SearchStackParamList,
@@ -27,8 +27,6 @@ const UserProfileDetail = () => {
   const [accountType, setAccountType] = useState<Number>(-1);
   const [isFollowed, setIsFollowed] = useState(false);
   const dispatch = useDispatch();
-  console.log('userId: ', userId);
-  console.log('userName: ', userName);
   const {t} = useTranslation();
   const scrollY = useRef(new Animated.Value(0)).current;
   const translateY = scrollY.interpolate({
@@ -42,10 +40,10 @@ const UserProfileDetail = () => {
   const getProfile = async () => {
     dispatch(setLoading(true));
     try {
-      const response:any = await axios.get(`/user/${userId}`);
+      const response: any = await axios.get(`/user/${userId}`);
       setAccountType(response.data.account_type);
-      console.log('accountType: ', response.data.account_type);
       setPost(response.myPost);
+      setIsFollowed(response.isFollowing);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -56,16 +54,28 @@ const UserProfileDetail = () => {
   useEffect(() => {
     getProfile();
   }, [userId]);
+  const handleSetFollow = (isFollow: boolean) => {
+    setIsFollowed(isFollow);
+  };
   return (
     <View style={styles.container}>
       <View style={[styles.headerContainer]}>
-        <HeaderProfile isMine={false} nameTitle={userName} iconTick={false} />
+        <HeaderProfile
+          userId={userId}
+          isMine={false}
+          nameTitle={userName}
+          iconTick={false}
+        />
       </View>
       <View style={{flex: 1}}>
         <Animated.View
           style={{transform: [{translateY}], marginTop: headerHeight}}>
           <View style={styles.profileUserContainer}>
-            <ProfileUserSearch userId={userId} />
+            <ProfileUserSearch
+              setIsFollowed={handleSetFollow}
+              isFollow={isFollowed}
+              userId={userId}
+            />
           </View>
           {accountType == 0 && (
             <View style={styles.PrivateStyleContainer}>
@@ -78,12 +88,14 @@ const UserProfileDetail = () => {
           {accountType == 1 && (
             <View style={{height: '100%'}}>
               <TopTabProfile
-              repost={post.filter(item=>{
-                return item.isRepost 
-              })}
-              post={post.filter(item=>{
-                return !item.isRepost
-              })}  scrollY={scrollY} />
+                repost={post.filter(item => {
+                  return item.isRepost;
+                })}
+                post={post.filter(item => {
+                  return !item.isRepost;
+                })}
+                scrollY={scrollY}
+              />
             </View>
           )}
         </Animated.View>

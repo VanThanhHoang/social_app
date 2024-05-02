@@ -1,6 +1,5 @@
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {
-  Alert,
   Dimensions,
   FlatList,
   Image,
@@ -30,10 +29,7 @@ import {useAppDispatch, useAppSelector} from '@/redux/store';
 import {userInfoSelector} from '@/redux/test/userStore';
 import {formatTime} from '@/screens/searchScreen/time';
 import BottomSheet from '@gorhom/bottom-sheet';
-import SvgSwitchBlack from '@/assets/icons/iconSVG/SwitchBlack';
-import Svg99 from '@/assets/icons/iconSVG/99';
 import {setLoading} from '@/redux';
-import {NewfeedAction} from '@/redux/action/newfeed.action';
 import {upDateComment} from '@/redux/slice/newfeed.slice';
 
 type PostDetailRouteProp = RouteProp<
@@ -122,7 +118,7 @@ const CommentScreen = () => {
 
   const handleEditComment = () => {
     toggleBottomSheet(selectComment);
-    setTextInput(selectComment?.comment);
+    setTextInput(selectComment?.comment ?? '');
     inputRef.current?.focus();
   };
 
@@ -161,7 +157,7 @@ const CommentScreen = () => {
         </TouchableOpacity>
         <ScrollView ref={flatListRef}>
           <CardView
-            fullName={itemData.author.fullName}
+            fullName={itemData.author.fullName ?? itemData.author.userName  }
             isLike={itemData.isLiked}
             _id={itemData._id}
             userId={itemData.author._id}
@@ -200,7 +196,7 @@ const CommentScreen = () => {
                           )
                         }>
                         <Text style={styles.usernameComment}>
-                          {item.create_by.fullName}
+                          {item.create_by.fullName ?? item.create_by.userName}
                         </Text>
                       </TouchableOpacity>
                       <Text style={styles.contentComment}>{item.comment}</Text>

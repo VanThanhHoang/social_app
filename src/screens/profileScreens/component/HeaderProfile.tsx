@@ -7,6 +7,7 @@ import { icon } from '@fortawesome/fontawesome-svg-core';
 import Svgback from '@/assets/icons/iconSVG/Back';
 import { useNavigation } from '@react-navigation/native';
 interface HeaderProfileProps {
+    userId:string,
     isMine?: boolean;
     nameTitle?: string;
     iconTick?: boolean;
