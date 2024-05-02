@@ -58,58 +58,13 @@ const ViewBottomSheet: React.FC<ViewBottomSheetProps> = ({
         </View>
       ) : (
         <View>
-          <TouchableOpacity style={styles.follow} onPress={onPressToggle}>
-            <SvgAdd style={styles.img} />
-            <Text style={styles.textFollow}>{t('Follow')}</Text>
+          <TouchableOpacity style={styles.click} onPress={onPressReport}>
+            <Image
+              source={icons.ic_report}
+              style={[styles.img, {width: 22, height: 22}]}
+            />
+            <Text style={styles.textFollow}>{t('Report')}</Text>
           </TouchableOpacity>
-          <View style={styles.container2}>
-            <TouchableOpacity style={styles.click} onPress={onPressMute}>
-              <SvgMute style={styles.img} />
-              <Text style={styles.textFollow}>{t('Mute')}</Text>
-            </TouchableOpacity>
-            <View
-              style={{
-                width: 326,
-                height: 1,
-                borderWidth: 0.1,
-                backgroundColor: colors.grey,
-                marginTop: 10,
-              }}
-            />
-            <TouchableOpacity style={styles.click} onPress={onPressHide}>
-              <SvgHide style={styles.img} />
-              <Text style={styles.textFollow}>{t('Hide')}</Text>
-            </TouchableOpacity>
-            <View
-              style={{
-                width: 326,
-                height: 1,
-                borderWidth: 0.1,
-                backgroundColor: colors.grey,
-                marginTop: 10,
-              }}
-            />
-            <TouchableOpacity style={styles.click} onPress={onPressReport}>
-              <Image
-                source={icons.ic_report}
-                style={[styles.img, {width: 22, height: 22}]}
-              />
-              <Text style={styles.textFollow}>{t('Report')}</Text>
-            </TouchableOpacity>
-            <View
-              style={{
-                width: 326,
-                height: 1,
-                borderWidth: 0.1,
-                backgroundColor: colors.grey,
-                marginTop: 10,
-              }}
-            />
-            <TouchableOpacity style={styles.click} onPress={onPressBlock}>
-              <SvgBlock style={styles.img} />
-              <Text style={styles.textFollow}>{t('Block')}</Text>
-            </TouchableOpacity>
-          </View>
         </View>
       )}
     </View>
