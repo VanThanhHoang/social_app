@@ -130,6 +130,7 @@ const FollowAccountScreen = () => {
                             icontick={item.icontick}
                             followingStatus={t(item.followingStatus)}
                             onPress={() => follow(item.id)}
+                            avatar={item.avatar}
                         />
                     }
                     )}

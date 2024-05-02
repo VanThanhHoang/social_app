@@ -36,17 +36,17 @@ import i18n from '@/language/i18n';
 
 type PostDetailRouteProp = RouteProp<
   HomeStackParamList,
-  HomeStackNames.CommentScreen
+  HomeStackNames.CommentNoti
 >;
 
-const CommentScreen = () => {
+const CommentNoti = () => {
   const userInfo = useAppSelector(userInfoSelector);
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const appDispatch = useAppDispatch();
   const flatListRef = useRef<ScrollView>(null);
   const route = useRoute<PostDetailRouteProp>();
   const itemData = route.params.post;
-  console.log(itemData,"itemData");
+  console.log(itemData);
   const [comments, setComments] = useState<Comment[]>(itemData.comments);
   const screenWidth = Dimensions.get('window').width;
   const [textInput, setTextInput] = useState<string>('');
@@ -351,7 +351,7 @@ const CommentScreen = () => {
   );
 };
 
-export default CommentScreen;
+export default CommentNoti;
 
 const styles = StyleSheet.create({
   container: {

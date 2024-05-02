@@ -18,7 +18,10 @@ import IconComment2 from '@/assets/icons/IconComment2';
 import { formatPostTime } from '@/utils/time';
 import { TouchableOpacity } from '@gorhom/bottom-sheet';
 import { useAppSelector } from '@/redux/store';
-
+import { useNavigation } from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import { AppStackNames } from '@/navigation/config';
+import { HomeStackNames } from '@/navigation/HomeNavigator/config';
 const Tab = createMaterialTopTabNavigator();
 const data = [
   {
@@ -114,13 +117,29 @@ type Notification = {
 };
 
 const CardViewNoti = ({...props}: Notification) => {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const renderIcon = () => {
     if (props.type === 0) {
       return <IconStar2 />;
     }
   };
+  const onPressProfile = () => {
+    if (props.type === 4) {
+      navigation.navigate(AppStackNames.HomeNavigator,{
+        screen:HomeStackNames.UserProfileDetail,
+        params:{userId:props.data.id,}
+      });
+    }else{
+      console.log('Noti');
+      navigation.navigate(AppStackNames.HomeNavigator,{
+        screen:HomeStackNames.CommentNoti,
+        params:{post:props.data.id}
+      });
+    }
+  };
   return (
     <TouchableOpacity
+    onPress={onPressProfile}
       style={{
         width: '100%',
         height: 100,

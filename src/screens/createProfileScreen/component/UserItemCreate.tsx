@@ -7,16 +7,16 @@ interface UserItemProps {
     nameUser: string,
     fullName: string,
     icontick?: boolean,
-    avatar?: ImageProps,
+    avatar: ImageProps,
      followingStatus: string,
      onPress?: () => void
 }
 
-const UserItemCreate:React.FC<UserItemProps> = ({nameUser, fullName, icontick,followingStatus, onPress }) => {
+const UserItemCreate:React.FC<UserItemProps> = ({nameUser, fullName, icontick,followingStatus, onPress, avatar }) => {
     const textColor = followingStatus === 'Follow' ? '#000' : '#C8C8C8';
   return (
     <View style = {styles.Container}>
-      <Image style = {styles.ImageAvatar} source={require('@/assets/images/nytao.png')} />
+      <Image style = {styles.ImageAvatar} source={avatar} />
       <View style = {styles.FullNameContainer}>
         <View style = {styles.NameContainer}>
             <Text style = {styles.NameText}>{nameUser}</Text>
