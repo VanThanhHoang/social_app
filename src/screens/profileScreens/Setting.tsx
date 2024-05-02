@@ -13,7 +13,7 @@ import IconLogout from '@/assets/icons/IconLogout'
 import AccountScreen from './AccountScreen'
 import PrivacyScreen from './PrivacyScreen'
 import { useNavigation } from '@react-navigation/native'
-import { RootStackParamList } from '@/navigation/config'
+import { AppStackNames, RootStackParamList } from '@/navigation/config'
 import { ProfileNavigatorProps, ProfileStackNames } from '@/navigation/ProfileNavigator/config'
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
@@ -24,7 +24,7 @@ import { localStorage } from '@/utils'
 import {setLoading} from '@/redux/slice/app.slice';
 import {AppDispatch} from '@/redux/store';
 import {setUser} from '@/redux/slice/user.slice';
-import { LoginStackEnum, LoginStackParamList, LoginStack } from '@/navigation/login'
+import { LoginStackEnum, LoginStackParamList } from '@/navigation/login'
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 const dataOptionSetting = [
@@ -98,10 +98,10 @@ const Setting = () => {
                 refreshToken: "",
                 isFirstTimeLogin: false,
             }));
-            navigationLogin.reset({
+            navigation.reset({
                 index: 0,
-                routes: [{name: LoginStackEnum.Login}],
-              });
+                routes: [{name: AppStackNames.LoginNavigation}],
+            });
         } catch (error) {
             console.error(error);
         } finally {
