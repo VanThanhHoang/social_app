@@ -24,7 +24,7 @@ const ForgotPass = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector((state: RootState) => state.app.isLoading);
 
-  const handleSendOTP = async () => {
+  const handleSendOTP = async (email : any) => {
     dispatch(setLoading(true));
     try {
       const response: any = await AxiosInstance().post('auth/send-otp', {
@@ -32,7 +32,7 @@ const ForgotPass = () => {
       });
 
       if (response.status === 'Otp sent') {
-        navigation.navigate(LoginStackEnum.OtpCodeScreen, {email});
+        navigation.navigate(LoginStackEnum.OtpCodeScreen,{email});
       } else {
         Alert.alert('Error sending OTP:' + response);
       }
@@ -79,12 +79,13 @@ const ForgotPass = () => {
           title={t('Continue')}
           backgroundColor="#5E4EA0"
           color="#FFFFFF"
-          onPress={handleSendOTP}>
+          onPress={() => handleSendOTP(email)}>
           {isLoading && (
             <FontAwesomeIcon icon={faSpinner} size={24} color="#FFFFFF" />
           )}
         </ButtonBottom>
       </View>
+      
     </View>
   );
 };

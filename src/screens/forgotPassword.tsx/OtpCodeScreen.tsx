@@ -1,94 +1,92 @@
-import React, {useState, useEffect} from 'react';
-import {Alert, StyleSheet, View} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {useTranslation} from 'react-i18next';
-import {useDispatch, useSelector} from 'react-redux';
-import {setLoading} from '@/redux/slice/app.slice';
-import {RootState} from '@/redux/store';
-import {useRoute} from '@react-navigation/native';
+import React, { useState, useEffect } from 'react';
+import { Alert, StyleSheet, View, Text } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import { setLoading } from '@/redux/slice/app.slice';
+import { RootState } from '@/redux/store';
 
 import HeaderBarEditProfile from '@/screens/createProfileScreen/component/HeaderBarEditProfile';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faChevronLeft} from '@fortawesome/free-solid-svg-icons';
-import {faSpinner} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import OtpInput from './componnents/OtpInput';
 import TextInputForgot from './componnents/TextInputForgot';
 import Footer from './componnents/Footer';
 import ButtonBottom from '@/screens/createProfileScreen/component/ButtonBottom';
-import {LoginStackParamList, LoginStackEnum} from '@/navigation/login';
+import { LoginStackParamList, LoginStackEnum } from '@/navigation/login';
 import HeaderForgot from './componnents/header';
 import AxiosInstance from '@/network/axiosInstance';
 import axios from 'axios';
+import { RouteProp, useRoute } from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
+import { colors } from '@/theme';
+import CustomToast from '@/components/Toast/CutomToast';
+
+
+
+
+
+
+
+
 const OtpCodeScreen = () => {
   const [otp, setOtp] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [resetFlag, setResetFlag] = useState(false);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const isLoading = useSelector((state: RootState) => state.app.isLoading);
 
   const navigation =
     useNavigation<NativeStackNavigationProp<LoginStackParamList>>();
+  const route = useRoute<RouteProp<LoginStackParamList, LoginStackEnum.ForgotPass>>();
+  const emailForgot = route.params?.email;
 
   const handleVerifyOTP = async () => {
+    const email = emailForgot;
     const Axios = AxiosInstance();
-    const route = useRoute();
-    const {email} = route.params as {email: string};
     if (!newPassword && !confirmPassword) {
-      Alert.alert('Error', 'Please fill in the new password field.');
+      CustomToast({
+        type: 'error',
+        message: t('Please enter new password and confirm password.'),
+      });
       return;
     }
     if (newPassword !== confirmPassword) {
-      Alert.alert(
-        'Error',
-        'Confirmed password does not match the new password.',
-      );
+      CustomToast({
+        type: 'error',
+        message: t('Password and confirm password do not match.'),
+      });
       return;
     }
-
     dispatch(setLoading(true));
-
     try {
       const response: any = await Axios.post('auth/change_pass_otp', {
         email,
-        otp: otp.toString(),
+        otp: otp,
         newPass: newPassword,
       });
 
       if (response.status === 'success') {
         const data = response.data;
-        console.log('Success:', data);
         navigation.navigate(LoginStackEnum.SignInScren);
       } else {
-        console.log('Error response:', response.data);
-        Alert.alert(
-          'Error OTP',
-          response.data.error ||
-            'An error occurred while verifying OTP. Please try again later.',
-        );
+        CustomToast({
+          type: 'error',
+          message: response.message || 'Failed to verify OTP.',
+        });
       }
     } catch (error) {
-      console.error('Error verifying OTP:', error);
-      if (axios.isAxiosError(error) && error.response) {
-        Alert.alert(
-          'Error',
-          error.response.data.error ||
-            'An error occurred while verifying OTP. Please try again later.',
-        );
-      } else {
-        Alert.alert(
-          'Error',
-          'An error occurred while verifying OTP. Please check your network connection and try again.',
-        );
-      }
+      
     } finally {
       dispatch(setLoading(false));
     }
   };
   const resendOTP = async () => {
-    const email = 'trangianglong1199@gmail.com';
+    const email = emailForgot;
     setOtp('');
     try {
       const response = await fetch(
@@ -98,27 +96,23 @@ const OtpCodeScreen = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({email}),
+          body: JSON.stringify({ email }),
         },
       );
 
       const contentType = response.headers.get('content-type');
       if (!contentType || !contentType.includes('application/json')) {
-        console.error('Expected JSON response, got:', await response.text());
-        Alert.alert('Error', 'Unexpected response from server.');
         return;
       }
 
       const data = await response.json();
       if (response.ok) {
-        console.log('Resend OTP:', data.message);
-      } else {
-        Alert.alert('Error', data.message || 'Failed to resend OTP.');
+      }
+      else {
       }
       setResetFlag(true);
     } catch (error) {
-      console.error('Error resending OTP:', error);
-      Alert.alert('Error', 'An error occurred while resending OTP.');
+
     }
   };
 
@@ -127,6 +121,35 @@ const OtpCodeScreen = () => {
       setResetFlag(false);
     }
   }, [resetFlag]);
+  const toastConfig = {
+    success: (props: any) => (
+      <View style={styles.CustumToast}>
+        <Text
+          style={{
+            color: 'black',
+            fontSize: 14,
+            alignSelf: 'center',
+            fontWeight: '600',
+          }}>
+          {props.text1}
+        </Text>
+      </View>
+    ),
+    error: (props: any) => (
+      <View style={styles.CustumToast2}>
+        <Text
+          style={{
+            color: 'black',
+            fontSize: 14,
+            fontWeight: '600',
+            alignSelf: 'center',
+            marginStart: 10,
+          }}>
+          {props.text1}
+        </Text>
+      </View>
+    ),
+  };
 
   return (
     <View style={styles.container}>
@@ -137,7 +160,7 @@ const OtpCodeScreen = () => {
             icon={faChevronLeft}
             size={15}
             color="#000"
-            style={{marginRight: 8}}
+            style={{ marginRight: 8 }}
           />
         }
         onPressBack={() => navigation.goBack()}
@@ -153,7 +176,7 @@ const OtpCodeScreen = () => {
         title="New Password"
         showIcon
         iconType="password"
-        onChangeText={setNewPassword}
+        onChangeText={(text: string) => setNewPassword(text)}
         value={newPassword}
       />
       <TextInputForgot
@@ -161,7 +184,7 @@ const OtpCodeScreen = () => {
         title="Confirm New Password"
         showIcon
         iconType="password"
-        onChangeText={setConfirmPassword}
+        onChangeText={(text: string) => setConfirmPassword(text)}
         value={confirmPassword}
       />
       <View
@@ -179,11 +202,36 @@ const OtpCodeScreen = () => {
           )}
         </ButtonBottom>
       </View>
+      <Toast config={toastConfig} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  CustumToast2: {
+    backgroundColor: colors.white,
+    padding: 16,
+    borderRadius: 8,
+    width: 356,
+    height: 70,
+    borderLeftColor: colors.red,
+    borderRightColor: colors.red,
+    borderLeftWidth: 4,
+    borderRightWidth: 4,
+    justifyContent: 'center',
+  },
+  CustumToast: {
+    backgroundColor: colors.white,
+    padding: 16,
+    borderRadius: 8,
+    width: 356,
+    height: 70,
+    borderLeftColor: colors.purple,
+    borderLeftWidth: 4,
+    justifyContent: 'center',
+    borderRightColor: colors.purple,
+    borderRightWidth: 4,
+  },
   container: {
     flex: 1,
     backgroundColor: 'white',

@@ -43,7 +43,7 @@ export type LoginStackParamList = {
   [LoginStackEnum.JoinVerses]: undefined;
   [LoginStackEnum.SignUpScreen]: undefined;
   [LoginStackEnum.SignInScren]: undefined;
-  [LoginStackEnum.ForgotPass]: undefined;
+  [LoginStackEnum.ForgotPass]: {email: string};
   [LoginStackEnum.OtpCodeScreen]: {email: string};
   [LoginStackEnum.CreactNewPassScreen]: undefined;
 };
