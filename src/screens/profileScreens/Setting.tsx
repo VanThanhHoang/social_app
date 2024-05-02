@@ -18,7 +18,14 @@ import { ProfileNavigatorProps, ProfileStackNames } from '@/navigation/ProfileNa
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 import { t } from 'i18next'
-
+import { TouchableOpacity } from 'react-native-gesture-handler'
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import { localStorage } from '@/utils'
+import {setLoading} from '@/redux/slice/app.slice';
+import {AppDispatch} from '@/redux/store';
+import {setUser} from '@/redux/slice/user.slice';
+import { LoginStackEnum, LoginStackParamList, LoginStack } from '@/navigation/login'
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 const dataOptionSetting = [
     {
@@ -59,15 +66,48 @@ const dataOptionSetting = [
     },
 ]
 
-const handleLogout = () => {
-    console.log('Logout')
-}
+
 
 const Setting = () => {
     const navigation = useNavigation<any>();
+    const navigationLogin = useNavigation<NativeStackNavigationProp<LoginStackParamList>>();
     const dispatch = useDispatch();
     const {t} = useTranslation();
-    
+    const handleLogout = async () => {
+        dispatch(setLoading(true));
+        try {
+            await GoogleSignin.signOut();
+            localStorage.delete('userInfo')
+            localStorage.delete('FCM')
+            dispatch(setUser({
+                _id: "",
+                userName: "",
+                fullName: "",
+                avatar: "",
+                dob: "",
+                googleId: "",
+                links: [],
+                role: 0,
+                following_status: 0,
+                account_type: 0,
+                fcm_token: "",
+                createdAt: "",
+                updatedAt: "",
+                __v: 0,
+                accessToken: "",
+                refreshToken: "",
+                isFirstTimeLogin: false,
+            }));
+            navigationLogin.reset({
+                index: 0,
+                routes: [{name: LoginStackEnum.Login}],
+              });
+        } catch (error) {
+            console.error(error);
+        } finally {
+            dispatch(setLoading(false));
+        }
+    }
     return (
         <View style={styles.Container}>
             <HeaderBar title='Settings' />
@@ -82,9 +122,9 @@ const Setting = () => {
                         onPress={() => navigation.navigate(item.screenName)}/>
                 ))}
             </View>
-            <View style = {styles.LogoutContainer}>
+            <TouchableOpacity style = {styles.LogoutContainer} onPress={handleLogout}>
                 <ItemSetting title='Log out' icon={<IconLogout/>} color='#5E4EA0'/>
-            </View>
+            </TouchableOpacity>
         </View>
     )
 }

@@ -4,7 +4,7 @@ import HeaderBarEditProfile from '@/screens/createProfileScreen/component/Header
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import Search from '@/component/Search';
-import UserItem from '@/screens/createProfileScreen/component/UserItem';
+import UserItemCreate from '@/screens/createProfileScreen/component/UserItemCreate';
 import ButtonBottom from '@/screens/createProfileScreen/component/ButtonBottom';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -109,7 +109,7 @@ const FollowAccountScreen = () => {
                 </View>
                 <View>
                     {listData.map((item, index) => {
-                        return <UserItem
+                        return <UserItemCreate
                             key={index}
                             nameUser={item.nameUser}
                             fullName={item.fullName}

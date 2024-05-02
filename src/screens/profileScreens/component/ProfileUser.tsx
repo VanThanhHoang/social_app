@@ -12,6 +12,9 @@ import {useTranslation} from 'react-i18next';
 import {useDispatch} from 'react-redux';
 import {setLoading} from '@/redux/slice/app.slice';
 import { set } from 'react-hook-form';
+import { useNavigation } from '@react-navigation/native';
+import { ProfileNavigatorProps } from '@/navigation/ProfileNavigator/config';
+import { ProfileStackNames } from '@/navigation/ProfileNavigator/config';
 const axios = AxiosInstance();
 type ProfileUserProps = {
   onPressEditProfile: () => void;
@@ -37,6 +40,7 @@ const ProfileUser: React.FC<ProfileUserProps> = ({onPressEditProfile}) => {
   const [followers, setFollowers] = useState<Follower[]>([]);
   const [followings, setFollowings] = useState([]);
   const [followerNames, setFollowerNames] = useState('');
+  const navigation = useNavigation<ProfileNavigatorProps>();
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -93,6 +97,11 @@ const ProfileUser: React.FC<ProfileUserProps> = ({onPressEditProfile}) => {
       />
     ));
   };
+  const onPressListFollower = () => {
+    console.log('Đang cố gắng mở danh sách người theo dõi');
+    navigation.navigate(ProfileStackNames.FollowAndFriends);
+    
+  };
   const openLink = () => {
     console.log("Đang cố gắng mở URL:", link); // Ghi nhật ký để gỡ lỗi
     // Linking.canOpenURL(link)
@@ -148,7 +157,7 @@ const ProfileUser: React.FC<ProfileUserProps> = ({onPressEditProfile}) => {
           <Text style={styles.LinkTextStyle}>{link}</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.FollowerContainer}>
+      <TouchableOpacity style={styles.FollowerContainer} onPress={onPressListFollower}>
         <View style={styles.FollowerItemContainer}>
           <Text style={styles.FollowQuantity}>{followers.length}</Text>
           <Text style={styles.FollowTextStyle}>{t('followers')}</Text>
@@ -158,8 +167,8 @@ const ProfileUser: React.FC<ProfileUserProps> = ({onPressEditProfile}) => {
           <Text style={styles.FollowQuantity}>{followings.length} </Text>
           <Text style={styles.FollowTextStyle}>{t('Following')}</Text>
         </View>
-      </View>
-      <View style={styles.PeopleFollowerContainer}>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.PeopleFollowerContainer} onPress={onPressListFollower}>
         <View style={styles.ImagePeopleContainer}>
           {/* <Image
             source={require('@/assets/images/nytao.png')}
@@ -178,7 +187,7 @@ const ProfileUser: React.FC<ProfileUserProps> = ({onPressEditProfile}) => {
         <Text style={styles.FollowPeopleTextStyle}>
           Followed by {followerNames}
         </Text>
-      </View>
+      </TouchableOpacity>
     </View>
   );
 };
