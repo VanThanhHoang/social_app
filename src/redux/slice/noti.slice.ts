@@ -25,7 +25,6 @@ const notiSlice = createSlice({
   extraReducers: builder => {
     builder.addCase(fetchNoti.fulfilled, (state, action) => {
       state.notification = action.payload as Notification[];
-      console.log('state.notification', state.notification);
     });
   },
 });

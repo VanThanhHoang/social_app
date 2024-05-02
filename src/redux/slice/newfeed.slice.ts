@@ -31,6 +31,7 @@ const newfeedSate = createSlice({
       }
     },
     setFollowing: (state, action: PayloadAction<boolean>) => {
+      console.log('isFollowing*************************', action.payload); 
       state.isFollowing = action.payload;
       localStorage.set('isFollowing', action.payload);
     }
@@ -48,7 +49,6 @@ const newfeedSate = createSlice({
           return;
         }
         if (page == 1) {
-          console.log('newwwww');
           state.posts = action.payload.posts;
         } else {
           state.posts = state.posts.concat(action.payload.posts);

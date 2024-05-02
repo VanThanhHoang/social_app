@@ -30,6 +30,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {BackHandler} from 'react-native';
 import {use} from 'i18next';
 import {deletePost} from '@/redux/action/post.action';
+import {setLoading as SetAppLoading} from '@/redux';
 const HomeScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const isFollowing = useAppSelector(state => state.newFeed.isFollowing);
@@ -214,7 +215,7 @@ const HomeScreen = () => {
   const {posts, currentPage, status, isLastPage}: NewFeedState = useAppSelector(
     state => state.newFeed,
   );
-  console.log('posts', posts);
+  const flatListRef = useRef<FlatList>(null);
   useEffect(() => {
     appDispatch(NewfeedAction.fetchMyPost());
     const getNewfeedPromise = appDispatch(NewfeedAction.fetchNewFeed(1));
@@ -261,6 +262,7 @@ const HomeScreen = () => {
       <View>
         {!isFirstLaunch && <Modal1 />}
         <FlatList
+          ref={flatListRef}
           refreshing={loading}
           onRefresh={() => setLoading(true)}
           ListFooterComponent={() => {
@@ -336,8 +338,13 @@ const HomeScreen = () => {
             />
             <TouchableOpacity
               onPress={() => {
-                dispatch(setFollowing(false))
                 handleRadioSelect(1);
+                console.log('check', check);
+                dispatch(setFollowing(false));
+                flatListRef.current?.scrollToOffset({
+                  animated: true,
+                  offset: 0,
+                });
                 dispatch(NewfeedAction.fetchNewFeed(1));
               }}
               style={{flexDirection: 'row', marginTop: 30}}>
@@ -350,12 +357,15 @@ const HomeScreen = () => {
               </TouchableOpacity>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => {
-                dispatch(setFollowing(true))
+              onPress={async () => {
+                flatListRef.current?.scrollToOffset({
+                  animated: true,
+                  offset: 0,
+                });
+              dispatch(setFollowing(true)); 
                 handleRadioSelect(2);
                 dispatch(NewfeedAction.fetchNewFeed(1));
-                console.log('follow');
-              }}
+                }}
               style={{flexDirection: 'row', marginTop: 20}}>
               <Image style={{width: 34, height: 24}} source={icons.frame} />
               <Text style={styles.textWorl}>{t('Following')} </Text>

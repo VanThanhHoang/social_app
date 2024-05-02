@@ -2,8 +2,6 @@ import AxiosInstance from '@/network/axiosInstance';
 import {Notification, PostResponse} from '@/type';
 import {localStorage} from '@/utils';
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {use} from 'i18next';
-
 const fetchNewFeed = createAsyncThunk(
   'newFeed/fetchPost',
   async (page: number, thunkApi) => {
