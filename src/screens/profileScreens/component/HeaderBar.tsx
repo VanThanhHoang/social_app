@@ -3,18 +3,21 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faChevronRight, faChevronLeft } from '@fortawesome/free-solid-svg-icons'
 import { useNavigation } from '@react-navigation/native'
+import { use } from 'i18next'
+import { useTranslation } from 'react-i18next'
 
 interface HeaderBarProps {
     title: string
 }
 
 const HeaderBar:React.FC<HeaderBarProps> = ({title}) => {
+    const {t} = useTranslation();
     const navigation = useNavigation();
     return (
         <View style={styles.Container}>
             <TouchableOpacity onPress={() => navigation.goBack()} style = {styles.BackStyle}>
                 <FontAwesomeIcon icon={faChevronLeft} size={15} color="#000" />
-                <Text style = {styles.BackTextStyle}>Back</Text>
+                <Text style = {styles.BackTextStyle}>{t("Back")}</Text>
             </TouchableOpacity>
             <Text style = {styles.SettingTextStyle}>{title}</Text>
             <View style={{ width: 48 }}></View>

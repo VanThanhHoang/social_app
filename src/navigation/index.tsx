@@ -35,7 +35,7 @@ const useAsynsLanguage = () => {
     i18n.changeLanguage(language);
   }, [language]);
 };
-
+console.log(i18n.language,"jkdasjkdakjsdkjadja");
 export default function AppNavigator() {
   const AppStack = createNativeStackNavigator<RootStackParamList>();
   const {isLoading} = useAppSelector(state => state.app);

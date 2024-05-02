@@ -121,6 +121,13 @@
   "Confirm Password" : "Xác nhận mật khẩu" ,
   "Didn't receive email?" : "Không nhận được email?" ,
   "You can resend code in" : "Bạn có thể gửi lại mã trong" ,
-  "Resend again" : "Gửi lại" 
+  "Resend again" : "Gửi lại",
+  "Republish" : "đã đăng lại",
+  "Reply" : "Trả lời",
+  "Comment" : "Bình luận",
+  "Share" : "Chia sẻ",
+  "minutes ago" : "phút trước",
+  "hours ago" : "giờ trước",
+  "now" : "vừa xong"
 }
 

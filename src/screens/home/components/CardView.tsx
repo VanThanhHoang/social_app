@@ -34,6 +34,8 @@ import {ProfileStackNames} from '@/navigation/ProfileNavigator/config';
 import AxiosInstance from '@/network/axiosInstance';
 import CustomToast from '@/components/Toast/CutomToast';
 import {setLoading} from '@/redux';
+import {useTranslation} from 'react-i18next';
+import i18n from '@/language/i18n';
 
 const axios = AxiosInstance();
 
@@ -193,6 +195,7 @@ const CardView: React.FC<CardViewProps> = ({...props}) => {
       </View>
     </Modal>
   );
+  const { t } = useTranslation();
   return (
     <View style={props.style}>
       {renderModal()}
@@ -236,7 +239,7 @@ const CardView: React.FC<CardViewProps> = ({...props}) => {
               </Text>
             </TouchableOpacity>
             <Text style={{fontSize: 12, marginStart: 10, marginTop: 3}}>
-              {formatPostTime(props.hour)}
+            {formatPostTime( new Date(props.hour),i18n.language)}
             </Text>
           </View>
         </View>
@@ -300,6 +303,7 @@ const RepostHeader = ({
   onUserNamePress: (userId: string, userName: string) => void;
 }) => {
   const name = reposter.fullName ? reposter.fullName : reposter.userName;
+  const { t } = useTranslation();
   return (
     <View>
       <View
@@ -331,7 +335,7 @@ const RepostHeader = ({
               }}>
               {name + ' '}
               <Text style={{color: colors.primaryColor, marginLeft: 10}}>
-                đã đăng lại
+              {t("Republish")}
               </Text>
             </Text>
             <SvgSwitch color={colors.primaryColor} />

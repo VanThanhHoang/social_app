@@ -27,10 +27,12 @@ import {Comment} from '@/type';
 import {AppStackNames} from '@/navigation/config';
 import {useAppDispatch, useAppSelector} from '@/redux/store';
 import {userInfoSelector} from '@/redux/test/userStore';
-import {formatTime} from '@/screens/searchScreen/time';
 import BottomSheet from '@gorhom/bottom-sheet';
 import {setLoading} from '@/redux';
 import {upDateComment} from '@/redux/slice/newfeed.slice';
+import { formatPostTime } from '@/utils/time';
+import { useTranslation } from 'react-i18next';
+import i18n from '@/language/i18n';
 
 type PostDetailRouteProp = RouteProp<
   HomeStackParamList,
@@ -54,6 +56,7 @@ const CommentScreen = () => {
   const snapPoints = useMemo(() => [200], []);
   const [selectComment, setSelectComment] = useState<Comment | null>(null);
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
   const handlePushComment = async (postId: string) => {
     if (textInput !== '') {
       try {
@@ -153,7 +156,7 @@ const CommentScreen = () => {
             navigation.goBack();
           }}>
           <Svgback />
-          <Text style={styles.Back}>Back</Text>
+          <Text style={styles.Back}>{t("Back")}</Text>
         </TouchableOpacity>
         <ScrollView ref={flatListRef}>
           <CardView
@@ -209,7 +212,7 @@ const CommentScreen = () => {
                         marginTop: 6,
                       }}>
                       <Text style={{fontSize: 13}}>
-                        {formatTime(Date.parse(item.createdAt))}
+                        {formatPostTime( new Date(item.createdAt),i18n.language)}
                       </Text>
                       <TouchableOpacity
                         onPress={() => handleReply(item)}
@@ -220,7 +223,7 @@ const CommentScreen = () => {
                             fontWeight: '600',
                             color: colors.neutralWhite1,
                           }}>
-                          Reply
+                          {t("Reply")}
                         </Text>
                       </TouchableOpacity>
                     </View>
@@ -269,7 +272,7 @@ const CommentScreen = () => {
                               marginTop: 6,
                             }}>
                             <Text style={{fontSize: 13}}>
-                              {formatTime(Date.parse(item.createdAt))}
+                            {formatPostTime( new Date(item.createdAt),i18n.language)}
                             </Text>
                           </View>
                         </View>
