@@ -27,6 +27,7 @@ const myPostSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(NewfeedAction.fetchMyPost.fulfilled, (state, action) => {
+        console.log('fetchMyPost.fulfilled', action.payload);
         const post = action.payload.posts;
         state.myPosts = post.filter((item: Post) => !item.isRepost);
         state.myRepost = post.filter((item: Post) => item.isRepost);

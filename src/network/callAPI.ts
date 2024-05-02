@@ -41,3 +41,13 @@ export const registerUser = async ( email: string, password: string, gender: any
         return error;
     }
 }
+
+//auth/change_pass
+export const changePassword = async (oldPass: string, newPass: string) => {
+    try {
+        const response = await axios.patch("auth/change_pass", {oldPass, newPass});
+        return response.data;
+    } catch (error) {
+        throw error; 
+    }
+}

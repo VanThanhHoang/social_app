@@ -57,6 +57,7 @@ const HomeScreen = () => {
     setIsBottomSheetOpen(!isBottomSheetOpen);
   };
   const toggleBottomSheet2 = () => {
+
     if (isBottomSheet1) {
       bottomSheet1.current?.close();
     } else {
@@ -290,7 +291,6 @@ const HomeScreen = () => {
               star={item.reactions.length}
               comment={item.comments.length}
               onPress={() => toggleBottomSheet1(item, item.author.avatar)}
-              onPressSwitch={toggleBottomSheet2}
               onPressDetail={() => handleDetail(item)}
               onPressCommentShow={() => handleCommentShow(item)}
               showView={true}
@@ -397,18 +397,6 @@ const HomeScreen = () => {
             activeOpacity={0.1}
           />
         )}
-        <BottomSheet
-          ref={bottomSheet1}
-          snapPoints={snapPoint1}
-          index={-1}
-          onChange={index => {
-            setisBottomSheet1(index !== -1);
-          }}>
-          <BottomSheetSwitch
-            onPressReport={() => Alert.alert('Report')}
-            onPressCaption={() => Alert.alert('Caption')}
-          />
-        </BottomSheet>
       </View>
       <CustomAlert
         visible={ShowAlert}

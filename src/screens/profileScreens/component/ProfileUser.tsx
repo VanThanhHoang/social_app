@@ -47,20 +47,21 @@ const ProfileUser: React.FC<ProfileUserProps> = ({onPressEditProfile}) => {
   };
   const openLink = () => {
     console.log("Đang cố gắng mở URL:", link); // Ghi nhật ký để gỡ lỗi
-    Linking.canOpenURL(link)
-      .then(supported => {
-        if (supported) {
-          Linking.openURL(link);
-        } else {
-          console.log("Không biết cách mở URI:", link);
-          // Tùy chọn, thông báo cho người dùng hoặc xử lý khác
-          Alert.alert("Lỗi", "Không thể mở liên kết. Vui lòng kiểm tra URL hoặc thử lại sau.");
-        }
-      })
-      .catch(err => {
-        console.error("Đã xảy ra lỗi", err);
-        Alert.alert("Lỗi", "Đã xảy ra lỗi bất ngờ. Vui lòng thử lại sau.");
-      });
+    // Linking.canOpenURL(link)
+    //   .then(supported => {
+    //     if (supported) {
+    //       Linking.openURL(link);
+    //     } else {
+    //       console.log("Không biết cách mở URI:", link);
+    //       // Tùy chọn, thông báo cho người dùng hoặc xử lý khác
+    //       Alert.alert("Lỗi", "Không thể mở liên kết. Vui lòng kiểm tra URL hoặc thử lại sau.");
+    //     }
+    //   })
+    //   .catch(err => {
+    //     console.error("Đã xảy ra lỗi", err);
+    //     Alert.alert("Lỗi", "Đã xảy ra lỗi bất ngờ. Vui lòng thử lại sau.");
+    //   });
+    Linking.openURL(link);
   };
   return (
     <View style={styles.Container}>
