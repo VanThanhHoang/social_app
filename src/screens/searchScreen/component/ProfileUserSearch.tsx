@@ -18,6 +18,15 @@ type ProfileUserProps = {
   isFollow?: boolean;
   setIsFollowed?: (isFollow: boolean) => void;
 };
+interface Follower {
+  _id: string;
+  following: {
+    _id: string;
+    avatar: string;
+    fullName: string;
+    userName: string;
+  };
+}
 
 const ProfileUserSearch: React.FC<ProfileUserProps> = ({
   userId,
@@ -30,10 +39,18 @@ const ProfileUserSearch: React.FC<ProfileUserProps> = ({
   const [bio, setBio] = useState('');
   const [link, setLink] = useState('');
   const [avatar, setAvatar] = useState('');
+  const [followers, setFollowers] = useState<Follower[]>([]);
+  const [followings, setFollowings] = useState([]);
+  const [followerNames, setFollowerNames] = useState('');
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
   useEffect(() => {
-    getProfile();
+    if (isFocused) {
+      getProfile();
+      getFollowers();
+      getFollowings();
+    }
+   
   }, [isFocused]);
   const getProfile = async () => {
     dispatch(setLoading(true));
@@ -61,6 +78,26 @@ const ProfileUserSearch: React.FC<ProfileUserProps> = ({
       console.log(error);
     } finally {
       setIsLoading(false);
+    }
+  };
+  const getFollowings = async () => {
+    try {
+      const response = await axios.get(`user/following/${userId}`);
+      setFollowings(response.data);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getFollowers = async () => {
+    try {
+      const response = await axios.get(`user/follower/${userId}`);
+      setFollowers(response.data);
+      const names = response.data.map((follower: Follower) => follower.following.fullName).slice(0, 4).join(', ');
+      setFollowerNames(names);
+      return response.data;
+    } catch (error) {
+      console.log(error);
     }
   };
   return (
@@ -117,12 +154,12 @@ const ProfileUserSearch: React.FC<ProfileUserProps> = ({
       </View>
       <View style={styles.FollowerContainer}>
         <View style={styles.FollowerItemContainer}>
-          <Text style={styles.FollowQuantity}>1.5M</Text>
+          <Text style={styles.FollowQuantity}>{followers.length}</Text>
           <Text style={styles.FollowTextStyle}>followers</Text>
         </View>
         <IconStar style={styles.IconStarStyle} />
         <View style={styles.FollowerItemContainer}>
-          <Text style={styles.FollowQuantity}>1.5M</Text>
+          <Text style={styles.FollowQuantity}>{followings.length}</Text>
           <Text style={styles.FollowTextStyle}>following</Text>
         </View>
       </View>

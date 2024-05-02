@@ -7,7 +7,7 @@ interface UserItemProps {
     nameUser: string,
     fullName: string,
     icontick?: boolean,
-    // avatar: ImageProps,
+    avatar?: ImageProps,
      followingStatus: string,
      onPress?: () => void
 }

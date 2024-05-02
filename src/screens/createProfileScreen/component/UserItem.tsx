@@ -21,7 +21,7 @@ interface UserItemProps {
 
 
 
-const UserItem: React.FC<UserItemProps> = ({ id, nameUser, fullName, followingStatus, onPress }) => {
+const UserItem: React.FC<UserItemProps> = ({ id, nameUser, fullName, followingStatus, onPress, avatar }) => {
     ;
     
     console.log(followingStatus);
@@ -60,7 +60,7 @@ const UserItem: React.FC<UserItemProps> = ({ id, nameUser, fullName, followingSt
     return (
         <View style={styles.Container} >
             <TouchableOpacity onPress={onPress} style={styles.UserInforContainer}>
-                <Image style={styles.ImageAvatar} source={require('@/assets/images/nytao.png')} />
+                <Image style={styles.ImageAvatar} source={{uri: avatar}} />
                 <View style={styles.FullNameContainer}>
                     <View style={styles.NameContainer}>
                         <Text style={styles.NameText}>{nameUser}</Text>
