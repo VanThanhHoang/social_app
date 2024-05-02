@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { AppStackNames, AppStacks, RootStackParamList } from "@/navigation/config";
 import { LoadingModal } from "@/components";
-import { useAppSelector } from "@/redux/store";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
 import i18n from "@/language/i18n";
 import { localStorage } from "@/utils";
 import { PermissionsAndroid } from "react-native";
@@ -11,9 +11,11 @@ import messaging from '@react-native-firebase/messaging';
 import CustomToast, { ShowNoti } from "@/components/Toast/CutomToast";
 import Toast from "react-native-toast-message";
 import { toastType } from "@/components/Toast/Toast";
+import { fetchNoti } from "@/redux/action/newfeed.action";
   
 
 const useAsynsLanguage = () => {
+  const dispatch = useAppDispatch();
   React.useEffect(() => {
     PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
@@ -24,6 +26,7 @@ const useAsynsLanguage = () => {
       } else {
         CustomToast({type: 'success', message: remoteMessage.notification?.body});
       }
+      dispatch(fetchNoti());
     });
     return unsubscribe;
   }, []);

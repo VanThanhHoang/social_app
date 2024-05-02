@@ -20,7 +20,7 @@ import {AppStackNames} from '@/navigation/config';
 import {useAppDispatch, useAppSelector} from '@/redux/store';
 import {useTranslation} from 'react-i18next';
 import {localStorage} from '@/utils';
-import {NewfeedAction} from '@/redux/action/newfeed.action';
+import {NewfeedAction, fetchNoti} from '@/redux/action/newfeed.action';
 import {Post} from '@/type';
 import {NewFeedState} from '@/redux/slice/newfeed.slice';
 import FooterList from './components/FooterList';
@@ -57,6 +57,9 @@ const HomeScreen = () => {
     }
     setIsBottomSheetOpen(!isBottomSheetOpen);
   };
+  useEffect(() => {
+    dispatch(fetchNoti())
+  },[])
   const toggleBottomSheet2 = () => {
 
     if (isBottomSheet1) {

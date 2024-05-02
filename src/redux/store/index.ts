@@ -17,6 +17,7 @@ import {languageReducer} from '../slice/language.slice';
 import {userReducer} from '../slice/user.slice';
 import {newFeedReducer} from '../slice/newfeed.slice';
 import {myPostReducer} from '../slice/mypost.slice';
+import {notiReducer} from '../slice/noti.slice';
 
 const rootReducer: any = combineReducers({
   [SliceName.APP]: appReducer,
@@ -24,6 +25,7 @@ const rootReducer: any = combineReducers({
   [SliceName.USER]: userReducer,
   [SliceName.NEW_FEED]: newFeedReducer,
   [SliceName.MY_POST]: myPostReducer,
+  [SliceName.NOTI]: notiReducer,
 });
 
 const persistConfig = {

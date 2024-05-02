@@ -37,7 +37,7 @@ export const signInWithGoole = async (
       });
    
       dispatch(setUser(response.data));
-      localStorage.set('userInfo', response.data.toString());
+      localStorage.set('userInfo', JSON.stringify(response.data)  );
       if ((response.status as any) === 'success') {
         console.log('response', response.data);
         if (!response.data.isFirstTimeLogin) {

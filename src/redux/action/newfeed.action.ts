@@ -1,6 +1,8 @@
 import AxiosInstance from '@/network/axiosInstance';
-import {PostResponse} from '@/type';
+import {Notification, PostResponse} from '@/type';
+import {localStorage} from '@/utils';
 import {createAsyncThunk} from '@reduxjs/toolkit';
+import {use} from 'i18next';
 
 const fetchNewFeed = createAsyncThunk(
   'newFeed/fetchPost',
@@ -19,10 +21,10 @@ const likePost = createAsyncThunk(
   'newFeed/likePost',
   async (postId: string, thunkApi) => {
     try {
-      const response:any = await AxiosInstance().put(
+      const response: any = await AxiosInstance().put(
         `post/reaction/${postId}`,
       );
-      console.log('response',response.reaction)
+      console.log('response', response.reaction);
       return response.reaction;
     } catch (error) {
       return thunkApi.rejectWithValue(error);
@@ -40,9 +42,27 @@ const fetchMyPost = createAsyncThunk(
       );
       return response; // Trả về dữ liệu để lưu vào store (nếu cần)
     } catch (error) {
-      console.log('error', error);  
+      console.log('error', error);
       return thunkApi.rejectWithValue(error);
     }
   },
 );
-export const NewfeedAction = {fetchNewFeed,likePost, fetchMyPost};
+
+export const fetchNoti = createAsyncThunk(
+  'noti/fetchNoti',
+  async (_, thunkApi) => {
+    const user = localStorage.getString('userInfo');
+    if (user) {
+      const user = JSON.parse(localStorage.getString('userInfo') as string);
+      try {
+        const response: any = await AxiosInstance().get(
+          `user/noti/${user._id}`,
+        );
+        return response.data as Notification[]; // Trả về dữ liệu để lưu vào store (nếu cần)
+      } catch (error) {
+        return thunkApi.rejectWithValue(error);
+      }
+    }
+  },
+);
+export const NewfeedAction = {fetchNewFeed, likePost, fetchMyPost};

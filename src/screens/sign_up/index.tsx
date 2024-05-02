@@ -80,7 +80,7 @@ const SigninScreen = () => {
       const response: any = await login(email, password);
       if (response?.status === 'success') {
         dispatch(setUser(response.data));
-        localStorage.set('userInfo', response.data.toString());
+        localStorage.set('userInfo', JSON.stringify(response.data)  );
         localStorage.set('token',  response.data.accessToken);
         if ((response.status as any) === 'success') {
           if (!response.data.isFirstTimeLogin) {

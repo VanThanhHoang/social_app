@@ -72,3 +72,17 @@ export interface Reposter {
   fullName: string;
   avatar: string;
 }
+export type Notification = {
+  _id: string;
+  user: string;
+  content: string;
+  type: number;
+  isRead: boolean;
+  data: {
+      id: string;
+      image?: string; // Optional field
+  };
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+};
