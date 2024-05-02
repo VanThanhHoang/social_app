@@ -35,24 +35,23 @@ export const signInWithGoole = async (
         idToken,
         fcm_token: token_FCM,
       });
-   
+
       dispatch(setUser(response.data));
-      localStorage.set('userInfo', JSON.stringify(response.data)  );
-      if ((response.status as any) === 'success') {
-        console.log('response', response.data);
-        if (!response.data.isFirstTimeLogin) {
-          // reset navigation
-          navigation.reset({
-            index: 0,
-            routes: [{name: AppStackNames.HomeBottomTab}],
-          });
-          return;
-        } else {
-          navigation.reset({
-            index: 0,
-            routes: [{name: LoginStackEnum.CreateProfileScreen}],
-          });
-        }
+      localStorage.set('userInfo', JSON.stringify(response.data));
+
+      console.log('response', response.data);
+      if (!response.data.isFirstLogin) {
+        // reset navigation
+        navigation.reset({
+          index: 0,
+          routes: [{name: AppStackNames.HomeBottomTab}],
+        });
+        return;
+      } else {
+        navigation.reset({
+          index: 0,
+          routes: [{name: LoginStackEnum.CreateProfileScreen}],
+        });
       }
     } catch (error) {
       console.log(error, 'ádasdas');

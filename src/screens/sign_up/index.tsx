@@ -79,13 +79,13 @@ const SigninScreen = () => {
     try {
       dispatch(setLoading(true));
       const fcm = await messaging().getToken();
-      const response: any = await login(email, password,);
+      const response: any = await login(email, password,fcm);
       if (response?.status === 'success') {
         dispatch(setUser(response.data));
         localStorage.set('userInfo', JSON.stringify(response.data)  );
         localStorage.set('token',  response.data.accessToken);
         if ((response.status as any) === 'success') {
-          if (!response.data.isFirstTimeLogin) {
+          if (!response.data.isFirstLogin) {
             // reset navigation
             navigation.reset({
               index: 0,

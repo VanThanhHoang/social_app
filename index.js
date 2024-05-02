@@ -18,9 +18,10 @@ console.log('env',{
 GoogleSignin.configure({
     webClientId:process.env.FIREBASE_WEB_CLIENT_ID || ''
 });
-async function setUpNotification(){
+async function  setUpNotification(){
     await messaging().registerDeviceForRemoteMessages();
     const token = await messaging().getToken();
+    console.log("*****",token);
 }
 try{
     setUpNotification();
