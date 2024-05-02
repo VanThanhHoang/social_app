@@ -3,31 +3,25 @@ import {Provider} from 'react-redux';
 import store, {persistor} from '@/redux/store';
 import {PersistGate} from 'redux-persist/integration/react';
 import AppNavigator from '@/navigation';
-import messaging from '@react-native-firebase/messaging';
+
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import CustomToast from './components/Toast/CutomToast';
-import {PermissionsAndroid} from 'react-native';
+
+import Toast from 'react-native-toast-message';
+import toastConfig from './components/Toast/Toast';
+
 const App = () => {
-  useEffect(() => {
-    PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
-    );
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
-      CustomToast({
-        type: 'success',
-        message: remoteMessage.notification?.body,
-      });
-    });
-    return unsubscribe;
-  }, []);
+  console.log(toastConfig)
   return (
-    <GestureHandlerRootView style={{flex: 1}}>
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <AppNavigator />
-        </PersistGate>
-      </Provider>
-    </GestureHandlerRootView>
+    <>
+      <GestureHandlerRootView style={{flex: 1}}>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <AppNavigator />
+          </PersistGate>
+        </Provider>
+      </GestureHandlerRootView>
+      <Toast  />
+    </>
   );
 };
 export default App;

@@ -6,10 +6,27 @@ import { LoadingModal } from "@/components";
 import { useAppSelector } from "@/redux/store";
 import i18n from "@/language/i18n";
 import { localStorage } from "@/utils";
-
+import { PermissionsAndroid } from "react-native";
+import messaging from '@react-native-firebase/messaging';
+import CustomToast, { ShowNoti } from "@/components/Toast/CutomToast";
+import Toast from "react-native-toast-message";
+import { toastType } from "@/components/Toast/Toast";
   
 
 const useAsynsLanguage = () => {
+  React.useEffect(() => {
+    PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
+    );
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      if (!remoteMessage.data) {
+        CustomToast({type: 'success', message: remoteMessage.notification?.body});
+      } else {
+        CustomToast({type: 'success', message: remoteMessage.notification?.body});
+      }
+    });
+    return unsubscribe;
+  }, []);
   const language = useAppSelector(state => state.language.language);
   React.useEffect(() => {
     i18n.changeLanguage(language);

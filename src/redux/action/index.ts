@@ -10,15 +10,6 @@ export const fetchUserById = createAsyncThunk(
     }
 )
 
-export const updatePost = createAsyncThunk(
-    'post/upDatePost',
-    async (userId: number, thunkAPI) => {
-        fetch('https://jsonplaceholder.typicode.com/todos/'+userId)
-            .then(response => response.json())
-            .then(json => json)
-            .catch(err => console.log(err))
-    }
-)
 
 // call dữ liêu
 // pending : show loading
