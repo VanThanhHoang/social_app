@@ -1,7 +1,7 @@
 import {Post, PostResponse} from '@/type';
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {NewfeedAction} from '../action/newfeed.action';
-import { upLoadPost } from '../action/post.action';
+import { deletePost, upDatePost, upLoadPost } from '../action/post.action';
 import { ToastAndroid } from 'react-native';
 
 export interface NewFeedState {
@@ -66,7 +66,15 @@ const newfeedSate = createSlice({
         const post = action.payload;
         state.posts.unshift(post);
         ToastAndroid.show('Đã đăng pic của bạn', ToastAndroid.LONG);
-      });;
+      }).addCase(upDatePost.fulfilled, (state, action) => {
+        const post = action.payload;
+        const postIndex = state.posts.findIndex(p => p._id === post._id);
+        state.posts[postIndex].body = post.body;
+        ToastAndroid.show('Đã cập nhật pic của bạn', ToastAndroid.LONG);
+      }).addCase(deletePost.fulfilled, (state, action) => {
+        const postId = action.payload._id;
+        state.posts = state.posts.filter(post => post._id !== postId);
+      });
   },
 });
 export const newFeedReducer = newfeedSate.reducer;

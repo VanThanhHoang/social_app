@@ -29,6 +29,8 @@ import {
 } from '@/navigation/HomeNavigator/config';
 import MediaContentEdit from '@/screens/edit_post/component/MediaContentEdit';
 import ListMediaContentEdit from '@/screens/edit_post/component/ListMediaContentEdit';
+import {useAppDispatch} from '@/redux/store';
+import {upDatePost} from '@/redux/action/post.action';
 
 type EditPostRouteProp = RouteProp<
   HomeStackParamList,
@@ -98,24 +100,18 @@ const EditPostScreen = () => {
   const handlePresentImageModalPress = useCallback(() => {
     bottomSheetImageRef.current?.expand();
   }, []);
-
+  const dispatch = useAppDispatch();
   const updatePost = async () => {
     const data = {
       body: textContent,
       privacy: audienceType,
       mediaDelete: [],
     };
-    const response = await AxiosInstance().patch(
-      `post/update_post/${itemData._id}`,
-      data,
-    );
-    if (response.data.status === 0) {
-      navigation.goBack();
-      setTextContent('');
-      setMedias([]);
-      console.log(response.data);
-      setUploading(false);
-    }
+    await dispatch(upDatePost({id: itemData._id, data: data}));
+    navigation.goBack();
+    setTextContent('');
+    setMedias([]);
+    setUploading(false);
   };
 
   return (

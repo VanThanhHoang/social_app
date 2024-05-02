@@ -35,6 +35,7 @@ export const signInWithGoole = async (
         idToken,
         fcm_token: token_FCM,
       });
+   
       dispatch(setUser(response.data));
       localStorage.set('userInfo', response.data.toString());
       if ((response.status as any) === 'success') {

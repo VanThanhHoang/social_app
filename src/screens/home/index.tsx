@@ -29,6 +29,7 @@ import AxiosInstance from '@/network/axiosInstance';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import { BackHandler } from 'react-native';
 import { use } from 'i18next';
+import { deletePost } from '@/redux/action/post.action';
 const HomeScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [check, setcheck] = useState<number>(1);
@@ -112,12 +113,9 @@ const HomeScreen = () => {
       ),
     });
   };
-
+  const dispatch = useAppDispatch();
   const handleRemove = async (post: Post | null) => {
-    const response = await AxiosInstance().delete(
-      `post/delete_post/${post?._id}`,
-    );
-    console.log(response);
+    dispatch(deletePost(post?._id ?? ''));
     setischeck(true);
     bottomSheet.current?.close();
     setIsBottomSheetOpen(false);

@@ -2,7 +2,7 @@ import {Post, PostResponse} from '@/type';
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {NewfeedAction} from '../action/newfeed.action';
 import {useLogger} from '@/utils';
-import {upLoadPost} from '../action/post.action';
+import {deletePost, upDatePost, upLoadPost} from '../action/post.action';
 
 export interface MyPostState {
   posts: Post[];
@@ -71,6 +71,15 @@ const myPostSlice = createSlice({
       .addCase(upLoadPost.fulfilled, (state, action) => {
         const post = action.payload;
         state.myPosts.unshift(post);
+      })
+      .addCase(upDatePost.fulfilled, (state, action) => {
+        const post = action.payload;
+        const postIndex = state.myPosts.findIndex(p => p._id === post._id);
+        state.myPosts[postIndex].body = post.body;
+      })
+      .addCase(deletePost.fulfilled, (state, action) => {
+        const postId = action.payload._id;
+        state.myPosts = state.myPosts.filter(post => post._id !== postId);
       });
   },
 });

@@ -1,6 +1,13 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View, Modal } from 'react-native';
-import React, { useState, useEffect } from 'react';
-import { colors } from '@/theme';
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Modal,
+} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {colors} from '@/theme';
 import SvgSwitch from '@/assets/icons/iconSVG/Switch';
 import SvgSend from '@/assets/icons/iconSVG/Send';
 import SvgComponent from '@/assets/icons/iconSVG/Comments';
@@ -10,26 +17,25 @@ import SvgStar2 from '@/assets/icons/iconSVG/Star2';
 import AutoHeightImage from 'react-native-auto-height-image';
 import Share from 'react-native-share';
 import ListImageContent from '@/screens/home/components/ListImageContent';
-import { formatPostTime } from '@/utils/time';
-import { Media, Reposter } from '@/type';
-import { useAppDispatch } from '@/redux/store';
-import { NewfeedAction } from '@/redux/action/newfeed.action';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { SearchStackNames } from '@/navigation/SearchNavigator/config';
-import { HomeStackNames } from '@/navigation/HomeNavigator/config';
-import { AppStackNames } from '@/navigation/config';
-import { use } from 'i18next';
-import { useAppSelector } from '@/redux/store';
-import { userInfoSelector } from '@/redux/test/userStore';
+import {formatPostTime} from '@/utils/time';
+import {Media, Reposter} from '@/type';
+import {useAppDispatch} from '@/redux/store';
+import {NewfeedAction} from '@/redux/action/newfeed.action';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {SearchStackNames} from '@/navigation/SearchNavigator/config';
+import {HomeStackNames} from '@/navigation/HomeNavigator/config';
+import {AppStackNames} from '@/navigation/config';
+import {use} from 'i18next';
+import {useAppSelector} from '@/redux/store';
+import {userInfoSelector} from '@/redux/test/userStore';
 import ProfileScreen from '@/screens/profileScreens/ProfileScreen';
-import { ProfileStackNames } from '@/navigation/ProfileNavigator/config';
+import {ProfileStackNames} from '@/navigation/ProfileNavigator/config';
 import AxiosInstance from '@/network/axiosInstance';
 import CustomToast from '@/components/Toast/CutomToast';
-import { setLoading } from '@/redux';
+import {setLoading} from '@/redux';
 
 const axios = AxiosInstance();
-
 
 interface CardViewProps {
   userName: string;
@@ -56,7 +62,7 @@ interface CardViewProps {
   showView?: boolean;
 }
 
-const CardView: React.FC<CardViewProps> = ({ ...props }) => {
+const CardView: React.FC<CardViewProps> = ({...props}) => {
   const userInfor = useAppSelector(userInfoSelector);
   const [focus, setfocus] = useState<Boolean>(false);
   const dispatch = useAppDispatch();
@@ -64,20 +70,20 @@ const CardView: React.FC<CardViewProps> = ({ ...props }) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [modalVisible, setModalVisible] = useState(false);
   const handleRepost = async () => {
-    dispatch(setLoading(true))
-    try{
-      await AxiosInstance().post(`post/repost/${props._id}`)
-      dispatch(NewfeedAction.fetchMyPost())
+    dispatch(setLoading(true));
+    try {
+      await AxiosInstance().post(`post/repost/${props._id}`);
+      dispatch(NewfeedAction.fetchMyPost());
       CustomToast({
         type: 'success',
         message: 'Đã đăng lại',
       });
-    }catch(err){
+    } catch (err) {
       console.log('err', err);
-    }finally{
-      dispatch(setLoading(false))
+    } finally {
+      dispatch(setLoading(false));
     }
-  }
+  };
   interface LikedUser {
     userName: string;
     fullName: string;
@@ -91,17 +97,17 @@ const CardView: React.FC<CardViewProps> = ({ ...props }) => {
   const handleLike = (id: string) => {
     appDispatch(NewfeedAction.likePost(id));
   };
-  const onUserNamePress = (userId: string, userName: string,): void => {
+  const onUserNamePress = (userId: string, userName: string): void => {
     if (userId === userInfor._id) {
       console.log('userId2', userId);
       navigation.navigate(AppStackNames.HomeNavigator, {
         screen: HomeStackNames.ProfileNavigator,
-        params: { userId: userId, userName: userName },
+        params: {userId: userId, userName: userName},
       });
     } else {
       navigation.navigate(AppStackNames.HomeNavigator, {
         screen: HomeStackNames.UserProfileDetail,
-        params: { userId: userId, userName: userName },
+        params: {userId: userId, userName: userName},
       });
     }
   };
@@ -131,7 +137,6 @@ const CardView: React.FC<CardViewProps> = ({ ...props }) => {
       fullName: r.user_id.fullName,
       avatar: r.user_id.avatar,
       _id: r.user_id._id,
-
     }));
     console.log('Danh sách người đã like', users);
     setLikedUsers(users);
@@ -151,21 +156,37 @@ const CardView: React.FC<CardViewProps> = ({ ...props }) => {
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
           <Text style={styles.modalText}>Người đã like</Text>
-          <View style={{ width: '100%', marginTop: 15 }}>
+          <View style={{width: '100%', marginTop: 15}}>
             {likedUsers.map((user, index) => (
-              <View key={index} style={{ flexDirection: 'column', marginBottom: 10, }}>
-                <TouchableOpacity onPress={() => onUserNamePress(user._id, user.userName)} style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10, paddingHorizontal:35 }}>
-                  <Image source={{ uri: user.avatar }} style={{ width: 30, height: 30, borderRadius: 15, marginRight: 10 }} />
-                  <Text style={{ color: 'black' }}>{user.fullName}</Text>
+              <View
+                key={index}
+                style={{flexDirection: 'column', marginBottom: 10}}>
+                <TouchableOpacity
+                  onPress={() => onUserNamePress(user._id, user.userName)}
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginBottom: 10,
+                    paddingHorizontal: 35,
+                  }}>
+                  <Image
+                    source={{uri: user.avatar}}
+                    style={{
+                      width: 30,
+                      height: 30,
+                      borderRadius: 15,
+                      marginRight: 10,
+                    }}
+                  />
+                  <Text style={{color: 'black'}}>{user.fullName}</Text>
                 </TouchableOpacity>
-                <View style = {styles.LineStyleModel}></View>
+                <View style={styles.LineStyleModel}></View>
               </View>
             ))}
           </View>
           <TouchableOpacity
             style={[styles.button, styles.buttonClose]}
-            onPress={() => setModalVisible(!modalVisible)}
-          >
+            onPress={() => setModalVisible(!modalVisible)}>
             <Text style={styles.textStyle}>Cancel</Text>
           </TouchableOpacity>
         </View>
@@ -185,7 +206,7 @@ const CardView: React.FC<CardViewProps> = ({ ...props }) => {
           }}
         />
       ) : (
-        <View style={{ height: 0 }} />
+        <View style={{height: 0}} />
       )}
       {props.resposter ? (
         <RepostHeader
@@ -193,7 +214,7 @@ const CardView: React.FC<CardViewProps> = ({ ...props }) => {
           onUserNamePress={onUserNamePress}
         />
       ) : (
-        <View style={{ height: 0 }} />
+        <View style={{height: 0}} />
       )}
       <View
         style={{
@@ -201,8 +222,8 @@ const CardView: React.FC<CardViewProps> = ({ ...props }) => {
           padding: 20,
           justifyContent: 'space-between',
         }}>
-        <View style={{ flexDirection: 'row' }}>
-          <Image style={styles.imgCar} source={{ uri: props.avatar }} />
+        <View style={{flexDirection: 'row'}}>
+          <Image style={styles.imgCar} source={{uri: props.avatar}} />
           <View>
             <TouchableOpacity
               onPress={() => {
@@ -210,11 +231,11 @@ const CardView: React.FC<CardViewProps> = ({ ...props }) => {
               }}
               style={styles.containerTick}>
               <Text
-                style={{ fontSize: 16, fontWeight: '500', color: colors.black }}>
+                style={{fontSize: 16, fontWeight: '500', color: colors.black}}>
                 {props.title ? props.title : props.userName}
               </Text>
             </TouchableOpacity>
-            <Text style={{ fontSize: 12, marginStart: 10, marginTop: 3 }}>
+            <Text style={{fontSize: 12, marginStart: 10, marginTop: 3}}>
               {formatPostTime(props.hour)}
             </Text>
           </View>
@@ -226,21 +247,21 @@ const CardView: React.FC<CardViewProps> = ({ ...props }) => {
       {props.description ? (
         <Text style={styles.title}>{props.description}</Text>
       ) : (
-        <View style={{ height: 0 }} />
+        <View style={{height: 0}} />
       )}
       <Text style={styles.tag}>
-        {props.tag ? `#${props.tag}` : <View style={{ height: 0 }} />}
+        {props.tag ? `#${props.tag}` : <View style={{height: 0}} />}
       </Text>
       {props.image.length === 1 ? (
         <AutoHeightImage
           style={styles.avatar}
           width={370}
-          source={{ uri: props.image[0].link }}
+          source={{uri: props.image[0].link}}
         />
       ) : props.image.length > 1 ? (
         <ListImageContent medias={props.image} />
       ) : (
-        <View style={{ height: 0 }} />
+        <View style={{height: 0}} />
       )}
       <View style={styles.containerAction}>
         <TouchableOpacity
@@ -275,7 +296,7 @@ export default CardView;
 const RepostHeader = ({
   reposter,
   onUserNamePress,
-}: { reposter: Reposter } & {
+}: {reposter: Reposter} & {
   onUserNamePress: (userId: string, userName: string) => void;
 }) => {
   const name = reposter.fullName ? reposter.fullName : reposter.userName;
@@ -289,8 +310,8 @@ const RepostHeader = ({
           paddingVertical: 10,
         }}>
         <Image
-          style={{ ...styles.imgCar, width: 35, height: 35 }}
-          source={{ uri: reposter.avatar }}
+          style={{...styles.imgCar, width: 35, height: 35}}
+          source={{uri: reposter.avatar}}
         />
         <View
           style={{
@@ -300,7 +321,7 @@ const RepostHeader = ({
             onPress={() => {
               onUserNamePress(reposter._id, reposter.userName);
             }}
-            style={{ ...styles.containerTick }}>
+            style={{...styles.containerTick}}>
             <Text
               style={{
                 fontSize: 14,
@@ -309,7 +330,7 @@ const RepostHeader = ({
                 marginEnd: 10,
               }}>
               {name + ' '}
-              <Text style={{ color: colors.primaryColor, marginLeft: 10 }}>
+              <Text style={{color: colors.primaryColor, marginLeft: 10}}>
                 đã đăng lại
               </Text>
             </Text>
@@ -329,7 +350,7 @@ const RepostHeader = ({
   );
 };
 const styles = StyleSheet.create({
-  LineStyleModel:{
+  LineStyleModel: {
     borderWidth: 0.3,
     width: '90%',
     borderColor: '#D9D9D9',
@@ -337,51 +358,50 @@ const styles = StyleSheet.create({
   },
   centeredView: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22
-
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
   },
   modalView: {
     margin: 20,
-    backgroundColor: "white",
+    backgroundColor: 'white',
     borderRadius: 20,
-    alignItems: "center",
-    shadowColor: "#000",
-    width: "90%",
-    height: "87%",
+    alignItems: 'center',
+    shadowColor: '#000',
+    width: '90%',
+    height: '87%',
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5
+    elevation: 5,
   },
   button: {
     borderRadius: 20,
     padding: 10,
-    elevation: 2
+    elevation: 2,
   },
   buttonClose: {
-    backgroundColor: "#2196F3",
+    backgroundColor: '#2196F3',
     width: 100,
     height: 40,
     position: 'absolute',
     bottom: 10,
   },
   textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center"
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   modalText: {
     marginTop: 20,
     marginBottom: 25,
-    textAlign: "center",
+    textAlign: 'center',
     fontSize: 20,
     color: 'black',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   space: {
     marginStart: 20,
@@ -400,7 +420,7 @@ const styles = StyleSheet.create({
   avatar: {
     borderRadius: 20,
     marginTop: 12,
-    height:400,
+    height: 400,
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
@@ -430,3 +450,4 @@ const styles = StyleSheet.create({
     borderRadius: 23,
   },
 });
+
