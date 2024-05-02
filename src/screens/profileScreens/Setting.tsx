@@ -123,7 +123,7 @@ const Setting = () => {
                 ))}
             </View>
             <View style = {styles.LogoutContainer}>
-                <ItemSetting title={t('Log out')} icon={<IconLogout/>} color='#5E4EA0'/>
+                <ItemSetting onPress={handleLogout} title={t('Log out')} icon={<IconLogout/>} color='#5E4EA0'/>
             </View>
         </View>
     )
