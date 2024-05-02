@@ -27,9 +27,9 @@ import FooterList from './components/FooterList';
 import FooterLastPageList from './components/FooterLastPageList';
 import AxiosInstance from '@/network/axiosInstance';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import { BackHandler } from 'react-native';
-import { use } from 'i18next';
-import { deletePost } from '@/redux/action/post.action';
+import {BackHandler} from 'react-native';
+import {use} from 'i18next';
+import {deletePost} from '@/redux/action/post.action';
 const HomeScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const [check, setcheck] = useState<number>(1);
@@ -41,7 +41,7 @@ const HomeScreen = () => {
   const [isBottomSheet, setisBottomSheet] = useState<boolean>(false);
   const [isBottomSheet1, setisBottomSheet1] = useState<boolean>(false);
   const snapPoints = useMemo(() => [265], []);
-  const snapPoint = useMemo(() => [300], []);
+  const snapPoint = useMemo(() => [165], []);
   const snapPoint1 = useMemo(() => [176], []);
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedTitle, setSelectedTitle] = useState<string>('');
@@ -58,7 +58,6 @@ const HomeScreen = () => {
     setIsBottomSheetOpen(!isBottomSheetOpen);
   };
   const toggleBottomSheet2 = () => {
-
     if (isBottomSheet1) {
       bottomSheet1.current?.close();
     } else {
@@ -223,23 +222,25 @@ const HomeScreen = () => {
     return posts.length == 0 && currentPage === 1;
   };
   useEffect(() => {
-    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
-    Alert.alert(
-      'Exit App',
-      'Exiting the application?',
-      [
-        {
-          text: 'Cancel',
-          onPress: () => null,
-          style: 'cancel',
-        },
-        {text: 'YES', onPress: () => BackHandler.exitApp()},
-      ],
-      {cancelable: false},
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      () => {
+        Alert.alert(
+          'Exit App',
+          'Exiting the application?',
+          [
+            {
+              text: 'Cancel',
+              onPress: () => null,
+              style: 'cancel',
+            },
+            {text: 'YES', onPress: () => BackHandler.exitApp()},
+          ],
+          {cancelable: false},
+        );
+        return true;
+      },
     );
-    return true;
-  }
-  );
     return () => backHandler.remove();
   }, []);
   return (

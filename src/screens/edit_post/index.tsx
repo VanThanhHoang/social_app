@@ -56,6 +56,7 @@ const EditPostScreen = () => {
   const bottomSheetImageRef = useRef<BottomSheet>(null);
   const snapPointsImage = useMemo(() => ['35%'], []);
   const [uploading, setUploading] = useState<boolean>(false);
+  const inputRef = useRef<TextInput>(null);
 
   function handleOpenGallery() {
     ImagePicker.openPicker({multiple: true})
@@ -90,6 +91,7 @@ const EditPostScreen = () => {
     } else {
       bottomSheetImageRef.current?.expand();
     }
+    inputRef.current?.blur();
     setIsBottomSheetImageOpen(!isBottomSheetImageOpen);
   };
 
@@ -145,6 +147,7 @@ const EditPostScreen = () => {
           <View style={styles.paddingHorizontal}>
             <UserInfo />
             <TextInput
+              ref={inputRef}
               value={textContent}
               onChangeText={setTextContent}
               cursorColor={colors.primaryColor}
