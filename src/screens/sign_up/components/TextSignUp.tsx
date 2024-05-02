@@ -4,14 +4,16 @@ import { colors } from '@/theme'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { LoginStackEnum, LoginStackParamList } from '@/navigation/login'
+import { useTranslation } from 'react-i18next'
 
 const TextSignUp = () => {
   const navigation = useNavigation<NativeStackNavigationProp<LoginStackParamList>>();
+  const { t } = useTranslation();
   return (
     <View style={styles.container}>
-      <Text>Don't have an account? </Text>
+      <Text>{t("Don't have an account? ")}</Text>
       <TouchableOpacity onPress={() =>navigation.navigate(LoginStackEnum.SignUpScreen)}>
-        <Text style={{ color: colors.purple }}>Sign up</Text>
+        <Text style={{ color: colors.purple }}>{t("Sign up")}</Text>
       </TouchableOpacity>
     </View>
   )

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import HeaderBar from './component/HeaderBar'
 import ButtonSwitch from './component/ButtonSwitch'
@@ -18,6 +18,9 @@ import { ProfileNavigatorProps, ProfileStackNames } from '@/navigation/ProfileNa
 import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 import { t } from 'i18next'
+import reduxStorage from '@/redux/store/reduxStorage'
+import { LoginStackEnum } from '@/navigation/login'
+
 
 
 const dataOptionSetting = [
@@ -59,9 +62,6 @@ const dataOptionSetting = [
     },
 ]
 
-const handleLogout = () => {
-    console.log('Logout')
-}
 
 const Setting = () => {
     const navigation = useNavigation<any>();
@@ -70,7 +70,7 @@ const Setting = () => {
     
     return (
         <View style={styles.Container}>
-            <HeaderBar title='Settings' />
+            <HeaderBar title={t('Settings')} />
             <ButtonSwitch title={t('Language')} textOff='Eng' textOn='Vie' />
             <View style = {styles.ListStyle}>
                 {dataOptionSetting.map((item, index) => (
@@ -83,7 +83,7 @@ const Setting = () => {
                 ))}
             </View>
             <View style = {styles.LogoutContainer}>
-                <ItemSetting title='Log out' icon={<IconLogout/>} color='#5E4EA0'/>
+                <ItemSetting title={t('Log out')} icon={<IconLogout/>} color='#5E4EA0'/>
             </View>
         </View>
     )

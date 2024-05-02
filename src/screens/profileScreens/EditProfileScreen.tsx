@@ -235,11 +235,11 @@ const EditProfileCard = () => {
             <View style={styles.HeaderContainer}>
                 <View style={styles.HeaderBar}>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <Text style={styles.TitleCancel}>Cancel</Text>
+                        <Text style={styles.TitleCancel}>{t("Cancel")}</Text>
                     </TouchableOpacity>
-                    <Text style={styles.EditBio}>Edit profile</Text>
+                    <Text style={styles.EditBio}>{t("profile")}</Text>
                     <TouchableOpacity>
-                        <Text style={styles.Done} onPress={() => onPressNext(data)}>Done</Text>
+                        <Text style={styles.Done} onPress={() => onPressNext(data)}>{t("Done")}</Text>
                     </TouchableOpacity>
 
                 </View>
@@ -250,7 +250,7 @@ const EditProfileCard = () => {
                 <View style={styles.ProfileCard}>
                     <View style={styles.NameContainer}>
                         <View style={styles.NameTitleContainer}>
-                            <Text style={styles.NameTitle}>Name</Text>
+                            <Text style={styles.NameTitle}>{t("Name")}</Text>
                             <View style={styles.TextInputContainer}>
                                 <FontAwesomeIcon icon={faUser} size={15} color="#000" />
                                 <TextInput placeholder="+ Name" style={styles.TextInputStyle} value={fullName} onChangeText={setFullName} />
@@ -272,7 +272,7 @@ const EditProfileCard = () => {
                     <View style={styles.NameContainer}>
                         <View style={styles.NameTitleContainer}>
                             <TouchableOpacity>
-                                <Text style={styles.NameTitle}>User name</Text>
+                                <Text style={styles.NameTitle}>{t("User name")}</Text>
                                 <TextInput placeholder="+ User name" style={styles.TextInputStyle} value={userName} onChangeText={setUserName} />
                             </TouchableOpacity>
                         </View>
@@ -300,7 +300,7 @@ const EditProfileCard = () => {
                         <View style={styles.ContainerSwitch}>
                             {/* <Text style={styles.TextStyle}>Your profile is private </Text> */}
                             {
-                                isEnabled ? (<Text style={styles.TextStyle}>Your profile is public </Text>) : (<Text style={styles.TextStyle}>Your profile is private </Text>)
+                                isEnabled ? (<Text style={styles.TextStyle}>{t("Your profile is public ")}</Text>) : (<Text style={styles.TextStyle}>{t("Your profile is private ")}</Text>)
                             }
                             <TouchableWithoutFeedback onPress={toggleSwitch}>
                                 <View style={styles.switchContainer}>
@@ -312,7 +312,7 @@ const EditProfileCard = () => {
                                         ]}
                                     >
                                         <View style={styles.textContainer}>
-                                            {isEnabled ? (<IconRinged /> ? <IconRinged /> : <Text style={styles.switchText}>On</Text>) : (<IconPrivacy /> ? <IconPrivacy /> : <Text style={styles.switchText}>Off</Text>)}
+                                            {isEnabled ? (<IconRinged /> ? <IconRinged /> : <Text style={styles.switchText}>{t("On")}</Text>) : (<IconPrivacy /> ? <IconPrivacy /> : <Text style={styles.switchText}>Off</Text>)}
                                         </View>
                                     </Animated.View>
                                 </View>

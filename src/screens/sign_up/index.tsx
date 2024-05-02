@@ -83,7 +83,6 @@ const SigninScreen = () => {
         localStorage.set('userInfo', response.data.toString());
         localStorage.set('token',  response.data.accessToken);
         if ((response.status as any) === 'success') {
-          console.log('response', response.data);
           if (!response.data.isFirstTimeLogin) {
             // reset navigation
             navigation.reset({
@@ -98,7 +97,7 @@ const SigninScreen = () => {
           }
           CustomToast({
             type: 'success',
-            message: 'Login success 🎉',
+            message: t('Login success 🎉'),
           });
           if (rememberMe) {
             reduxStorage.setItem('email', email);
@@ -109,19 +108,19 @@ const SigninScreen = () => {
           console.log('Login failed with response:', response);
           CustomToast({
             type: 'error',
-            message: 'Login failed 😢',
+            message: t('Login failed 😢'),
           });
         }
       }else{
         CustomToast({
           type: 'error',
-          message: 'Login failed 😢',
+          message: t('Login failed 😢'),
         });
       }
     } catch (error) {
         CustomToast({
             type: 'error',
-            message: 'Login failed 😢',
+            message: t('Login failed 😢'),
           });
       console.error('Login failed with error:', error);
     } finally {
@@ -142,9 +141,9 @@ const SigninScreen = () => {
         }
         onPressBack={() => navigation.goBack()}
       />
-      <Text style={styles.welcome}>Welcome back 👋</Text>
+      <Text style={styles.welcome}>{t("Welcome back 👋")}</Text>
       <Text style={styles.please}>
-        Please enter your email & password to sign in
+        {t("Please enter your email & password to sign in")}
       </Text>
       <TextInputSignIn2
         placeholder="Email"
@@ -163,7 +162,7 @@ const SigninScreen = () => {
         value={password}
       />
       <Checkbox
-        label="Remember me"
+        label={t('Remember me')}
         email={email}
         password={password}
         onCheckChange={isChecked => setrememberMe(isChecked)}

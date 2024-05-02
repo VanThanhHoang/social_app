@@ -78,7 +78,7 @@ const SignUpScreen = () => {
         // console.log('Register success:', response.data);
         CustomToast({
           type: 'success',
-          message: t('Sign up success'),
+          message: t("Sign up success 🎉"),
         });
         navigation.navigate(LoginStackEnum.SignInScren);
         } else {
@@ -143,9 +143,9 @@ const SignUpScreen = () => {
         }
         onPressBack={() => navigation.goBack()}
       />
-      <Text style={styles.welcome}>Creact account </Text>
+      <Text style={styles.welcome}>{t("Creact account")} </Text>
       <Text style={styles.please}>
-        Join our community and personalize your news experience
+        {t("Join our community and personalize your news experience")}
       </Text>
       <TextInputSignIn
         style={[styles.input, errors.email ? styles.inputError : null]}
@@ -163,8 +163,8 @@ const SignUpScreen = () => {
       )}
 
       <TextInputSignIn
-        placeholder="Full name"
-        title="Full name"
+        placeholder={t('Full name')}
+        title={t('Full name')}
         showIcon
         iconType="name"
         style={[styles.input, errors.fullName ? styles.inputError : null]}
@@ -183,11 +183,11 @@ const SignUpScreen = () => {
           fontWeight: 'bold',
           marginTop: 15,
         }}>
-        Gender
+        {t("Gender")}
       </Text>
       <SelectList
         data={gender}
-        placeholder="Select gender"
+        placeholder={t("Select gender")}
         boxStyles={{
           width: 370,
           height: 60,
@@ -219,8 +219,8 @@ const SignUpScreen = () => {
         <Text style={styles.errorText}>{errors.selectedGender.message}</Text>
       )}
       <TextInputSignIn
-        placeholder="Password"
-        title="Password"
+        placeholder={t('Password')}
+        title={t('Password')}
         showIcon
         iconType="password"
         onChangeText={(text: string) => {
@@ -233,8 +233,8 @@ const SignUpScreen = () => {
         <Text style={styles.errorText}>{errors.password.message}</Text>
       )}
       <TextInputSignIn
-        placeholder="Confirm Password"
-        title="Confirm Password"
+        placeholder={t('Confirm Password')}
+        title={t('Confirm Password')}
         showIcon
         iconType="password"
         style={[
@@ -250,7 +250,7 @@ const SignUpScreen = () => {
         <Text style={styles.errorText}>{errors.confirmPassword.message}</Text>
       )}
       <Checkbox2
-        label="I agree to Newsline"
+        label={t("I agree to Newsline")}
         onCheckChange={newCheckState => setIsChecked(newCheckState)}
       />
       <View

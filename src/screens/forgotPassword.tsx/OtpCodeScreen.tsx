@@ -166,22 +166,22 @@ const OtpCodeScreen = () => {
         onPressBack={() => navigation.goBack()}
       />
       <HeaderForgot
-        title="OTP code verification 🔐"
-        title2="We have sent an OTP code to your email. Enter the code below to verify your account."
+        title={t("OTP code verification 🔐")}
+        title2={t("We have sent an OTP code to your email. Enter the code below to verify your account.")}
       />
       <OtpInput onOtpComplete={setOtp} resetFlag={resetFlag} />
       <Footer resendOTP={resendOTP} />
       <TextInputForgot
-        placeholder="Password"
-        title="New Password"
+        placeholder={t('New Password')}
+        title={t('New Password')}
         showIcon
         iconType="password"
         onChangeText={(text: string) => setNewPassword(text)}
         value={newPassword}
       />
       <TextInputForgot
-        placeholder="Confirm Password"
-        title="Confirm New Password"
+        placeholder={t("Confirm Password")}
+        title={t("Confirm Password")}
         showIcon
         iconType="password"
         onChangeText={(text: string) => setConfirmPassword(text)}

@@ -10,10 +10,12 @@ import { LoginStackEnum, LoginStackParamList } from '@/navigation/login'
 import ButtonSwitch from './ButtonSwitch'
 import IconRinged from '@/assets/icons/IconRinged'
 import IconPrivacy from '@/assets/icons/IconPrivacy'
+import { useTranslation } from 'react-i18next'
 const EditProfileCard = () => {
     const navigation = useNavigation<NativeStackNavigationProp<LoginStackParamList>>();
     const [selectedImage, setSelectedImage] = useState<string | null | undefined>(null);
     const [userData, setUserData] = useState({});
+    const {t} = useTranslation();
     const requestCameraPermission = async () => {
         if (Platform.OS === 'android') {
             try {

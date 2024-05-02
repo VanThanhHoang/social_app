@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { LoginStackEnum, LoginStackParamList } from '@/navigation/login';
 import reduxStorage from '@/redux/store/reduxStorage';
+import { useTranslation } from 'react-i18next';
 
 interface CheckboxProps {
     label?: string;
@@ -19,6 +20,7 @@ interface CheckboxProps {
 const Checkbox: React.FC<CheckboxProps> = ({ label, initialChecked = false, onCheckChange, email, password }) => {
     const navigation = useNavigation<NativeStackNavigationProp<LoginStackParamList>>();
     const [isChecked, setIsChecked] = useState(initialChecked);
+    const {t} = useTranslation();
     useEffect(() => {
         setIsChecked(initialChecked);
     }, [initialChecked]);
@@ -46,7 +48,7 @@ const Checkbox: React.FC<CheckboxProps> = ({ label, initialChecked = false, onCh
                 {label && <Text style={styles.label}>{label}</Text>}
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate(LoginStackEnum.ForgotPass)}>
-                <Text style={{ color: colors.purple, fontSize: 14, fontWeight: '500', marginLeft: 124, marginTop:20 }}>Forgot password?</Text>
+                <Text style={{ color: colors.purple, fontSize: 14, fontWeight: '500', marginLeft: 124, marginTop:20 }}>{t("Forgot password?")}</Text>
             </TouchableOpacity>
         </View>
     );

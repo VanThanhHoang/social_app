@@ -1,6 +1,7 @@
 import {colors} from '@/theme';
 import React, {useState, useEffect, FC} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {useTranslation} from 'react-i18next';
 
 interface FooterProps {
   resendOTP: () => void;
@@ -9,6 +10,7 @@ interface FooterProps {
 const Footer: FC<FooterProps> = ({resendOTP}) => {
   const [timeLeft, setTimeLeft] = useState(60);
   const [isWaiting, setIsWaiting] = useState(true);
+  const {t} = useTranslation();
 
   useEffect(() => {
     if (!isWaiting) return;
@@ -33,14 +35,14 @@ const Footer: FC<FooterProps> = ({resendOTP}) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Didn't receive email?</Text>
+      <Text style={styles.text}>{t("Didn't receive email?")}</Text>
       {isWaiting ? (
         <Text style={styles.text2}>
-          You can resend code in <Text style={styles.time}>{timeLeft}</Text> s
+          {t("You can resend code in")} <Text style={styles.time}>{timeLeft}</Text> s
         </Text>
       ) : (
         <TouchableOpacity onPress={handleResendClick}>
-          <Text style={styles.resendText}>Resend again</Text>
+          <Text style={styles.resendText}>{t("Resend again")}</Text>
         </TouchableOpacity>
       )}
     </View>

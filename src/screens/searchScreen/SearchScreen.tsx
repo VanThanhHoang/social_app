@@ -13,6 +13,7 @@ import HistorySearch from './component/HistorySearch'
 import { formatTime } from './time'
 import { useDispatch } from 'react-redux'
 import { setLoading } from '@/redux/slice/app.slice'
+import { useTranslation } from 'react-i18next'
 const axios = AxiosInstance();
 
 
@@ -24,6 +25,7 @@ const SearchScreen = () => {
   const [textInput, setTextInput] = useState('')
   const isFocusedReLoad = useIsFocused();
   const dispatch = useDispatch();
+  const {t} = useTranslation();
   useEffect(() => {
     if (isFocusedReLoad) {
       dispatch(setLoading(true));
@@ -77,7 +79,7 @@ const SearchScreen = () => {
               <FontAwesomeIcon icon={faMagnifyingGlass} size={20} color="#9F9F9F" />
             </TouchableOpacity>
             <TextInput
-              placeholder="Search"
+              placeholder={t("Search")}
               value={textInput}
               onEndEditing={() => onPressSearch(textInput)}
               onChangeText={(text) => setTextInput(text)}
@@ -91,12 +93,12 @@ const SearchScreen = () => {
 
           </View>
           <TouchableOpacity onPress={clearInput} style={styles.cancelButton}>
-            <Text style={styles.cancelText}>Cancel</Text>
+            <Text style={styles.cancelText}>{t("Cancel")}</Text>
           </TouchableOpacity>
         </View>
       </View>
       <View style={styles.Line}></View>
-      <Text style = {styles.titleHistorySearch}>Lịch sử tìm kiếm</Text>
+      <Text style = {styles.titleHistorySearch}>{t("Search history")}</Text>
       <View >
         <FlatList
           showsVerticalScrollIndicator={false}
