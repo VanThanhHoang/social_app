@@ -22,6 +22,7 @@ import { useNavigation } from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import { AppStackNames } from '@/navigation/config';
 import { HomeStackNames } from '@/navigation/HomeNavigator/config';
+import i18n from '@/language/i18n';
 const Tab = createMaterialTopTabNavigator();
 const data = [
   {
@@ -178,7 +179,7 @@ const CardViewNoti = ({...props}: Notification) => {
             fontSize: 14,
             fontWeight: '400',
           }}>
-          {formatPostTime(new Date(props.createdAt))}
+          {formatPostTime(new Date(props.createdAt),i18n.language)}
         </Text> 
       </View>
     </TouchableOpacity>

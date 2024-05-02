@@ -337,7 +337,7 @@ const HomeScreen = () => {
               }}
             />
             <TouchableOpacity
-              onPress={() => {
+              onPress={async () => {
                 handleRadioSelect(1);
                 console.log('check', check);
                 dispatch(setFollowing(false));
@@ -346,6 +346,7 @@ const HomeScreen = () => {
                   offset: 0,
                 });
                 dispatch(NewfeedAction.fetchNewFeed(1));
+                dispatch(SetAppLoading(false));
               }}
               style={{flexDirection: 'row', marginTop: 30}}>
               <Image style={{width: 34, height: 24}} source={icons.planet} />
@@ -362,10 +363,12 @@ const HomeScreen = () => {
                   animated: true,
                   offset: 0,
                 });
-              dispatch(setFollowing(true)); 
+                dispatch(SetAppLoading(true));
+                dispatch(setFollowing(true));
                 handleRadioSelect(2);
                 dispatch(NewfeedAction.fetchNewFeed(1));
-                }}
+              
+              }}
               style={{flexDirection: 'row', marginTop: 20}}>
               <Image style={{width: 34, height: 24}} source={icons.frame} />
               <Text style={styles.textWorl}>{t('Following')} </Text>

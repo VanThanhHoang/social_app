@@ -12,7 +12,7 @@ import {
   View,
 } from 'react-native';
 import {colors} from '@/theme';
-import React, {useMemo, useRef, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {
   HomeStackNames,
@@ -30,8 +30,8 @@ import {userInfoSelector} from '@/redux/test/userStore';
 import BottomSheet from '@gorhom/bottom-sheet';
 import {setLoading} from '@/redux';
 import {upDateComment} from '@/redux/slice/newfeed.slice';
-import { formatPostTime } from '@/utils/time';
-import { useTranslation } from 'react-i18next';
+import {formatPostTime} from '@/utils/time';
+import {useTranslation} from 'react-i18next';
 import i18n from '@/language/i18n';
 
 type PostDetailRouteProp = RouteProp<
@@ -45,9 +45,8 @@ const CommentNoti = () => {
   const appDispatch = useAppDispatch();
   const flatListRef = useRef<ScrollView>(null);
   const route = useRoute<PostDetailRouteProp>();
-  const itemData = route.params.post;
-  console.log(itemData);
-  const [comments, setComments] = useState<Comment[]>(itemData.comments);
+  const postId = route.params.post;
+  const [comments, setComments] = useState<Comment[]>([]);
   const screenWidth = Dimensions.get('window').width;
   const [textInput, setTextInput] = useState<string>('');
   const inputRef = useRef<TextInput>(null);
@@ -57,7 +56,7 @@ const CommentNoti = () => {
   const snapPoints = useMemo(() => [200], []);
   const [selectComment, setSelectComment] = useState<Comment | null>(null);
   const dispatch = useAppDispatch();
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const handlePushComment = async (postId: string) => {
     if (textInput !== '') {
       try {
@@ -110,7 +109,7 @@ const CommentNoti = () => {
   };
 
   const handleDeleteComment = async () => {
-    const resData= await AxiosInstance().delete(
+    const resData = await AxiosInstance().delete(
       `post/delete_comment/${selectComment?._id}`,
     );
     setComments(resData.data.postComment);
@@ -147,7 +146,17 @@ const CommentNoti = () => {
       }
     }
   };
+  useEffect(() => {
+    dispatch(setLoading(true));
+    const data = AxiosInstance().get(`post/get_post/${postId}`).then(res => {
+     setItemData(res.data);
+    }).finally(() => {
 
+      dispatch(setLoading(false));
+    });
+    
+  }, []);
+  const [itemData, setItemData] = useState<any>(null);
   return (
     <GestureHandlerRootView style={styles.container}>
       <SafeAreaView style={styles.container}>
@@ -157,25 +166,27 @@ const CommentNoti = () => {
             navigation.goBack();
           }}>
           <Svgback />
-          <Text style={styles.Back}>{t("Back")}</Text>
+          <Text style={styles.Back}>{t('Back')}</Text>
         </TouchableOpacity>
         <ScrollView ref={flatListRef}>
-          <CardView
-             userName={itemData.author.userName}
-            fullName={itemData.author.fullName }
-            isLike={itemData.isLiked}
-            _id={itemData._id}
-            userId={itemData.author._id}
-            avatar={itemData.author.avatar}
-            hour={itemData.createdAt}
-            title={itemData.author.userName}
-            description={itemData.body}
-            tag={''}
-            image={itemData.media}
-            star={itemData.reactions.length}
-            comment={comments.length}
-            url={''}
-          />
+          {itemData && (
+            <CardView
+              userName={itemData.author.userName}
+              fullName={itemData.author.fullName}
+              isLike={itemData.isLiked}
+              _id={itemData._id}
+              userId={itemData.author._id}
+              avatar={itemData.author.avatar}
+              hour={itemData.createdAt}
+              title={itemData.author.userName}
+              description={itemData.body}
+              tag={''}
+              image={itemData.media}
+              star={itemData.reactions.length}
+              comment={comments.length}
+              url={''}
+            />
+          )}
           <View style={styles.divider} />
           <FlatList
             scrollEnabled={false}
@@ -213,7 +224,10 @@ const CommentNoti = () => {
                         marginTop: 6,
                       }}>
                       <Text style={{fontSize: 13}}>
-                        {formatPostTime( new Date(item.createdAt),i18n.language)}
+                        {formatPostTime(
+                          new Date(item.createdAt),
+                          i18n.language,
+                        )}
                       </Text>
                       <TouchableOpacity
                         onPress={() => handleReply(item)}
@@ -224,7 +238,7 @@ const CommentNoti = () => {
                             fontWeight: '600',
                             color: colors.neutralWhite1,
                           }}>
-                          {t("Reply")}
+                          {t('Reply')}
                         </Text>
                       </TouchableOpacity>
                     </View>
@@ -273,7 +287,10 @@ const CommentNoti = () => {
                               marginTop: 6,
                             }}>
                             <Text style={{fontSize: 13}}>
-                            {formatPostTime( new Date(item.createdAt),i18n.language)}
+                              {formatPostTime(
+                                new Date(item.createdAt),
+                                i18n.language,
+                              )}
                             </Text>
                           </View>
                         </View>
