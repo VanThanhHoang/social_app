@@ -1,43 +1,90 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, ImageProps } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, Image, TouchableOpacity, } from 'react-native'
+import React, { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import Icontick from '@/assets/icons/Icontick'
 import { useTranslation } from 'react-i18next'
+import { set } from 'react-hook-form'
+import AxiosInstance from '@/network/axiosInstance'
+import { useDispatch } from 'react-redux'
+import { setLoading } from '@/redux/slice/app.slice'
+import { useIsFocused } from '@react-navigation/native'
 
 interface UserItemProps {
-    nameUser: string,
-    fullName: string,
+    id?: string,
+    nameUser?: string,
+    fullName?: string,
     icontick?: boolean,
-    // avatar: ImageProps,
-    followingStatus: string,
+    avatar?: string,
+    followingStatus?: (isFollow: boolean) => void;
     onPress?: () => void
 }
 
-const UserItem:React.FC<UserItemProps> = ({nameUser, fullName, icontick,followingStatus, onPress }) => {
-    const textColor = followingStatus === 'Follow' ? '#000' : '#C8C8C8';
-  return (
-    <View style = {styles.Container}>
-      <Image style = {styles.ImageAvatar} source={require('@/assets/images/nytao.png')} />
-      <View style = {styles.FullNameContainer}>
-        <View style = {styles.NameContainer}>
-            <Text style = {styles.NameText}>{nameUser}</Text>
-            <Icontick/>
+
+
+const UserItem: React.FC<UserItemProps> = ({ id, nameUser, fullName, followingStatus, onPress }) => {
+    ;
+    
+    console.log(followingStatus);
+    const dispatch = useDispatch();
+    const [isLoading, setIsLoading] = useState(false);
+    const [follow, setFollow] = useState('')
+    const isFocused = useIsFocused();
+    const textColor = follow === 'Follow' ? '#000' : '#C8C8C8';
+    useEffect(() => {
+        if (isFocused) {
+            if (followingStatus) {
+                setFollow('Un Follow');
+            } else {
+                setFollow('Follow');
+            }
+        }
+    }, [followingStatus, isFocused]);
+
+
+    const onPressFollow = async () => {
+        try {
+            dispatch(setLoading(true));
+            const response = await AxiosInstance().patch(`/user/follow/${id}`);
+            console.log(response);
+            setFollow(follow === 'Follow' ? 'Un Follow' : 'Follow');
+            if (followingStatus) {
+                followingStatus(follow === 'Follow');
+            }
+        } catch (error) {
+            console.log(error);
+        } finally {
+            dispatch(setLoading(false));
+        }
+    };
+    console.log(followingStatus, textColor);
+    return (
+        <View style={styles.Container} >
+            <TouchableOpacity onPress={onPress} style={styles.UserInforContainer}>
+                <Image style={styles.ImageAvatar} source={require('@/assets/images/nytao.png')} />
+                <View style={styles.FullNameContainer}>
+                    <View style={styles.NameContainer}>
+                        <Text style={styles.NameText}>{nameUser}</Text>
+                    </View>
+                    <Text style={styles.FullNameText}>{fullName}</Text>
+                </View>
+            </TouchableOpacity>
+            <View>
+                <TouchableOpacity style={styles.ButtonFollow} onPress={onPressFollow}>
+                    <Text style={[styles.TextFollow, { color: textColor }]}>{follow}</Text>
+                </TouchableOpacity>
+            </View>
         </View>
-        <Text style = {styles.FullNameText}>{fullName}</Text>
-      </View>
-      <View>
-        <TouchableOpacity style = {styles.ButtonFollow} onPress={onPress}>
-            <Text style={[styles.TextFollow, {color: textColor} ]}>{followingStatus}</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  )
+    )
 }
 
 export default UserItem
 
 const styles = StyleSheet.create({
-    UserNameContainer:{
+    UserInforContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    UserNameContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -71,10 +118,10 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#C8C8C8',
     },
-    FullNameContainer:{
-        marginLeft:12,
+    FullNameContainer: {
+        marginLeft: 12,
         width: '61%',
-        
+
     },
     NameContainer: {
         flexDirection: 'row',
@@ -91,6 +138,5 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
         borderRadius: 60,
-
     },
 })

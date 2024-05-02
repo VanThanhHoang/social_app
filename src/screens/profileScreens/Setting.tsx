@@ -19,7 +19,12 @@ import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 import { t } from 'i18next'
 import reduxStorage from '@/redux/store/reduxStorage'
-import { LoginStackEnum } from '@/navigation/login'
+import { LoginStackEnum, LoginStackParamList } from '@/navigation/login'
+import { setLoading } from '@/redux'
+import { GoogleSignin } from '@react-native-google-signin/google-signin'
+import { localStorage } from '@/utils'
+import { setUser } from '@/redux/slice/user.slice'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
 
 
@@ -65,9 +70,44 @@ const dataOptionSetting = [
 
 const Setting = () => {
     const navigation = useNavigation<any>();
+    const navigationLogin = useNavigation<NativeStackNavigationProp<LoginStackParamList>>();
     const dispatch = useDispatch();
     const {t} = useTranslation();
-    
+    const handleLogout = async () => {
+        dispatch(setLoading(true));
+        try {
+            await GoogleSignin.signOut();
+            localStorage.delete('userInfo')
+            localStorage.delete('FCM')
+            dispatch(setUser({
+                _id: "",
+                userName: "",
+                fullName: "",
+                avatar: "",
+                dob: "",
+                googleId: "",
+                links: [],
+                role: 0,
+                following_status: 0,
+                account_type: 0,
+                fcm_token: "",
+                createdAt: "",
+                updatedAt: "",
+                __v: 0,
+                accessToken: "",
+                refreshToken: "",
+                isFirstTimeLogin: false,
+            }));
+            navigationLogin.reset({
+                index: 0,
+                routes: [{name: LoginStackEnum.Login}],
+              });
+        } catch (error) {
+            console.error(error);
+        } finally {
+            dispatch(setLoading(false));
+        }
+    }
     return (
         <View style={styles.Container}>
             <HeaderBar title={t('Settings')} />

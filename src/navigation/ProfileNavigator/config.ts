@@ -8,6 +8,7 @@ import NotificationScreen from "@/screens/profileScreens/NotificationScreen";
 import HelpScreen from "@/screens/profileScreens/HelpScreen";
 import AboutSreen from "@/screens/profileScreens/AboutSreen";
 import EditProfileScreen from "@/screens/profileScreens/EditProfileScreen";
+import UserProfileDetail from "@/screens/searchScreen/UserProfileDetail";
 
 export enum ProfileStackNames {
     Profile = "ProfileScreen",
@@ -18,7 +19,8 @@ export enum ProfileStackNames {
     Notification = "NotificationScreen",
     Help = "HelpScreen",
     About = "AboutSreen",
-    EditProfile = "EditProfileScreen"
+    EditProfile = "EditProfileScreen",
+    UserProfileDetail = "UserProfileDetail"
 }
 
 export type ProfileStackParamList = {
@@ -31,6 +33,7 @@ export type ProfileStackParamList = {
     [ProfileStackNames.Help]: undefined;
     [ProfileStackNames.About]: undefined;
     [ProfileStackNames.EditProfile]: undefined;
+    [ProfileStackNames.UserProfileDetail]: { userId: string, userName: string };
 };
 
 interface StackProps {
@@ -83,6 +86,11 @@ export const ProfileStacks: StackProps[] = [
     {
         name: ProfileStackNames.EditProfile,
         component: EditProfileScreen,
+        options: {}
+    },
+    {
+        name: ProfileStackNames.UserProfileDetail,
+        component: UserProfileDetail,
         options: {}
     }
 ];

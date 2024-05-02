@@ -3,6 +3,7 @@ import React from 'react'
 import HeaderBar from './component/HeaderBar'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import FollowerScreen from './FollowerScreen'
+import FollowingScreen from './FollowingScreen'
 
 
 const Tab = createMaterialTopTabNavigator();
@@ -25,7 +26,7 @@ const FollowAndFriendsScreen = () => {
                     },
                 }}>
                 <Tab.Screen name="Followers" component={FollowerScreen} />
-                <Tab.Screen name="Following" component={FollowerScreen} />
+                <Tab.Screen name="Following" component={FollowingScreen} />
             </Tab.Navigator>
         </View>
     )

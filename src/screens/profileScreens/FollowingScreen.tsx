@@ -23,14 +23,14 @@ const FollowerScreen = () => {
     console.log(userInfor._id);
     useEffect(() => {
         if(isFocused){
-        getFollowers();
+            getFollowings();
         }
       }, [userInfor._id, isFocused]);
 
-    const getFollowers = async () => {
+      const getFollowings = async () => {
         try {
             dispatch(setLoading(true));
-          const response = await axios.get(`user/follower/${userInfor._id}`);
+          const response = await axios.get(`user/following/${userInfor._id}`);
           setListData(response.data);
           return response.data;
         } catch (error) {
@@ -39,24 +39,22 @@ const FollowerScreen = () => {
             dispatch(setLoading(false));
         }
       };
-    const onPressProfileUser = (id: string, userName: string) => {
+      const onPressProfileUser = (id: string, userName: string) => {
         navigation.navigate(ProfileStackNames.UserProfileDetail, { userId: id, userName: userName });
         console.log(id);
     };
-
-
     return (
         <View style={styles.Container}>
         <View style={styles.UserContainer}>
             {listData.map((item, index) => {
                 return <UserItem
-                    key={item.following._id} // Sử dụng _id làm key cho mỗi item
-                    id={item.following._id}
-                    avatar={item.following.avatar}
-                    fullName={item.following.fullName}
-                    nameUser={item.following.userName}
+                    key={item.follower._id} // Sử dụng _id làm key cho mỗi item
+                    id={item.follower._id}
+                    avatar={item.follower.avatar}
+                    fullName={item.follower.fullName}
+                    nameUser={item.follower.userName}
                     followingStatus={item.isFollowing}
-                    onPress={() => onPressProfileUser(item.following._id, item.following.userName)}
+                    onPress={() => onPressProfileUser(item.follower._id, item.follower.userName)}
                 />
             })}
         </View>

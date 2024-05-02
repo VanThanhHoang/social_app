@@ -11,10 +11,23 @@ import {useIsFocused} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 import {useDispatch} from 'react-redux';
 import {setLoading} from '@/redux/slice/app.slice';
+import { set } from 'react-hook-form';
+import { useNavigation } from '@react-navigation/native';
+import { ProfileNavigatorProps } from '@/navigation/ProfileNavigator/config';
+import { ProfileStackNames } from '@/navigation/ProfileNavigator/config';
 const axios = AxiosInstance();
 type ProfileUserProps = {
   onPressEditProfile: () => void;
 };
+interface Follower {
+  _id: string;
+  following: {
+    _id: string;
+    avatar: string;
+    fullName: string;
+    userName: string;
+  };
+}
 
 const ProfileUser: React.FC<ProfileUserProps> = ({onPressEditProfile}) => {
   const {t} = useTranslation();
@@ -24,15 +37,25 @@ const ProfileUser: React.FC<ProfileUserProps> = ({onPressEditProfile}) => {
   const [bio, setBio] = useState('');
   const [link, setLink] = useState('');
   const [avatar, setAvatar] = useState('');
+  const [followers, setFollowers] = useState<Follower[]>([]);
+  const [followings, setFollowings] = useState([]);
+  const [followerNames, setFollowerNames] = useState('');
+  const navigation = useNavigation<ProfileNavigatorProps>();
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
   useEffect(() => {
-    if (isFocused) getProfile();
+    if (isFocused)
+      {
+        getProfile();
+        getFollowers();
+        getFollowings();
+      } 
   }, [userInfor._id, isFocused]);
+  
   const getProfile = async () => {
     dispatch(setLoading(true));
     try {
-      const response = await axios.get(`/user/${userInfor._id}`);
+      const response = await axios.get(`user/${userInfor._id}`);
       setFullName(response.data.fullName);
       setUserName(response.data.userName);
       setBio(response.data.bio);
@@ -44,6 +67,40 @@ const ProfileUser: React.FC<ProfileUserProps> = ({onPressEditProfile}) => {
     }finally{
       dispatch(setLoading(false));
     }
+  };
+  const getFollowings = async () => {
+    try {
+      const response = await axios.get(`user/following/${userInfor._id}`);
+      setFollowings(response.data);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getFollowers = async () => {
+    try {
+      const response = await axios.get(`user/follower/${userInfor._id}`);
+      setFollowers(response.data);
+      const names = response.data.map((follower: Follower) => follower.following.fullName).slice(0, 4).join(', ');
+      setFollowerNames(names);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const renderFollowerAvatars = () => {
+    return followers.slice(0, 3).map((follower, index) => (
+      <Image
+        key={follower._id}
+        source={{ uri: follower.following.avatar }}
+        style={[styles.AvatarPeopleStyle, index !== 0 && styles.OverlapAvatar]}
+      />
+    ));
+  };
+  const onPressListFollower = () => {
+    console.log('Đang cố gắng mở danh sách người theo dõi');
+    navigation.navigate(ProfileStackNames.FollowAndFriends);
+    
   };
   const openLink = () => {
     console.log("Đang cố gắng mở URL:", link); // Ghi nhật ký để gỡ lỗi
@@ -100,20 +157,20 @@ const ProfileUser: React.FC<ProfileUserProps> = ({onPressEditProfile}) => {
           <Text style={styles.LinkTextStyle}>{link}</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.FollowerContainer}>
+      <TouchableOpacity style={styles.FollowerContainer} onPress={onPressListFollower}>
         <View style={styles.FollowerItemContainer}>
-          <Text style={styles.FollowQuantity}>1.5M </Text>
+          <Text style={styles.FollowQuantity}>{followers.length}</Text>
           <Text style={styles.FollowTextStyle}>{t('followers')}</Text>
         </View>
         <IconStar style={styles.IconStarStyle} />
         <View style={styles.FollowerItemContainer}>
-          <Text style={styles.FollowQuantity}>1.5M </Text>
+          <Text style={styles.FollowQuantity}>{followings.length} </Text>
           <Text style={styles.FollowTextStyle}>{t('Following')}</Text>
         </View>
-      </View>
-      <View style={styles.PeopleFollowerContainer}>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.PeopleFollowerContainer} onPress={onPressListFollower}>
         <View style={styles.ImagePeopleContainer}>
-          <Image
+          {/* <Image
             source={require('@/assets/images/nytao.png')}
             style={styles.AvatarPeopleStyle}
           />
@@ -124,12 +181,13 @@ const ProfileUser: React.FC<ProfileUserProps> = ({onPressEditProfile}) => {
           <Image
             source={require('@/assets/images/nytao.png')}
             style={[styles.AvatarPeopleStyle, styles.OverlapAvatar]}
-          />
+          /> */}
+          {renderFollowerAvatars()}
         </View>
         <Text style={styles.FollowPeopleTextStyle}>
-          Followed by Quan Hoang, lanhhni, Everyday Astronaut, Pewdiepie
+          Followed by {followerNames}
         </Text>
-      </View>
+      </TouchableOpacity>
     </View>
   );
 };
