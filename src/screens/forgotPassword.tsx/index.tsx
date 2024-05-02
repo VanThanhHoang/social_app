@@ -32,7 +32,7 @@ const ForgotPass = () => {
       });
 
       if (response.status === 'Otp sent') {
-        navigation.navigate(LoginStackEnum.OtpCodeScreen);
+        navigation.navigate(LoginStackEnum.OtpCodeScreen, {email});
       } else {
         Alert.alert('Error sending OTP:' + response);
       }

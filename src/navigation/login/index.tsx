@@ -44,7 +44,7 @@ export type LoginStackParamList = {
   [LoginStackEnum.SignUpScreen]: undefined;
   [LoginStackEnum.SignInScren]: undefined;
   [LoginStackEnum.ForgotPass]: undefined;
-  [LoginStackEnum.OtpCodeScreen]: undefined;
+  [LoginStackEnum.OtpCodeScreen]: {email: string};
   [LoginStackEnum.CreactNewPassScreen]: undefined;
 };
 

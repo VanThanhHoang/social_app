@@ -6,6 +6,7 @@ import {useTranslation} from 'react-i18next';
 import {useDispatch, useSelector} from 'react-redux';
 import {setLoading} from '@/redux/slice/app.slice';
 import {RootState} from '@/redux/store';
+import {useRoute} from '@react-navigation/native';
 
 import HeaderBarEditProfile from '@/screens/createProfileScreen/component/HeaderBarEditProfile';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -32,8 +33,9 @@ const OtpCodeScreen = () => {
     useNavigation<NativeStackNavigationProp<LoginStackParamList>>();
 
   const handleVerifyOTP = async () => {
-    const email = 'trangianglong1199@gmail.com';
     const Axios = AxiosInstance();
+    const route = useRoute();
+    const {email} = route.params as {email: string};
     if (!newPassword && !confirmPassword) {
       Alert.alert('Error', 'Please fill in the new password field.');
       return;
